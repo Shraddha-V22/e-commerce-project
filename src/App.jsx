@@ -13,6 +13,7 @@ import Wishlist from "./pages/Wishlist";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Products from "./pages/Products";
+import Mockman from "mockman-js";
 
 const AppRouter = () => {
   const router = createBrowserRouter(
@@ -24,6 +25,7 @@ const AppRouter = () => {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/products" element={<Products />} />
         </Route>
+        <Route path="/mockman" element={<Mockman />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
       </>
