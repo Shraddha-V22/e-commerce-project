@@ -1,22 +1,51 @@
 import React from "react";
+import { fetchRequest } from "../common/api";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useProducts } from "../contexts/ProductProvider";
+import { getUniqueElementArray } from "../common/utils";
+import { useMemo } from "react";
 
 export default function FilterComp() {
+  const [categories, setCategories] = useState([]);
+  const { products } = useProducts();
+
+  const brands = useMemo(
+    () => getUniqueElementArray(products, "brand"),
+    [products]
+  );
+
+  const getCategoryData = async () => {
+    try {
+      const { categories } = await fetchRequest("/api/categories");
+      setCategories(categories);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getCategoryData();
+  }, []);
+
+  console.log(categories);
+
   return (
-    <section className="flex w-[200px] flex-col rounded-md bg-white px-6 py-4 shadow-md">
+    <section className="flex h-[fit-content] w-[200px] flex-col rounded-md bg-white px-6 py-4 shadow-md">
       <div className="mb-4 flex justify-between">
         <h1>Filters</h1>
-        <button className="">clear</button>
+        <button className="capitalize">clear</button>
       </div>
       <div className="border-b-[1px] border-black py-2">
         <h3 className="mb-2 text-sm uppercase">Category</h3>
-        <div className="flex items-center gap-2">
-          <input type="checkbox" name="" id="id" />
-          <label htmlFor="id">cat 1</label>
-        </div>
-        <div className="flex items-center gap-2">
-          <input type="checkbox" name="" id="id1" />
-          <label htmlFor="id1">cat 2</label>
-        </div>
+        {categories.map(({ id, categoryName }) => (
+          <div key={id} className="flex items-center gap-2">
+            <input type="checkbox" name="" id="id" />
+            <label htmlFor="id" className="capitalize">
+              {categoryName}
+            </label>
+          </div>
+        ))}
       </div>
       <div className="border-b-[1px] border-black py-2">
         <h3 className="mb-2 text-sm uppercase">Price</h3>
@@ -27,14 +56,6 @@ export default function FilterComp() {
           list="price"
           className="range-input"
         />
-        <datalist id="price">
-          <option value="200">200</option>
-          <option value="560">225</option>
-          <option value="920">1250</option>
-          <option value="1280">1275</option>
-          <option value="1640">1275</option>
-          <option value="2000">2000</option>
-        </datalist>
       </div>
       <div className="border-b-[1px] border-black py-2">
         <h3 className="mb-2 text-sm uppercase">Rating</h3>
@@ -50,6 +71,17 @@ export default function FilterComp() {
           <input type="radio" name="rating" />
           <label htmlFor="">3 & below</label>
         </div>
+      </div>
+      <div className="border-b-[1px] border-black py-2">
+        <h3 className="mb-2 text-sm uppercase">Brands</h3>
+        {brands.map((el) => (
+          <div key={el} className="flex items-center gap-2">
+            <input type="checkbox" name="" id="id" />
+            <label htmlFor="id" className="capitalize">
+              {el}
+            </label>
+          </div>
+        ))}
       </div>
       <div className="py-2">
         <h3 className="mb-2 text-sm uppercase">Sort by</h3>
