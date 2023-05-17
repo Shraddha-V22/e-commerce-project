@@ -5,7 +5,7 @@ import Footer from "./Footer";
 
 export default function Layout() {
   return (
-    <section className="relative bg-[#F7EFE5]/90">
+    <section className="relative bg-[#2C74B3]/10">
       <Header />
       <main className="pt-[100px]">
         <Outlet />

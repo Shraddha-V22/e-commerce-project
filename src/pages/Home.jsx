@@ -24,8 +24,8 @@ export default function Home() {
         </Link>
       </div>
       <section className="mt-4">
-        <CategoryRows />
-        <CategoryRows />
+        {/* <CategoryRows />
+        <CategoryRows /> */}
       </section>
     </section>
   );

@@ -8,8 +8,10 @@ import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { getImgUrl } from "../common/utils";
+import { useCart } from "../contexts/CartProvider";
 
 export default function Header() {
+  const { cart } = useCart();
   const [showCategories, setShowCategories] = useState(false);
   const categoryRef = useRef(null);
   const timerId = useRef(null);
@@ -77,10 +79,15 @@ export default function Header() {
         <li>
           <FontAwesomeIcon icon={faSearch} />
         </li>
-        <li>
+        <li className="relative">
           <Link to="/cart">
             <FontAwesomeIcon icon={faCartShopping} />
           </Link>
+          {cart.length > 0 && (
+            <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
+              {cart.length}
+            </p>
+          )}
         </li>
         <li>
           <Link to="/wishlist">

@@ -14,6 +14,9 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Products from "./pages/Products";
 import Mockman from "mockman-js";
+import ProductProvider from "./contexts/ProductProvider";
+import ProductDetails from "./pages/ProductDetails";
+import CartProvider from "./contexts/CartProvider";
 
 const AppRouter = () => {
   const router = createBrowserRouter(
@@ -24,6 +27,7 @@ const AppRouter = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/products/:productId" element={<ProductDetails />} />
         </Route>
         <Route path="/mockman" element={<Mockman />} />
         <Route path="/login" element={<Login />} />
@@ -36,7 +40,13 @@ const AppRouter = () => {
 };
 
 function App() {
-  return <AppRouter />;
+  return (
+    <ProductProvider>
+      <CartProvider>
+        <AppRouter />
+      </CartProvider>
+    </ProductProvider>
+  );
 }
 
 export default App;
