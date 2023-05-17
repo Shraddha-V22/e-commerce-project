@@ -5,6 +5,12 @@ import { getImgUrl } from "../common/utils";
 
 export default function Cart() {
   const { cart } = useCart();
+
+  const totalPrice = cart.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
+
   {
     return cart.length > 0 ? (
       <section className="mx-auto mb-8 flex w-[fit-content] gap-8">
@@ -15,10 +21,11 @@ export default function Cart() {
         </section>
         <section className="h-[fit-content] w-[300px] bg-white p-4">
           <h1>SubTotal</h1>
+          <p>{totalPrice.toFixed(2)}</p>
         </section>
       </section>
     ) : (
-      <section className="mx-auto grid h-[500px] w-[fit-content] place-items-center place-items-center">
+      <section className="mx-auto grid h-[500px] w-[fit-content] place-items-center">
         <p>No items in the cart. Go Shop, you idiot!</p>
       </section>
     );

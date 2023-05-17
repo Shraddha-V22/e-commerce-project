@@ -5,18 +5,21 @@ import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as faHeartFilled } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useWishlist, useWishlistDispatch } from "../contexts/WishlistProvider";
 
 export default function Product({ item }) {
   const navigate = useNavigate();
   const cartDispatch = useCartDispatch();
+  const wishlistDispatch = useWishlistDispatch();
+  const { wishlist } = useWishlist();
   const { cart } = useCart();
   const { id, product_name, brand, price, category } = item;
 
   const inCart = cart.find((item) => item.id === id);
-
+  const inWishlist = wishlist.find((item) => item.id === id);
   return (
-    // <Link to={`/products/product-${id}`}>
     <motion.div
       // initial={{ opacity: 0 }}
       // whileInView={{ opacity: 1, transitionDelay: 0.3 }}
@@ -24,10 +27,17 @@ export default function Product({ item }) {
       className="relative grid h-[300px] w-[200px] cursor-pointer grid-cols-[auto_1fr] overflow-hidden rounded-lg bg-white"
     >
       <button
-        onClick={""}
+        onClick={(e) => {
+          e.stopPropagation();
+          wishlistDispatch({ type: "ADD_TO_WISHLIST", payload: item });
+        }}
         className="absolute right-2 top-2 rounded-full px-1 text-xl text-pink-500 hover:bg-white/40"
       >
-        <FontAwesomeIcon icon={faHeart} />
+        {inWishlist ? (
+          <FontAwesomeIcon icon={faHeartFilled} />
+        ) : (
+          <FontAwesomeIcon icon={faHeart} />
+        )}
       </button>
       <img
         src={getImgUrl(category)}
@@ -38,18 +48,29 @@ export default function Product({ item }) {
         <h3 className="line-clamp-1 font-bold uppercase">{product_name}</h3>
         <p className="text-xs uppercase">{brand}</p>
         <p>${price}</p>
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            cartDispatch({ type: "ADD_TO_CART", payload: item });
-          }}
-          className="rounded-md border-[1px] px-4 py-1 capitalize"
-        >
-          {inCart ? "Added to cart" : "Add to cart"}
-        </button>
+        {!inCart ? (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              cartDispatch({ type: "ADD_TO_CART", payload: item });
+            }}
+            className="rounded-md border-[1px] px-4 py-1 capitalize"
+          >
+            add to cart
+          </button>
+        ) : (
+          <button
+            className="rounded-md border-[1px] px-4 py-1 capitalize"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate("/cart");
+            }}
+          >
+            Go to cart
+          </button>
+        )}
       </div>
     </motion.div>
-    // {/* </Link> */}
   );
 }
 

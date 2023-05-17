@@ -17,6 +17,7 @@ import Mockman from "mockman-js";
 import ProductProvider from "./contexts/ProductProvider";
 import ProductDetails from "./pages/ProductDetails";
 import CartProvider from "./contexts/CartProvider";
+import WishlistProvider from "./contexts/WishlistProvider";
 
 const AppRouter = () => {
   const router = createBrowserRouter(
@@ -43,7 +44,9 @@ function App() {
   return (
     <ProductProvider>
       <CartProvider>
-        <AppRouter />
+        <WishlistProvider>
+          <AppRouter />
+        </WishlistProvider>
       </CartProvider>
     </ProductProvider>
   );

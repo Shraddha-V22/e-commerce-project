@@ -13,6 +13,7 @@ import { useCart } from "../contexts/CartProvider";
 export default function Header() {
   const { cart } = useCart();
   const [showCategories, setShowCategories] = useState(false);
+  const [showSearchInput, setShowSearchInput] = useState(false);
   const categoryRef = useRef(null);
   const timerId = useRef(null);
 
@@ -38,7 +39,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="fixed top-0 z-10 flex w-full items-end justify-between gap-4 bg-white p-4 pt-2">
+    <header className="fixed top-0 z-10 flex w-full items-center justify-between gap-4 bg-white p-4 pt-2">
       <h1 className="font-bold">
         <Link to="/">Shop-On</Link>
       </h1>
@@ -75,9 +76,18 @@ export default function Header() {
           </article>
         ) : null}
       </section>
-      <ul className="flex gap-4">
-        <li>
-          <FontAwesomeIcon icon={faSearch} />
+      <ul className="flex items-center gap-4">
+        <li className="flex items-center gap-2 rounded-md border-[1px] border-[#2C74B3]/20 p-2">
+          <button onClick={() => setShowSearchInput((prev) => !prev)}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+          {showSearchInput && (
+            <input
+              type="text"
+              placeholder="search products..."
+              className="outline-none"
+            />
+          )}
         </li>
         <li className="relative">
           <Link to="/cart">
