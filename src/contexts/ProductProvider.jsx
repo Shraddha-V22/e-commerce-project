@@ -10,15 +10,31 @@ const ProductContext = createContext(null);
 const ProductDispatchContext = createContext(null);
 
 export default function ProductProvider({ children }) {
-  const [products, setProducts] = useState([]);
-  // const [products, dispatch] = useReducer(productReducer, {
-  //   products: [],
-  // });
+  const [products, productDispatch] = useReducer(productReducer, {
+    productsData: [],
+    productDefault: [],
+    categories: [],
+    search: "",
+    category: [],
+    price: 0,
+    rating: 0,
+    brands: [],
+    materials: [],
+    sort: "",
+  });
 
   const getData = async () => {
     try {
       const { products: data } = await fetchRequest("/api/products");
-      setProducts(data);
+      productDispatch({ type: "INITIALISED_DATA", payload: data });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const getCategories = async () => {
+    try {
+      const { categories: data } = await fetchRequest("/api/categories");
+      productDispatch({ type: "INITIALISED_CATEGORIES", payload: data });
     } catch (error) {
       console.error(error);
     }
@@ -26,17 +42,17 @@ export default function ProductProvider({ children }) {
 
   useEffect(() => {
     getData();
+    getCategories();
   }, []);
-
-  // console.log(products);
 
   return (
     <ProductContext.Provider value={{ products }}>
-      {/* <ProductDispatchContext.Provider value={dispatch}> */}
-      {children}
-      {/* </ProductDispatchContext.Provider> */}
+      <ProductDispatchContext.Provider value={productDispatch}>
+        {children}
+      </ProductDispatchContext.Provider>
     </ProductContext.Provider>
   );
 }
 
 export const useProducts = () => useContext(ProductContext);
+export const useProductsDispatch = () => useContext(ProductDispatchContext);

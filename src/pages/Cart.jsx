@@ -38,7 +38,7 @@ function CartItem({ item }) {
   return (
     <section className="grid h-[200px] w-full grid-cols-[150px_1fr] overflow-hidden rounded-lg">
       <img
-        src={getImgUrl(category)}
+        src={getImgUrl(category.toLowerCase())}
         alt={`${product_name}`}
         className="h-full w-[150px] object-cover"
       />

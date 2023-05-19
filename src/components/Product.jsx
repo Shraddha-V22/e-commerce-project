@@ -40,7 +40,7 @@ export default function Product({ item }) {
         )}
       </button>
       <img
-        src={getImgUrl(category)}
+        src={getImgUrl(category.toLowerCase())}
         alt={`${product_name}`}
         className="w-full"
       />

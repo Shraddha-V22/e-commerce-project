@@ -13,8 +13,10 @@ export default function ProductDetails() {
   const cartDispatch = useCartDispatch();
   const { productId } = useParams();
 
-  const product = products.find(({ id }) => `product-${id}` === productId);
-  // console.log(product);
+  const product = products.productsData.find(
+    ({ id }) => `product-${id}` === productId
+  );
+
   const {
     id,
     brand,
@@ -33,7 +35,7 @@ export default function ProductDetails() {
   return (
     <section className="mx-auto grid w-[70vw] grid-cols-[400px_1fr] border-[1px] border-black">
       <img
-        src={getImgUrl(category)}
+        src={getImgUrl(category.toLowerCase())}
         alt={`${product_name}`}
         className="w-[400px]"
       />

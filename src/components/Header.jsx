@@ -9,11 +9,16 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { getImgUrl } from "../common/utils";
 import { useCart } from "../contexts/CartProvider";
+import { useProducts, useProductsDispatch } from "../contexts/ProductProvider";
 
 export default function Header() {
   const { cart } = useCart();
+  const {
+    products: { categories },
+  } = useProducts();
   const [showCategories, setShowCategories] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
+  const productDispatch = useProductsDispatch();
   const categoryRef = useRef(null);
   const timerId = useRef(null);
 
@@ -49,30 +54,16 @@ export default function Header() {
           <article
             className={`absolute left-0 right-0 top-[40px] grid h-[fit-content] w-[100vw] grid-cols-3 bg-white p-8`}
           >
-            <div className="flex items-start gap-4">
-              <h1>Clothing</h1>
-              <img
-                className="h-[100px] w-[100px] rounded-lg object-cover"
-                src={getImgUrl("Clothing")}
-                alt=""
-              />
-            </div>
-            <div className="flex items-start gap-4">
-              <h1>Shoes</h1>
-              <img
-                className="h-[100px] w-[100px] rounded-lg object-cover"
-                src={getImgUrl("Shoes")}
-                alt=""
-              />
-            </div>
-            <div className="flex items-start gap-4">
-              <h1>Accessories</h1>
-              <img
-                className="h-[100px] w-[100px] rounded-lg object-cover"
-                src={getImgUrl("Accessories")}
-                alt=""
-              />
-            </div>
+            {categories.map(({ categoryName }) => (
+              <div className="flex items-start gap-4">
+                <h1 className="capitalize">{categoryName}</h1>
+                <img
+                  className="h-[100px] w-[100px] rounded-lg object-cover"
+                  src={getImgUrl(categoryName)}
+                  alt=""
+                />
+              </div>
+            ))}
           </article>
         ) : null}
       </section>
@@ -86,6 +77,9 @@ export default function Header() {
               type="text"
               placeholder="search products..."
               className="outline-none"
+              onChange={(e) =>
+                productDispatch({ type: "SEARCH", payload: e.target.value })
+              }
             />
           )}
         </li>
