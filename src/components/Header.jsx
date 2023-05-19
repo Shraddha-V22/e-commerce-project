@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { getImgUrl } from "../common/utils";
 import { useCart } from "../contexts/CartProvider";
 import { useProducts, useProductsDispatch } from "../contexts/ProductProvider";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
 
 export default function Header() {
   const { cart } = useCart();
@@ -19,8 +21,10 @@ export default function Header() {
   const [showCategories, setShowCategories] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
   const productDispatch = useProductsDispatch();
+  const navigate = useNavigate();
   const categoryRef = useRef(null);
   const timerId = useRef(null);
+  const { user } = useAuth();
 
   const handleMouseEnter = () => {
     if (timerId.current) {
@@ -43,6 +47,19 @@ export default function Header() {
     };
   }, []);
 
+  const categoryOnClickHandler = (categoryName) => {
+    navigate("/products");
+    productDispatch({
+      type: "CATEGORY_FILTER",
+      payload: {
+        name:
+          categoryName[0].toUpperCase() +
+          categoryName.substr(1, categoryName.length),
+        checked: true,
+      },
+    });
+  };
+
   return (
     <header className="fixed top-0 z-10 flex w-full items-center justify-between gap-4 bg-white p-4 pt-2">
       <h1 className="font-bold">
@@ -54,8 +71,12 @@ export default function Header() {
           <article
             className={`absolute left-0 right-0 top-[40px] grid h-[fit-content] w-[100vw] grid-cols-3 bg-white p-8`}
           >
-            {categories.map(({ categoryName }) => (
-              <div className="flex items-start gap-4">
+            {categories.map(({ _id, categoryName }) => (
+              <div
+                className="flex cursor-pointer items-start gap-4"
+                onClick={() => categoryOnClickHandler(categoryName)}
+                key={_id}
+              >
                 <h1 className="capitalize">{categoryName}</h1>
                 <img
                   className="h-[100px] w-[100px] rounded-lg object-cover"
@@ -98,9 +119,15 @@ export default function Header() {
             <FontAwesomeIcon icon={faHeart} />
           </Link>
         </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
+        {!user.email ? (
+          <li>
+            <Link to="/login">Login</Link>
+          </li>
+        ) : (
+          <button className="capitalize">
+            {user.firstName} {user.lastName}
+          </button>
+        )}
       </ul>
     </header>
   );

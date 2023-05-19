@@ -1,8 +1,13 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function Registration() {
+  const { signUp } = useAuth();
+  const navigate = useNavigate();
   const [signUpCreds, setSignUpCreds] = useState({
     firstName: "",
     lastName: "",
@@ -12,19 +17,14 @@ export default function Registration() {
 
   const handleSignUpCreds = (e) => {
     const { name, value } = e.target;
-    setSignUpCreds((prev) => ({ ...prev, [name]: value }));
+    if (value !== "") {
+      setSignUpCreds((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
-  const signUpHandler = async () => {
-    console.log(signUpCreds);
-    const request = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(signUpCreds),
-    });
-
-    const res = await request.json();
-    console.log(res);
+  const signUpHandler = (creds) => {
+    signUp(creds);
+    navigate("/");
   };
 
   return (
@@ -61,10 +61,10 @@ export default function Registration() {
             onChange={handleSignUpCreds}
           />
           <button
-            onClick={signUpHandler}
+            onClick={() => signUpHandler(signUpCreds)}
             className="rounded-md border-[1px] border-[#2C74B3]/20 p-2"
           >
-            Sign in
+            Sign up
           </button>
         </div>
         <div className="flex justify-center gap-1">

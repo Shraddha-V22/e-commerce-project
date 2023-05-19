@@ -18,6 +18,7 @@ import ProductProvider from "./contexts/ProductProvider";
 import ProductDetails from "./pages/ProductDetails";
 import CartProvider from "./contexts/CartProvider";
 import WishlistProvider from "./contexts/WishlistProvider";
+import AuthProvider from "./contexts/AuthProvider";
 
 const AppRouter = () => {
   const router = createBrowserRouter(
@@ -43,11 +44,13 @@ const AppRouter = () => {
 function App() {
   return (
     <ProductProvider>
-      <CartProvider>
-        <WishlistProvider>
-          <AppRouter />
-        </WishlistProvider>
-      </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <WishlistProvider>
+            <AppRouter />
+          </WishlistProvider>
+        </CartProvider>
+      </AuthProvider>
     </ProductProvider>
   );
 }

@@ -34,6 +34,7 @@ export const productReducer = (state, { type, payload }) => {
       };
       break;
     case "CATEGORY_FILTER":
+      console.log(payload);
       tempState = {
         ...tempState,
         category: payload.checked

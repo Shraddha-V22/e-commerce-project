@@ -1,8 +1,12 @@
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
   const [loginCreds, setLoginCreds] = useState({ email: "", password: "" });
 
   const handleLoginCreds = (e) => {
@@ -10,16 +14,9 @@ export default function Login() {
     setLoginCreds((prev) => ({ ...prev, [name]: value }));
   };
 
-  const loginHandler = async () => {
-    console.log(loginCreds);
-    const request = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify(loginCreds),
-    });
-
-    let res = await request.json();
-    console.log(res);
+  const loginHandler = (creds) => {
+    signIn(creds);
+    navigate("/");
   };
 
   return (
@@ -42,7 +39,7 @@ export default function Login() {
             onChange={handleLoginCreds}
           />
           <button
-            onClick={loginHandler}
+            onClick={() => loginHandler(loginCreds)}
             className="rounded-md border-[1px] border-[#2C74B3]/20 p-2"
           >
             Sign in
