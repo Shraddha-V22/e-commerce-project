@@ -17,8 +17,9 @@ export default function AuthProvider({ children }) {
       });
 
       const res = await request.json();
-      setUser(res.createdUser);
-      localStorage.setItem("encodedToken", res.encodedToken);
+      localStorage.setItem("user", JSON.stringify(res.createdUser));
+      // setUser(JSON.parse(localStorage.getItem(res.createdUser.email)));
+      localStorage.setItem("token", res.encodedToken);
       alert("Registration successful!");
     } catch (error) {
       console.error(error);
@@ -35,8 +36,9 @@ export default function AuthProvider({ children }) {
       });
 
       const res = await request.json();
-      setUser(res.foundUser);
-      localStorage.setItem("encodedToken", res.encodedToken);
+      // console.log(res);
+      localStorage.setItem("token", res.encodedToken);
+      // setUser(creds.email);
       alert("Login successful!");
     } catch (error) {
       console.error(error);
@@ -44,8 +46,12 @@ export default function AuthProvider({ children }) {
     }
   };
 
+  const signOut = () => {
+    localStorage.removeItem("token");
+  };
+
   return (
-    <AuthContext.Provider value={{ user, signUp, signIn }}>
+    <AuthContext.Provider value={{ user, signUp, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );

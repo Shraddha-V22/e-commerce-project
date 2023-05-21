@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -20,11 +21,15 @@ export default function Header() {
   } = useProducts();
   const [showCategories, setShowCategories] = useState(false);
   const [showSearchInput, setShowSearchInput] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const productDispatch = useProductsDispatch();
   const navigate = useNavigate();
   const categoryRef = useRef(null);
   const timerId = useRef(null);
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
+
+  const userFound = JSON.parse(localStorage.getItem("user"));
+  const token = localStorage.getItem("token");
 
   const handleMouseEnter = () => {
     if (timerId.current) {
@@ -119,14 +124,41 @@ export default function Header() {
             <FontAwesomeIcon icon={faHeart} />
           </Link>
         </li>
-        {!user.email ? (
+        {!token ? (
           <li>
-            <Link to="/login">Login</Link>
+            <Link to="/login">
+              <FontAwesomeIcon icon={faUser} />
+            </Link>
           </li>
         ) : (
-          <button className="capitalize">
-            {user.firstName} {user.lastName}
-          </button>
+          <div>
+            <button
+              onClick={() => setShowProfileMenu((prev) => !prev)}
+              className="relative rounded-full border-[1px] p-1 px-2 uppercase"
+            >
+              {userFound?.firstName.substr(0, 1)}
+              {userFound?.lastName.substr(0, 1)}
+            </button>
+            <ul
+              className={`${
+                showProfileMenu ? "" : "hidden"
+              } absolute right-6 bg-white p-1 shadow-md`}
+            >
+              <li className="cursor-pointer border-b-[1px] border-black p-1 pl-1">
+                Go to profile
+              </li>
+              <li
+                className="cursor-pointer p-1 pl-1"
+                onClick={() => {
+                  console.log("clicked");
+                  signOut();
+                  window.location.reload();
+                }}
+              >
+                logout
+              </li>
+            </ul>
+          </div>
         )}
       </ul>
     </header>
