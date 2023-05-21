@@ -144,7 +144,13 @@ export default function Header() {
                 showProfileMenu ? "" : "hidden"
               } absolute right-6 bg-white p-1 shadow-md`}
             >
-              <li className="cursor-pointer border-b-[1px] border-black p-1 pl-1">
+              <li
+                onClick={() => {
+                  navigate("/profile");
+                  setShowProfileMenu(false);
+                }}
+                className="cursor-pointer border-b-[1px] border-black p-1 pl-1"
+              >
                 Go to profile
               </li>
               <li
