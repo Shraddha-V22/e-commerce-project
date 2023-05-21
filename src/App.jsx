@@ -19,6 +19,7 @@ import ProductDetails from "./pages/ProductDetails";
 import CartProvider from "./contexts/CartProvider";
 import WishlistProvider from "./contexts/WishlistProvider";
 import AuthProvider from "./contexts/AuthProvider";
+import Profile from "./pages/Profile";
 
 const AppRouter = () => {
   const router = createBrowserRouter(
@@ -30,6 +31,7 @@ const AppRouter = () => {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:productId" element={<ProductDetails />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
         <Route path="/mockman" element={<Mockman />} />
         <Route path="/login" element={<Login />} />

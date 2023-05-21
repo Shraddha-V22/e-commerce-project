@@ -44,6 +44,12 @@ export default function Login() {
           >
             Sign in
           </button>
+          <button
+            onClick={() => loginHandler(loginCreds)}
+            className="rounded-md border-[1px] border-[#2C74B3]/20 p-2"
+          >
+            Sign in as Guest
+          </button>
         </div>
         <div className="flex gap-1">
           <p>Haven't registered yet?</p>
