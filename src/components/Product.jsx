@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { getImgUrl } from "../common/utils";
+import {
+  getImgUrl,
+  getItemFromLocalStorage,
+  setItemToLocalStorage,
+} from "../common/utils";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -16,13 +20,40 @@ export default function Product({ item }) {
   const { wishlist } = useWishlist();
   const { cart } = useCart();
   const { id, product_name, brand, price, category } = item;
+  const userFound = JSON.parse(getItemFromLocalStorage("user"));
 
   const inCart = cart.find((item) => item.id === id);
   const inWishlist = wishlist.find((item) => item.id === id);
+
+  const addToCart = async (e, item) => {
+    e.stopPropagation();
+    const token = getItemFromLocalStorage("token");
+    if (token) {
+      try {
+        const request = await fetch("/api/user/cart", {
+          method: "POST",
+          headers: {
+            authorization: token,
+          },
+          body: JSON.stringify({ product: item }),
+        });
+
+        const res = await request.json();
+        console.log(userFound);
+        setItemToLocalStorage(
+          "user",
+          JSON.stringify({ ...userFound, cart: res.cart })
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      cartDispatch({ type: "ADD_TO_CART", payload: item });
+    }
+  };
+
   return (
     <motion.div
-      // initial={{ opacity: 0 }}
-      // whileInView={{ opacity: 1, transitionDelay: 0.3 }}
       onClick={() => navigate(`/products/product-${id}`)}
       className="relative grid h-[300px] w-[200px] cursor-pointer grid-cols-[auto_1fr] overflow-hidden rounded-lg bg-white"
     >
@@ -50,10 +81,7 @@ export default function Product({ item }) {
         <p>${price}</p>
         {!inCart ? (
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              cartDispatch({ type: "ADD_TO_CART", payload: item });
-            }}
+            onClick={(e) => addToCart(e, item)}
             className="rounded-md border-[1px] px-4 py-1 capitalize"
           >
             add to cart

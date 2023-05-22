@@ -1,40 +1,111 @@
 import React from "react";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import Product from "../components/Product";
-import { getImgUrl } from "../common/utils";
+import {
+  getImgUrl,
+  getItemFromLocalStorage,
+  setItemToLocalStorage,
+} from "../common/utils";
 
 export default function Cart() {
   const { cart } = useCart();
+  const cartFound = JSON.parse(getItemFromLocalStorage("user"))?.cart;
+  const token = getItemFromLocalStorage("token");
 
-  const totalPrice = cart.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
+  // console.log(cartFound);
+  const totalPrice = (cart) =>
+    cart.reduce((acc, item) => acc + item.price * item.qty, 0);
 
-  {
-    return cart.length > 0 ? (
+  if (token) {
+    return cartFound?.length > 0 ? (
       <section className="mx-auto mb-8 flex w-[fit-content] gap-8">
         <section className="flex w-[450px] flex-col gap-4">
-          {cart.map((item) => (
+          {cartFound.map((item) => (
             <CartItem key={item.id} item={item} />
           ))}
         </section>
         <section className="h-[fit-content] w-[300px] bg-white p-4">
           <h1>SubTotal</h1>
-          <p>{totalPrice.toFixed(2)}</p>
+          <p>{totalPrice(cartFound).toFixed(2)}</p>
         </section>
       </section>
     ) : (
       <section className="mx-auto grid h-[500px] w-[fit-content] place-items-center">
-        <p>No items in the cart. Go Shop, you idiot!</p>
+        <p>No items in the cart. Go Shop!!</p>
       </section>
     );
+  } else {
+    {
+      return cart.length > 0 ? (
+        <section className="mx-auto mb-8 flex w-[fit-content] gap-8">
+          <section className="flex w-[450px] flex-col gap-4">
+            {cart.map((item) => (
+              <CartItem key={item.id} item={item} />
+            ))}
+          </section>
+          <section className="h-[fit-content] w-[300px] bg-white p-4">
+            <h1>SubTotal</h1>
+            <p>{totalPrice(cart).toFixed(2)}</p>
+          </section>
+        </section>
+      ) : (
+        <section className="mx-auto grid h-[500px] w-[fit-content] place-items-center">
+          <p>No items in the cart. Go Shop!!</p>
+        </section>
+      );
+    }
   }
 }
 
 function CartItem({ item }) {
   const cartDispatch = useCartDispatch();
   const { id, product_name, brand, price, category } = item;
+  const token = getItemFromLocalStorage("token");
+  const userFound = JSON.parse(getItemFromLocalStorage("user"));
+
+  const removeItemFromCart = async () => {
+    if (token) {
+      try {
+        const request = await fetch(`/api/user/cart/${id}`, {
+          method: "DELETE",
+          headers: {
+            authorization: token,
+          },
+        });
+        const res = await request.json();
+        setItemToLocalStorage(
+          "user",
+          JSON.stringify({ ...userFound, cart: res.cart })
+        );
+        console.log(res, userFound);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const updateQty = async (action) => {
+    if (token) {
+      try {
+        const request = await fetch(`/api/user/cart/${id}`, {
+          method: "POST",
+          headers: {
+            authorization: token,
+          },
+          body: JSON.stringify({ action }),
+        });
+        const res = await request.json();
+        console.log(res);
+        setItemToLocalStorage(
+          "user",
+          JSON.stringify({ ...userFound, cart: res.cart })
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <section className="grid h-[200px] w-full grid-cols-[150px_1fr] overflow-hidden rounded-lg">
       <img
@@ -46,25 +117,27 @@ function CartItem({ item }) {
         <h3 className="line-clamp-1 font-bold uppercase">{product_name}</h3>
         <p className="text-xs uppercase">{brand}</p>
         <p>${price}</p>
-        <div className="mt-4 flex flex-col">
-          <label htmlFor="qty" className="text-[10px]">
-            Quantity
-          </label>
-          <input
-            id="qty"
-            type="number"
-            min={0}
-            max={5}
-            className="border-b-[1px] border-black outline-none"
-            value={item.quantity}
-            onChange={(e) =>
-              cartDispatch({
-                type: "CHANGE_QTY",
-                payload: { id, value: Number(e.target.value) },
-              })
-            }
-          />
+        <div className="flex gap-4">
+          <button
+            className="border-[1px] px-2 text-xs"
+            onClick={() => updateQty({ type: "increment" })}
+          >
+            ▲
+          </button>
+          <p>{item.qty}</p>
+          <button
+            className="border-[1px] px-2 text-xs"
+            onClick={() => updateQty({ type: "decrement" })}
+          >
+            ▼
+          </button>
         </div>
+        <button
+          className="mt-2 rounded-md border-[1px] p-1 px-2"
+          onClick={removeItemFromCart}
+        >
+          Remove From cart
+        </button>
       </div>
     </section>
   );

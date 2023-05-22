@@ -1,7 +1,7 @@
 export const cartReducer = (state, { type, payload }) => {
   switch (type) {
     case "ADD_TO_CART":
-      payload.quantity = 1;
+      payload.qty = 1;
       return {
         ...state,
         cart: state.cart.every((item) => item.id !== payload.id)
@@ -13,9 +13,7 @@ export const cartReducer = (state, { type, payload }) => {
       let tempCart =
         payload.value !== 0
           ? state.cart.map((item) =>
-              item.id === payload.id
-                ? { ...item, quantity: payload.value }
-                : item
+              item.id === payload.id ? { ...item, qty: payload.value } : item
             )
           : state.cart.filter(({ id }) => id !== payload.id);
       return {

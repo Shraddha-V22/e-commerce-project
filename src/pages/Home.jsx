@@ -23,7 +23,9 @@ export default function Home() {
           Shop now →
         </Link>
       </div>
-      <section className="mt-4">{/* <CategoryRows /> */}</section>
+      <section className="mt-4">
+        <CategoryRows categoryIndex={0} />
+      </section>
     </section>
   );
 }

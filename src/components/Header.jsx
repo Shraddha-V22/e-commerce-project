@@ -26,7 +26,7 @@ export default function Header() {
   const navigate = useNavigate();
   const categoryRef = useRef(null);
   const timerId = useRef(null);
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
 
   const userFound = JSON.parse(localStorage.getItem("user"));
   const token = localStorage.getItem("token");
@@ -113,11 +113,15 @@ export default function Header() {
           <Link to="/cart">
             <FontAwesomeIcon icon={faCartShopping} />
           </Link>
-          {cart.length > 0 && (
+          {userFound?.cart?.length > 0 ? (
+            <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
+              {userFound?.cart.length}
+            </p>
+          ) : cart.length > 0 ? (
             <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
               {cart.length}
             </p>
-          )}
+          ) : null}
         </li>
         <li>
           <Link to="/wishlist">

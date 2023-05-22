@@ -18,3 +18,11 @@ export const getImgUrl = (category) => {
       return "https://images.pexels.com/photos/1163194/pexels-photo-1163194.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
   }
 };
+
+export const getItemFromLocalStorage = (key) => {
+  return localStorage.getItem(key);
+};
+
+export const setItemToLocalStorage = (key, value) => {
+  return localStorage.setItem(key, value);
+};

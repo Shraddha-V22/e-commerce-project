@@ -13,7 +13,7 @@ export default function Wishlist() {
           ))}
         </section>
       ) : (
-        <p>Add products to wishlist</p>
+        <p className="h-[500px]">Add products to wishlist</p>
       )}
     </section>
   );

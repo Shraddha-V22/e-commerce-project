@@ -8,7 +8,7 @@ export default function Products() {
     products: { productsData },
   } = useProducts();
 
-  console.log(localStorage.getItem("user"));
+  // console.log(localStorage.getItem("user"));
 
   return (
     <section className="m-4 flex justify-evenly">
