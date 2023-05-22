@@ -113,7 +113,14 @@ export default function Header() {
           <Link to="/cart">
             <FontAwesomeIcon icon={faCartShopping} />
           </Link>
-          {userFound?.cart?.length > 0 ? (
+
+          {cart.length > 0 && (
+            <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
+              {cart.length}
+            </p>
+          )}
+
+          {/* {userFound?.cart?.length > 0 ? (
             <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
               {userFound?.cart.length}
             </p>
@@ -121,7 +128,7 @@ export default function Header() {
             <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
               {cart.length}
             </p>
-          ) : null}
+          ) : null} */}
         </li>
         <li>
           <Link to="/wishlist">

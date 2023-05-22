@@ -6,6 +6,8 @@ import {
   getItemFromLocalStorage,
   setItemToLocalStorage,
 } from "../common/utils";
+import { useEffect } from "react";
+import { fetchRequest } from "../common/api";
 
 export default function Cart() {
   const { cart } = useCart();
@@ -77,7 +79,7 @@ function CartItem({ item }) {
           "user",
           JSON.stringify({ ...userFound, cart: res.cart })
         );
-        console.log(res, userFound);
+        cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
       } catch (error) {
         console.error(error);
       }
@@ -100,6 +102,7 @@ function CartItem({ item }) {
           "user",
           JSON.stringify({ ...userFound, cart: res.cart })
         );
+        cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
       } catch (error) {
         console.error(error);
       }

@@ -23,7 +23,9 @@ export const getCartItemsHandler = function (schema, request) {
       }
     );
   }
-  const userCart = schema.users.findBy({ _id: userId }).cart;
+  const userCart =
+    JSON.parse(getItemFromLocalStorage("user")).cart ||
+    schema.users.findBy({ _id: userId }).cart;
   return new Response(200, {}, { cart: userCart });
 };
 

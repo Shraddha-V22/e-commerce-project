@@ -21,13 +21,13 @@ export default function Product({ item }) {
   const { cart } = useCart();
   const { id, product_name, brand, price, category } = item;
   const userFound = JSON.parse(getItemFromLocalStorage("user"));
+  const token = getItemFromLocalStorage("token");
 
   const inCart = cart.find((item) => item.id === id);
   const inWishlist = wishlist.find((item) => item.id === id);
 
   const addToCart = async (e, item) => {
     e.stopPropagation();
-    const token = getItemFromLocalStorage("token");
     if (token) {
       try {
         const request = await fetch("/api/user/cart", {
@@ -39,16 +39,40 @@ export default function Product({ item }) {
         });
 
         const res = await request.json();
-        console.log(userFound);
         setItemToLocalStorage(
           "user",
           JSON.stringify({ ...userFound, cart: res.cart })
         );
+        cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
       } catch (error) {
         console.error(error);
       }
     } else {
       cartDispatch({ type: "ADD_TO_CART", payload: item });
+    }
+  };
+
+  const addToWishlist = async (e, item) => {
+    e.stopPropagation();
+    if (token) {
+      try {
+        const request = await fetch("/api/user/wishlist", {
+          method: "POST",
+          headers: {
+            authorization: token,
+          },
+          body: JSON.stringify({ product: item }),
+        });
+
+        const res = await request.json();
+        console.log(res);
+        setItemToLocalStorage(
+          "user",
+          JSON.stringify({ ...userFound, wishlist: res.wishlist })
+        );
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -58,10 +82,7 @@ export default function Product({ item }) {
       className="relative grid h-[300px] w-[200px] cursor-pointer grid-cols-[auto_1fr] overflow-hidden rounded-lg bg-white"
     >
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          wishlistDispatch({ type: "ADD_TO_WISHLIST", payload: item });
-        }}
+        onClick={(e) => addToWishlist(e, item)}
         className="absolute right-2 top-2 rounded-full px-1 text-xl text-pink-500 hover:bg-white/40"
       >
         {inWishlist ? (

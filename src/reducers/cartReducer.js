@@ -1,5 +1,10 @@
 export const cartReducer = (state, { type, payload }) => {
   switch (type) {
+    case "INITIALISE_CART":
+      return {
+        ...state,
+        cart: payload,
+      };
     case "ADD_TO_CART":
       payload.qty = 1;
       return {
