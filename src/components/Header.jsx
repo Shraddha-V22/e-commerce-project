@@ -13,9 +13,11 @@ import { useCart } from "../contexts/CartProvider";
 import { useProducts, useProductsDispatch } from "../contexts/ProductProvider";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
+import { useWishlist } from "../contexts/WishlistProvider";
 
 export default function Header() {
   const { cart } = useCart();
+  const { wishlist } = useWishlist();
   const {
     products: { categories },
   } = useProducts();
@@ -119,21 +121,16 @@ export default function Header() {
               {cart.length}
             </p>
           )}
-
-          {/* {userFound?.cart?.length > 0 ? (
-            <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
-              {userFound?.cart.length}
-            </p>
-          ) : cart.length > 0 ? (
-            <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
-              {cart.length}
-            </p>
-          ) : null} */}
         </li>
-        <li>
+        <li className="relative">
           <Link to="/wishlist">
             <FontAwesomeIcon icon={faHeart} />
           </Link>
+          {wishlist.length > 0 && (
+            <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
+              {wishlist.length}
+            </p>
+          )}
         </li>
         {!token ? (
           <li>

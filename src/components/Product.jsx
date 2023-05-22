@@ -70,6 +70,36 @@ export default function Product({ item }) {
           "user",
           JSON.stringify({ ...userFound, wishlist: res.wishlist })
         );
+        wishlistDispatch({
+          type: "INITIALISE_WISHLIST",
+          payload: res.wishlist,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+  const removeFromWishlist = async (e) => {
+    e.stopPropagation();
+    if (token) {
+      try {
+        const request = await fetch(`/api/user/wishlist/${id}`, {
+          method: "DELETE",
+          headers: {
+            authorization: token,
+          },
+        });
+
+        const res = await request.json();
+        console.log(res);
+        setItemToLocalStorage(
+          "user",
+          JSON.stringify({ ...userFound, wishlist: res.wishlist })
+        );
+        wishlistDispatch({
+          type: "INITIALISE_WISHLIST",
+          payload: res.wishlist,
+        });
       } catch (error) {
         console.error(error);
       }
@@ -81,16 +111,21 @@ export default function Product({ item }) {
       onClick={() => navigate(`/products/product-${id}`)}
       className="relative grid h-[300px] w-[200px] cursor-pointer grid-cols-[auto_1fr] overflow-hidden rounded-lg bg-white"
     >
-      <button
-        onClick={(e) => addToWishlist(e, item)}
-        className="absolute right-2 top-2 rounded-full px-1 text-xl text-pink-500 hover:bg-white/40"
-      >
-        {inWishlist ? (
+      {inWishlist ? (
+        <button
+          onClick={removeFromWishlist}
+          className="absolute right-2 top-2 rounded-full px-1 text-xl text-pink-500 hover:bg-white/40"
+        >
           <FontAwesomeIcon icon={faHeartFilled} />
-        ) : (
+        </button>
+      ) : (
+        <button
+          onClick={(e) => addToWishlist(e, item)}
+          className="absolute right-2 top-2 rounded-full px-1 text-xl text-pink-500 hover:bg-white/40"
+        >
           <FontAwesomeIcon icon={faHeart} />
-        )}
-      </button>
+        </button>
+      )}
       <img
         src={getImgUrl(category.toLowerCase())}
         alt={`${product_name}`}

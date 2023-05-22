@@ -3,6 +3,8 @@ import { useReducer } from "react";
 import { createContext } from "react";
 import { useContext } from "react";
 import { wishlistReducer } from "../reducers/wishlistReducer";
+import { getItemFromLocalStorage } from "../common/utils";
+import { useEffect } from "react";
 
 const WishlistContext = createContext(null);
 const WishlistDispatchContext = createContext(null);
@@ -16,6 +18,30 @@ export default function WishlistProvider({ children }) {
     wishlistReducer,
     initialWishlistState
   );
+  const token = getItemFromLocalStorage("token");
+
+  const getWishlistItems = async () => {
+    if (token) {
+      try {
+        const res = await fetch("/api/user/wishlist", {
+          method: "GET",
+          headers: {
+            authorization: token,
+          },
+        });
+        const result = await res.json();
+        console.log(result);
+        wishlistDispatch({ type: "INITIALISE_CART", payload: result.wishlist });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getWishlistItems();
+  }, []);
+
   return (
     <WishlistContext.Provider value={wishlist}>
       <WishlistDispatchContext.Provider value={wishlistDispatch}>
