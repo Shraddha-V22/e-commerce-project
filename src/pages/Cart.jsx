@@ -1,20 +1,18 @@
 import React from "react";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
-import Product from "../components/Product";
 import {
   getImgUrl,
   getItemFromLocalStorage,
   setItemToLocalStorage,
 } from "../common/utils";
-import { useEffect } from "react";
-import { fetchRequest } from "../common/api";
+import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const { cart } = useCart();
   const cartFound = JSON.parse(getItemFromLocalStorage("user"))?.cart;
   const token = getItemFromLocalStorage("token");
+  const navigate = useNavigate();
 
-  // console.log(cartFound);
   const totalPrice = (cart) =>
     cart.reduce((acc, item) => acc + item.price * item.qty, 0);
 
@@ -26,9 +24,15 @@ export default function Cart() {
             <CartItem key={item.id} item={item} />
           ))}
         </section>
-        <section className="h-[fit-content] w-[300px] bg-white p-4">
+        <section className="flex h-[fit-content] w-[300px] flex-col gap-4 bg-white p-4">
           <h1>SubTotal</h1>
-          <p>{totalPrice(cartFound).toFixed(2)}</p>
+          <p>${totalPrice(cartFound).toFixed(2)}</p>
+          <button
+            className="border-[1px] p-1 px-2"
+            onClick={() => navigate("/checkout")}
+          >
+            Buy now
+          </button>
         </section>
       </section>
     ) : (
@@ -45,9 +49,15 @@ export default function Cart() {
               <CartItem key={item.id} item={item} />
             ))}
           </section>
-          <section className="h-[fit-content] w-[300px] bg-white p-4">
+          <section className="flex h-[fit-content] w-[300px] flex-col gap-4 bg-white p-4">
             <h1>SubTotal</h1>
-            <p>{totalPrice(cart).toFixed(2)}</p>
+            <p>${totalPrice(cart).toFixed(2)}</p>
+            <button
+              className="border-[1px] p-1 px-2"
+              onClick={() => navigate("/checkout")}
+            >
+              Buy now
+            </button>
           </section>
         </section>
       ) : (

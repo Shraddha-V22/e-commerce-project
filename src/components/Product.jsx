@@ -109,21 +109,21 @@ export default function Product({ item }) {
   return (
     <motion.div
       onClick={() => navigate(`/products/product-${id}`)}
-      className="relative grid h-[300px] w-[200px] cursor-pointer grid-cols-[auto_1fr] overflow-hidden rounded-lg bg-white"
+      className="relative grid h-[300px] w-[200px] cursor-pointer grid-cols-[auto_1fr] overflow-hidden rounded-lg bg-white shadow-sm hover:shadow-xl max-[500px]:h-[225px] max-[500px]:w-[150px]"
     >
       {inWishlist ? (
         <button
           onClick={removeFromWishlist}
-          className="absolute right-2 top-2 rounded-full px-1 text-xl text-pink-500 hover:bg-white/40"
+          className="absolute right-2 top-2 rounded-full px-1 text-xl text-pink-600 hover:bg-white/40"
         >
-          <FontAwesomeIcon icon={faHeartFilled} />
+          <FontAwesomeIcon icon={faHeartFilled} title="Remove from Wishlist" />
         </button>
       ) : (
         <button
           onClick={(e) => addToWishlist(e, item)}
-          className="absolute right-2 top-2 rounded-full px-1 text-xl text-pink-500 hover:bg-white/40"
+          className="absolute right-2 top-2 rounded-full px-1 text-xl text-pink-600 hover:bg-white/40"
         >
-          <FontAwesomeIcon icon={faHeart} />
+          <FontAwesomeIcon icon={faHeart} title="Add to Wishlist" />
         </button>
       )}
       <img
@@ -131,20 +131,24 @@ export default function Product({ item }) {
         alt={`${product_name}`}
         className="w-full"
       />
-      <div className="absolute bottom-0 flex w-full flex-col items-start gap-1 bg-white px-4 py-2">
-        <h3 className="line-clamp-1 font-bold uppercase">{product_name}</h3>
-        <p className="text-xs uppercase">{brand}</p>
-        <p>${price}</p>
+      <div className="absolute bottom-0 flex w-full flex-col items-start gap-1 bg-white px-4 py-2 max-[500px]:gap-0">
+        <h3 className="line-clamp-1 font-bold uppercase max-[500px]:text-sm">
+          {product_name}
+        </h3>
+        <p className="text-xs uppercase text-gray-500 max-[500px]:text-[10px]">
+          {brand}
+        </p>
+        <p className="max-[500px]:text-sm">${price}</p>
         {!inCart ? (
           <button
             onClick={(e) => addToCart(e, item)}
-            className="rounded-md border-[1px] px-4 py-1 capitalize"
+            className="w-full rounded-md border-[1px] py-1 text-sm capitalize hover:bg-pink-600/80 hover:text-white max-[500px]:text-xs"
           >
             add to cart
           </button>
         ) : (
           <button
-            className="rounded-md border-[1px] px-4 py-1 capitalize"
+            className="w-full rounded-md border-[1px] py-1 text-sm capitalize hover:bg-pink-600/80 hover:text-white max-[500px]:text-xs"
             onClick={(e) => {
               e.stopPropagation();
               navigate("/cart");
@@ -157,15 +161,3 @@ export default function Product({ item }) {
     </motion.div>
   );
 }
-
-// id: 61,
-// product_name: "blandit nam",
-// brand: "Adidas",
-// category: "Clothing",
-// color: "Pink",
-// size: "XL",
-// price: 164.52,
-// material: "Cotton",
-// season: "Spring",
-// image_url: "http://dummyimage.com/100x150.png/5fa2dd/ffffff",
-// description:

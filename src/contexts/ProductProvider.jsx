@@ -16,7 +16,7 @@ export default function ProductProvider({ children }) {
     categories: [],
     search: "",
     category: [],
-    price: 0,
+    price: 1000,
     rating: 0,
     brands: [],
     materials: [],

@@ -20,6 +20,8 @@ import CartProvider from "./contexts/CartProvider";
 import WishlistProvider from "./contexts/WishlistProvider";
 import AuthProvider from "./contexts/AuthProvider";
 import Profile from "./pages/Profile";
+import RequiredAuth from "./components/RequiredAuth";
+import Checkout from "./pages/Checkout";
 
 const AppRouter = () => {
   const router = createBrowserRouter(
@@ -32,6 +34,14 @@ const AppRouter = () => {
           <Route path="/products" element={<Products />} />
           <Route path="/products/:productId" element={<ProductDetails />} />
           <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/checkout"
+            element={
+              <RequiredAuth>
+                <Checkout />
+              </RequiredAuth>
+            }
+          />
         </Route>
         <Route path="/mockman" element={<Mockman />} />
         <Route path="/login" element={<Login />} />

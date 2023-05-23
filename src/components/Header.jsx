@@ -1,17 +1,15 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
-import { useRef } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
+import { useRef, useState, useEffect } from "react";
 import { getImgUrl } from "../common/utils";
 import { useCart } from "../contexts/CartProvider";
 import { useProducts, useProductsDispatch } from "../contexts/ProductProvider";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useWishlist } from "../contexts/WishlistProvider";
 
@@ -68,15 +66,18 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 z-10 flex w-full items-center justify-between gap-4 bg-white p-4 pt-2">
-      <h1 className="font-bold">
-        <Link to="/">Shop-On</Link>
+    <header className="fixed top-0 z-10 flex w-full items-center justify-between gap-4 bg-white p-4 pt-2 shadow-sm">
+      <h1 className="font-cinzel font-bold text-pink-600">
+        <Link to="/">charme</Link>
       </h1>
+      <button onClick={() => navigate("/products")}>
+        <FontAwesomeIcon icon={faBagShopping} title="See all products" />
+      </button>
       <section className="mr-auto" ref={categoryRef}>
         <p className="cursor-pointer">Categories</p>
         {showCategories ? (
           <article
-            className={`absolute left-0 right-0 top-[40px] grid h-[fit-content] w-[100vw] grid-cols-3 bg-white p-8`}
+            className={`absolute left-0 right-0 top-[40px] flex h-[fit-content] w-[100vw] justify-around bg-white p-8`}
           >
             {categories.map(({ _id, categoryName }) => (
               <div
@@ -96,15 +97,15 @@ export default function Header() {
         ) : null}
       </section>
       <ul className="flex items-center gap-4">
-        <li className="flex items-center gap-2 rounded-md border-[1px] border-[#2C74B3]/20 p-2">
+        <li className="flex items-center gap-2 rounded-md p-2">
           <button onClick={() => setShowSearchInput((prev) => !prev)}>
-            <FontAwesomeIcon icon={faSearch} />
+            <FontAwesomeIcon icon={faSearch} title="Search products" />
           </button>
           {showSearchInput && (
             <input
               type="text"
-              placeholder="search products..."
-              className="outline-none"
+              placeholder="Search products..."
+              className="border-b-[1px] border-[#2C74B3]/20 outline-none"
               onChange={(e) =>
                 productDispatch({ type: "SEARCH", payload: e.target.value })
               }
@@ -113,7 +114,7 @@ export default function Header() {
         </li>
         <li className="relative">
           <Link to="/cart">
-            <FontAwesomeIcon icon={faCartShopping} />
+            <FontAwesomeIcon icon={faCartShopping} title="Cart" />
           </Link>
 
           {cart.length > 0 && (
@@ -124,7 +125,7 @@ export default function Header() {
         </li>
         <li className="relative">
           <Link to="/wishlist">
-            <FontAwesomeIcon icon={faHeart} />
+            <FontAwesomeIcon icon={faHeart} title="Wishlist" />
           </Link>
           {wishlist.length > 0 && (
             <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
@@ -135,14 +136,14 @@ export default function Header() {
         {!token ? (
           <li>
             <Link to="/login">
-              <FontAwesomeIcon icon={faUser} />
+              <FontAwesomeIcon icon={faUser} title="Login" />
             </Link>
           </li>
         ) : (
           <div>
             <button
               onClick={() => setShowProfileMenu((prev) => !prev)}
-              className="relative rounded-full border-[1px] p-1 px-2 uppercase"
+              className="relative rounded-full bg-pink-600/90 p-1 px-2 uppercase text-white"
             >
               {userFound?.firstName.substr(0, 1)}
               {userFound?.lastName.substr(0, 1)}

@@ -33,7 +33,7 @@ export default function ProductDetails() {
   const inCart = cart.find((item) => item.id === id);
 
   return (
-    <section className="mx-auto grid w-[70vw] grid-cols-[400px_1fr] border-[1px] border-black">
+    <section className="mx-auto my-8 grid w-[70vw] grid-cols-[400px_1fr]">
       <img
         src={getImgUrl(category.toLowerCase())}
         alt={`${product_name}`}
