@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import {
   getImgUrl,
   getItemFromLocalStorage,
@@ -77,9 +76,12 @@ export default function Product({ item }) {
       } catch (error) {
         console.error(error);
       }
+    } else {
+      wishlistDispatch({ type: "ADD_TO_WISHLIST", payload: item });
     }
   };
-  const removeFromWishlist = async (e) => {
+
+  const removeFromWishlist = async (e, id) => {
     e.stopPropagation();
     if (token) {
       try {
@@ -103,17 +105,19 @@ export default function Product({ item }) {
       } catch (error) {
         console.error(error);
       }
+    } else {
+      wishlistDispatch({ type: "REMOVE_FROM_WISHLIST", payload: id });
     }
   };
 
   return (
     <motion.div
-      onClick={() => navigate(`/products/product-${id}`)}
+      onClick={() => navigate(`/products/${id}`)}
       className="relative grid h-[300px] w-[200px] cursor-pointer grid-cols-[auto_1fr] overflow-hidden rounded-lg bg-white shadow-sm hover:shadow-xl max-[500px]:h-[225px] max-[500px]:w-[150px]"
     >
       {inWishlist ? (
         <button
-          onClick={removeFromWishlist}
+          onClick={(e) => removeFromWishlist(e, id)}
           className="absolute right-2 top-2 rounded-full px-1 text-xl text-pink-600 hover:bg-white/40"
         >
           <FontAwesomeIcon icon={faHeartFilled} title="Remove from Wishlist" />

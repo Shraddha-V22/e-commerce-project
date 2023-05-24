@@ -12,6 +12,7 @@ import { useCart } from "../contexts/CartProvider";
 import { useProducts, useProductsDispatch } from "../contexts/ProductProvider";
 import { useAuth } from "../contexts/AuthProvider";
 import { useWishlist } from "../contexts/WishlistProvider";
+import { toast } from "react-toastify";
 
 export default function Header() {
   const { cart } = useCart();
@@ -77,7 +78,7 @@ export default function Header() {
         <p className="cursor-pointer">Categories</p>
         {showCategories ? (
           <article
-            className={`absolute left-0 right-0 top-[40px] flex h-[fit-content] w-[100vw] justify-around bg-white p-8`}
+            className={`absolute left-0 right-0 top-[40px] z-40 flex h-[fit-content] w-[100vw] justify-around bg-white p-8`}
           >
             {categories.map(({ _id, categoryName }) => (
               <div
@@ -165,9 +166,11 @@ export default function Header() {
               <li
                 className="cursor-pointer p-1 pl-1"
                 onClick={() => {
-                  console.log("clicked");
                   signOut();
-                  window.location.reload();
+                  toast.success("Logged out", {
+                    position: toast.POSITION.TOP_CENTER,
+                  });
+                  navigate("/");
                 }}
               >
                 logout

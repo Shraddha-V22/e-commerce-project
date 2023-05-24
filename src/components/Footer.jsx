@@ -2,17 +2,17 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <section className="h-[auto] w-full bg-white">
+    <section className="h-[fit-content] w-full bg-white">
       <section className="flex flex-wrap justify-end gap-4 p-8">
-        <div className="mr-auto flex w-[250px] flex-col gap-2 bg-pink-700 p-2">
-          <label htmlFor="newsletter" className="text-sm text-[#E3F2C1]">
+        <div className="mr-auto flex w-[250px] flex-col gap-2 p-2">
+          <label htmlFor="newsletter" className="text-sm">
             Subscribe to our newsletter to follow the new fashion trends
           </label>
           <input
             type="text"
             id="newsletter"
             placeholder="Enter Your Email"
-            className="indent-2 outline-none placeholder:text-sm"
+            className="rounded-sm border-2 border-pink-600 indent-2 outline-none placeholder:text-sm"
           />
         </div>
         <article className="flex flex-wrap justify-end gap-4 p-8">

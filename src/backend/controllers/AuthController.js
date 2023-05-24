@@ -64,12 +64,18 @@ export const loginHandler = function (schema, request) {
   try {
     const foundUser =
       schema.users.findBy({ email }) ??
-      JSON.parse(localStorage.getItem("user"));
+      (JSON.parse(localStorage.getItem("user")).email === email &&
+        JSON.parse(localStorage.getItem("user")));
     if (!foundUser) {
       return new Response(
         404,
         {},
-        { errors: ["The email you entered is not Registered. Not Found error"] }
+        {
+          errors: [
+            404,
+            "The email you entered is not Registered. Not Found error",
+          ],
+        }
       );
     }
     if (password === foundUser.password) {
@@ -85,6 +91,7 @@ export const loginHandler = function (schema, request) {
       {},
       {
         errors: [
+          401,
           "The credentials you entered are invalid. Unauthorized access error.",
         ],
       }

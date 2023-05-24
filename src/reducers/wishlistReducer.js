@@ -8,9 +8,12 @@ export const wishlistReducer = (state, { type, payload }) => {
     case "ADD_TO_WISHLIST":
       return {
         ...state,
-        wishlist: state.wishlist.find((item) => item.id === payload.id)
-          ? state.wishlist.filter((item) => item.id !== payload.id)
-          : [...state.wishlist, payload],
+        wishlist: [...state.wishlist, payload],
+      };
+    case "REMOVE_FROM_WISHLIST":
+      return {
+        ...state,
+        wishlist: state.wishlist.filter((item) => item.id !== payload),
       };
     default:
       return state;
