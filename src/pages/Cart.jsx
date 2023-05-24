@@ -36,8 +36,11 @@ export default function Cart() {
         </section>
       </section>
     ) : (
-      <section className="mx-auto grid w-[fit-content] place-items-center">
-        <p>No items in the cart. Go Shop!!</p>
+      <section className="mx-auto grid h-full w-[fit-content] place-items-center">
+        <p>
+          Well, our cart seems to have taken a break. Time to fill it up with
+          your amazing choices!
+        </p>
       </section>
     );
   } else {
@@ -61,8 +64,11 @@ export default function Cart() {
           </section>
         </section>
       ) : (
-        <section className="mx-auto grid h-[500px] w-[fit-content] place-items-center">
-          <p>No items in the cart. Go Shop!!</p>
+        <section className="mx-auto grid h-full w-[fit-content] place-items-center">
+          <p>
+            Well, our cart seems to have taken a break. Time to fill it up with
+            your amazing choices!
+          </p>
         </section>
       );
     }

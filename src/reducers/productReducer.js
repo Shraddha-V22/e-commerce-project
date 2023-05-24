@@ -19,7 +19,7 @@ export const productReducer = (state, { type, payload }) => {
         ...tempState,
         search: "",
         category: [],
-        price: 0,
+        price: 1000,
         rating: 0,
         brands: [],
         materials: [],

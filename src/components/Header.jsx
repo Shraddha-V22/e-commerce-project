@@ -17,19 +17,20 @@ import { toast } from "react-toastify";
 export default function Header() {
   const { cart } = useCart();
   const { wishlist } = useWishlist();
+  const productDispatch = useProductsDispatch();
   const {
     products: { categories },
   } = useProducts();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+  const categoryRef = useRef(null);
+  const timerId = useRef(null);
   const [show, setShow] = useState({
     categories: false,
     searchInput: false,
     profileMenu: false,
   });
-  const productDispatch = useProductsDispatch();
-  const navigate = useNavigate();
-  const categoryRef = useRef(null);
-  const timerId = useRef(null);
-  const { signOut } = useAuth();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const userFound = JSON.parse(sessionStorage.getItem("user"));
   const token = sessionStorage.getItem("token");
@@ -47,6 +48,17 @@ export default function Header() {
       300
     );
   };
+
+  useEffect(() => {
+    window.addEventListener("resize", (e) => {
+      return setWindowWidth(e.target.innerWidth);
+    });
+
+    return () =>
+      window.addEventListener("resize", (e) => {
+        return setWindowWidth(e.target.innerWidth);
+      });
+  }, [windowWidth]);
 
   useEffect(() => {
     categoryRef.current?.addEventListener("mouseenter", handleMouseEnter);
@@ -79,29 +91,33 @@ export default function Header() {
       <button onClick={() => navigate("/products")}>
         <FontAwesomeIcon icon={faBagShopping} title="See all products" />
       </button>
-      <section className="mr-auto" ref={categoryRef}>
-        <p className="cursor-pointer">Categories</p>
-        {show.categories ? (
-          <article
-            className={`absolute left-0 right-0 top-[40px] z-40 flex h-[fit-content] w-[100vw] justify-around bg-white p-8`}
-          >
-            {categories.map(({ _id, categoryName }) => (
-              <div
-                className="flex cursor-pointer items-start gap-4"
-                onClick={() => categoryOnClickHandler(categoryName)}
-                key={_id}
-              >
-                <h1 className="capitalize">{categoryName}</h1>
-                <img
-                  className="h-[100px] w-[100px] rounded-lg object-cover"
-                  src={getImgUrl(categoryName)}
-                  alt=""
-                />
-              </div>
-            ))}
-          </article>
-        ) : null}
-      </section>
+      {windowWidth >= 600 && (
+        <section className="mr-auto" ref={categoryRef}>
+          <p className="cursor-pointer">Categories</p>
+          {show.categories ? (
+            <article
+              className={`absolute left-0 right-0 top-[40px] z-40 flex h-[fit-content] w-[100vw] justify-around bg-white p-8`}
+            >
+              {categories.map(({ _id, categoryName }) => (
+                <div
+                  className="flex cursor-pointer items-start gap-4"
+                  onClick={() => categoryOnClickHandler(categoryName)}
+                  key={_id}
+                >
+                  <h1 className="font-thin capitalize">{categoryName}</h1>
+                  <img
+                    className={`${
+                      windowWidth <= 750 ? "hidden" : ""
+                    } h-[100px] w-[100px] rounded-lg object-cover`}
+                    src={getImgUrl(categoryName)}
+                    alt=""
+                  />
+                </div>
+              ))}
+            </article>
+          ) : null}
+        </section>
+      )}
       <ul className="flex items-center gap-4">
         <li className="flex items-center gap-2 rounded-md p-2">
           <button

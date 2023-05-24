@@ -112,6 +112,8 @@ export default function Product({ item }) {
 
   return (
     <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       onClick={() => navigate(`/products/${id}`)}
       className="relative grid h-[300px] w-[200px] cursor-pointer grid-cols-[auto_1fr] overflow-hidden rounded-lg bg-white shadow-sm hover:shadow-xl max-[500px]:h-[225px] max-[500px]:w-[150px]"
     >

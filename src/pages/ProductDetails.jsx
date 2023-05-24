@@ -9,6 +9,8 @@ import {
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useWishlistDispatch } from "../contexts/WishlistProvider";
 import { fetchRequest } from "../common/api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 export default function ProductDetails() {
   const navigate = useNavigate();
@@ -23,7 +25,6 @@ export default function ProductDetails() {
   const getProduct = async () => {
     try {
       const { product } = await fetchRequest(`/api/products/${productId}`);
-      console.log(product);
       setProduct(product);
     } catch (error) {
       console.error(error);
@@ -86,7 +87,6 @@ export default function ProductDetails() {
         });
 
         const res = await request.json();
-        console.log(res);
         setItemToSessionStorage(
           "user",
           JSON.stringify({ ...userFound, wishlist: res.wishlist })
@@ -103,16 +103,25 @@ export default function ProductDetails() {
     }
   };
 
+  const getRatingStars = (rating) => {
+    return new Array(rating)
+      .fill(0)
+      .map(() => <FontAwesomeIcon icon={faStar} />);
+  };
+
   return (
-    <section className="mx-auto my-8 grid w-[70vw] grid-cols-[400px_1fr]">
+    <section className="mx-auto my-8 flex w-[fit-content] flex-wrap items-center justify-center gap-8">
       <img
         src={getImgUrl(category?.toLowerCase())}
         alt={`${product_name}`}
-        className="w-[400px]"
+        className="w-[80vw] md:w-[400px]"
       />
-      <article className="flex flex-col gap-4 p-8">
+      <article className="flex w-[80vw] flex-col gap-4 px-4 py-8 md:w-[400px]">
         <h1 className="bg-[#2C74B3]/20 px-2 uppercase">{product_name}</h1>
-        <p className="uppercase">{brand}</p>
+        <div className="flex justify-between">
+          <p className="uppercase">{brand}</p>
+          <div className="text-pink-600">{getRatingStars(rating)}</div>
+        </div>
         <p>${price}</p>
         {!inCart ? (
           <button

@@ -13,7 +13,13 @@ export default function Wishlist() {
           ))}
         </section>
       ) : (
-        <p className="max-w-[850px]">Add products to wishlist</p>
+        <section className="mx-auto grid h-full max-w-[500px] place-items-center text-center">
+          <p>
+            Empty wishlist, full imagination! Let's sprinkle it with stardust
+            and watch it blossom into a garden of desires. Start dreaming, and
+            let's make it happen!
+          </p>
+        </section>
       )}
     </section>
   );
