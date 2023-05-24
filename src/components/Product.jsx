@@ -135,7 +135,7 @@ export default function Product({ item }) {
         alt={`${product_name}`}
         className="w-full"
       />
-      <div className="absolute bottom-0 flex w-full flex-col items-start gap-1 bg-white px-4 py-2 max-[500px]:gap-0">
+      <div className="absolute bottom-0 flex w-full flex-col items-start gap-0 bg-white px-4 py-2 max-[500px]:gap-0">
         <h3 className="line-clamp-1 font-bold uppercase max-[500px]:text-sm">
           {product_name}
         </h3>
@@ -152,7 +152,7 @@ export default function Product({ item }) {
           </button>
         ) : (
           <button
-            className="w-full rounded-md border-[1px] py-1 text-sm capitalize hover:bg-pink-600/80 hover:text-white max-[500px]:text-xs"
+            className="w-full rounded-md border-[1px] py-1 text-sm capitalize hover:bg-[#bbc79f]/80 hover:text-white max-[500px]:text-xs"
             onClick={(e) => {
               e.stopPropagation();
               navigate("/cart");

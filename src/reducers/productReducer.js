@@ -17,7 +17,6 @@ export const productReducer = (state, { type, payload }) => {
     case "CLEAR_FILTERS":
       tempState = {
         ...tempState,
-        categories: [],
         search: "",
         category: [],
         price: 0,

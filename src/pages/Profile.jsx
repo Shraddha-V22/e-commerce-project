@@ -29,9 +29,9 @@ export default function Profile() {
   };
 
   return (
-    <section className="m-2 bg-white p-4">
-      <div className="flex items-center gap-4 border-b-[1px] p-2">
-        <div className="relative rounded-full border-[1px] p-1 px-2 text-xl uppercase">
+    <section className="m-2 mx-auto max-w-[500px] bg-white p-4">
+      <div className="p- flex items-center gap-4 border-b-[1px] px-2 pb-4">
+        <div className="relative rounded-full bg-pink-600/80 p-1 px-2 text-xl uppercase text-white">
           {userFound?.firstName.substr(0, 1)}
           {userFound?.lastName.substr(0, 1)}
         </div>

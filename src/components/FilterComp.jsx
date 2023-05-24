@@ -38,11 +38,11 @@ export default function FilterComp() {
   }, []);
 
   return (
-    <section className="fixed left-8 top-[80px] z-10 flex h-[fit-content] w-[250px] flex-col rounded-md bg-[#E3F2C1] p-2 px-4">
+    <section className="flex h-[fit-content] w-[250px] flex-col rounded-md bg-[#E3F2C1] p-2 px-4">
       <div className="mb-4 flex justify-between">
         <h1
           onClick={() => setShowFilters((prev) => !prev)}
-          className="cursor-pointer hover:text-pink-600"
+          className="cursor-pointer text-lg uppercase hover:text-pink-600"
         >
           Filters <span className="text-sm">▼</span>
         </h1>
