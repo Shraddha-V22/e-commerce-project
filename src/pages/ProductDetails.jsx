@@ -1,21 +1,38 @@
 import React from "react";
-import { useProducts } from "../contexts/ProductProvider";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import { getImgUrl } from "../common/utils";
+import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import {
+  getImgUrl,
+  getItemFromLocalStorage,
+  setItemToLocalStorage,
+} from "../common/utils";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
-import { useNavigate } from "react-router-dom";
+import { useWishlistDispatch } from "../contexts/WishlistProvider";
+import { fetchRequest } from "../common/api";
 
 export default function ProductDetails() {
   const navigate = useNavigate();
-  const { products } = useProducts();
   const { cart } = useCart();
   const cartDispatch = useCartDispatch();
+  const wishlistDispatch = useWishlistDispatch();
   const { productId } = useParams();
+  const token = getItemFromLocalStorage("token");
+  const userFound = JSON.parse(getItemFromLocalStorage("user"));
+  const [product, setProduct] = useState({});
 
-  const product = products.productsData.find(
-    ({ id }) => `product-${id}` === productId
-  );
+  const getProduct = async () => {
+    try {
+      const { product } = await fetchRequest(`/api/products/${productId}`);
+      console.log(product);
+      setProduct(product);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+  }, []);
 
   const {
     id,
@@ -32,10 +49,64 @@ export default function ProductDetails() {
   } = product;
   const inCart = cart.find((item) => item.id === id);
 
+  const addToCart = async (item) => {
+    if (token) {
+      try {
+        const request = await fetch("/api/user/cart", {
+          method: "POST",
+          headers: {
+            authorization: token,
+          },
+          body: JSON.stringify({ product: item }),
+        });
+
+        const res = await request.json();
+        setItemToLocalStorage(
+          "user",
+          JSON.stringify({ ...userFound, cart: res.cart })
+        );
+        cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      cartDispatch({ type: "ADD_TO_CART", payload: item });
+    }
+  };
+
+  const addToWishlist = async (item) => {
+    if (token) {
+      try {
+        const request = await fetch("/api/user/wishlist", {
+          method: "POST",
+          headers: {
+            authorization: token,
+          },
+          body: JSON.stringify({ product: item }),
+        });
+
+        const res = await request.json();
+        console.log(res);
+        setItemToLocalStorage(
+          "user",
+          JSON.stringify({ ...userFound, wishlist: res.wishlist })
+        );
+        wishlistDispatch({
+          type: "INITIALISE_WISHLIST",
+          payload: res.wishlist,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      wishlistDispatch({ type: "ADD_TO_WISHLIST", payload: item });
+    }
+  };
+
   return (
     <section className="mx-auto my-8 grid w-[70vw] grid-cols-[400px_1fr]">
       <img
-        src={getImgUrl(category.toLowerCase())}
+        src={getImgUrl(category?.toLowerCase())}
         alt={`${product_name}`}
         className="w-[400px]"
       />
@@ -45,10 +116,7 @@ export default function ProductDetails() {
         <p>${price}</p>
         {!inCart ? (
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              cartDispatch({ type: "ADD_TO_CART", payload: product });
-            }}
+            onClick={() => addToCart(product)}
             className="rounded-md border-[1px] px-4 py-1 capitalize"
           >
             add to cart
@@ -56,15 +124,15 @@ export default function ProductDetails() {
         ) : (
           <button
             className="rounded-md border-[1px] px-4 py-1 capitalize"
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate("/cart");
-            }}
+            onClick={() => navigate("/cart")}
           >
             Go to cart
           </button>
         )}
-        <button className="rounded-md border-[1px] border-[#2C74B3]/20 p-2 capitalize outline-none">
+        <button
+          onClick={() => addToWishlist(product)}
+          className="rounded-md border-[1px] border-[#2C74B3]/20 p-2 capitalize outline-none"
+        >
           Add to wishlist
         </button>
         <div className="text-xs leading-4 text-gray-500">
