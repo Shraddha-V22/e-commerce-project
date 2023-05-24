@@ -24,7 +24,7 @@ export const signupHandler = function (schema, request) {
         422,
         {},
         {
-          errors: ["Unprocessable Entity. Email Already Exists."],
+          errors: [422, "Unprocessable Entity. Email Already Exists."],
         }
       );
     }

@@ -18,16 +18,27 @@ export default function AuthProvider({ children }) {
       });
 
       const res = await request.json();
-      localStorage.setItem("user", JSON.stringify(res.createdUser));
-      // setUser(JSON.parse(localStorage.getItem(res.createdUser.email)));
-      localStorage.setItem("token", res.encodedToken);
-      alert("Registration successful!");
+
+      if (res.errors) {
+        if (res.errors[0] === 422) {
+          toast.error("Email Already Exists!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      } else {
+        localStorage.setItem("user", JSON.stringify(res.createdUser));
+        localStorage.setItem("token", res.encodedToken);
+        toast.success("Registered Successfully!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      toast.error("Something went wrong!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
-
   const signIn = async (creds) => {
     try {
       const request = await fetch("/api/auth/login", {
