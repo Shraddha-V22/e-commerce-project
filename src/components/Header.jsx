@@ -20,9 +20,11 @@ export default function Header() {
   const {
     products: { categories },
   } = useProducts();
-  const [showCategories, setShowCategories] = useState(false);
-  const [showSearchInput, setShowSearchInput] = useState(false);
-  const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [show, setShow] = useState({
+    categories: false,
+    searchInput: false,
+    profileMenu: false,
+  });
   const productDispatch = useProductsDispatch();
   const navigate = useNavigate();
   const categoryRef = useRef(null);
@@ -36,11 +38,14 @@ export default function Header() {
     if (timerId.current) {
       clearTimeout(timerId);
     }
-    setShowCategories(true);
+    setShow((prev) => ({ ...prev, categories: true }));
   };
 
   const handleMouseLeave = () => {
-    timerId.current = setTimeout(() => setShowCategories(false), 300);
+    timerId.current = setTimeout(
+      () => setShow((prev) => ({ ...prev, categories: false })),
+      300
+    );
   };
 
   useEffect(() => {
@@ -76,7 +81,7 @@ export default function Header() {
       </button>
       <section className="mr-auto" ref={categoryRef}>
         <p className="cursor-pointer">Categories</p>
-        {showCategories ? (
+        {show.categories ? (
           <article
             className={`absolute left-0 right-0 top-[40px] z-40 flex h-[fit-content] w-[100vw] justify-around bg-white p-8`}
           >
@@ -99,10 +104,14 @@ export default function Header() {
       </section>
       <ul className="flex items-center gap-4">
         <li className="flex items-center gap-2 rounded-md p-2">
-          <button onClick={() => setShowSearchInput((prev) => !prev)}>
+          <button
+            onClick={() =>
+              setShow((prev) => ({ ...prev, searchInput: !prev.searchInput }))
+            }
+          >
             <FontAwesomeIcon icon={faSearch} title="Search products" />
           </button>
-          {showSearchInput && (
+          {show.searchInput && (
             <input
               type="text"
               placeholder="Search products..."
@@ -143,7 +152,9 @@ export default function Header() {
         ) : (
           <div>
             <button
-              onClick={() => setShowProfileMenu((prev) => !prev)}
+              onClick={() =>
+                setShow((prev) => ({ ...prev, profileMenu: !prev.profileMenu }))
+              }
               className="relative rounded-full bg-pink-600/90 p-1 px-2 uppercase text-white"
             >
               {userFound?.firstName.substr(0, 1)}
@@ -151,13 +162,13 @@ export default function Header() {
             </button>
             <ul
               className={`${
-                showProfileMenu ? "" : "hidden"
+                show.profileMenu ? "" : "hidden"
               } absolute right-6 bg-white p-1 shadow-md`}
             >
               <li
                 onClick={() => {
                   navigate("/profile");
-                  setShowProfileMenu(false);
+                  setShow((prev) => ({ ...prev, profileMenu: false }));
                 }}
                 className="cursor-pointer border-b-[1px] border-black p-1 pl-1"
               >
