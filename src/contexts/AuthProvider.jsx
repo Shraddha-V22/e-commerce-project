@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
+import { toast } from "react-toastify";
 
 const AuthContext = createContext();
 
@@ -36,13 +37,27 @@ export default function AuthProvider({ children }) {
       });
 
       const res = await request.json();
-      // console.log(res);
-      localStorage.setItem("token", res.encodedToken);
-      // setUser(creds.email);
-      alert("Login successful!");
+      if (res.errors) {
+        if (res.errors[0] === 404) {
+          toast.error("Email entered is not registered!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        } else if (res.errors[0] === 401) {
+          toast.error("Invalid Email or Password!", {
+            position: toast.POSITION.TOP_CENTER,
+          });
+        }
+      } else {
+        localStorage.setItem("token", res.encodedToken);
+        toast.success("Logged In Successfully!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
     } catch (error) {
       console.error(error);
-      alert(error.message);
+      toast.error("Something went wrong!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 
