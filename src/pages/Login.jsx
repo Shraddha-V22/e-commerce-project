@@ -3,11 +3,13 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import { getItemFromLocalStorage } from "../common/utils";
 
 export default function Login() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const [loginCreds, setLoginCreds] = useState({ email: "", password: "" });
+  // const token = getItemFromLocalStorage("token");
 
   const handleLoginCreds = (e) => {
     const { name, value } = e.target;
@@ -18,6 +20,10 @@ export default function Login() {
     signIn(creds);
     navigate("/");
   };
+
+  // const loginAsGuest = (creds) => {
+
+  // }
 
   return (
     <section className="grid h-[100vh] w-full place-items-center">
@@ -45,7 +51,12 @@ export default function Login() {
             Sign in
           </button>
           <button
-            onClick={() => loginHandler(loginCreds)}
+            onClick={() =>
+              loginHandler({
+                email: "adarshbalika@gmail.com",
+                password: "adarshbalika",
+              })
+            }
             className="rounded-md border-[1px] border-[#2C74B3]/20 p-2"
           >
             Sign in as Guest
