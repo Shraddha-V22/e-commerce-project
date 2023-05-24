@@ -3,8 +3,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   getImgUrl,
-  getItemFromLocalStorage,
-  setItemToLocalStorage,
+  getItemFromSessionStorage,
+  setItemToSessionStorage,
 } from "../common/utils";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useWishlistDispatch } from "../contexts/WishlistProvider";
@@ -16,8 +16,8 @@ export default function ProductDetails() {
   const cartDispatch = useCartDispatch();
   const wishlistDispatch = useWishlistDispatch();
   const { productId } = useParams();
-  const token = getItemFromLocalStorage("token");
-  const userFound = JSON.parse(getItemFromLocalStorage("user"));
+  const token = getItemFromSessionStorage("token");
+  const userFound = JSON.parse(getItemFromSessionStorage("user"));
   const [product, setProduct] = useState({});
 
   const getProduct = async () => {
@@ -61,7 +61,7 @@ export default function ProductDetails() {
         });
 
         const res = await request.json();
-        setItemToLocalStorage(
+        setItemToSessionStorage(
           "user",
           JSON.stringify({ ...userFound, cart: res.cart })
         );
@@ -87,7 +87,7 @@ export default function ProductDetails() {
 
         const res = await request.json();
         console.log(res);
-        setItemToLocalStorage(
+        setItemToSessionStorage(
           "user",
           JSON.stringify({ ...userFound, wishlist: res.wishlist })
         );

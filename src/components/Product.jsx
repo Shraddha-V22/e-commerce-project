@@ -1,8 +1,8 @@
 import React from "react";
 import {
   getImgUrl,
-  getItemFromLocalStorage,
-  setItemToLocalStorage,
+  getItemFromSessionStorage,
+  setItemToSessionStorage,
 } from "../common/utils";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useNavigate } from "react-router-dom";
@@ -19,8 +19,8 @@ export default function Product({ item }) {
   const { wishlist } = useWishlist();
   const { cart } = useCart();
   const { id, product_name, brand, price, category } = item;
-  const userFound = JSON.parse(getItemFromLocalStorage("user"));
-  const token = getItemFromLocalStorage("token");
+  const userFound = JSON.parse(getItemFromSessionStorage("user"));
+  const token = getItemFromSessionStorage("token");
 
   const inCart = cart.find((item) => item.id === id);
   const inWishlist = wishlist.find((item) => item.id === id);
@@ -38,7 +38,7 @@ export default function Product({ item }) {
         });
 
         const res = await request.json();
-        setItemToLocalStorage(
+        setItemToSessionStorage(
           "user",
           JSON.stringify({ ...userFound, cart: res.cart })
         );
@@ -65,7 +65,7 @@ export default function Product({ item }) {
 
         const res = await request.json();
         console.log(res);
-        setItemToLocalStorage(
+        setItemToSessionStorage(
           "user",
           JSON.stringify({ ...userFound, wishlist: res.wishlist })
         );
@@ -94,7 +94,7 @@ export default function Product({ item }) {
 
         const res = await request.json();
         console.log(res);
-        setItemToLocalStorage(
+        setItemToSessionStorage(
           "user",
           JSON.stringify({ ...userFound, wishlist: res.wishlist })
         );

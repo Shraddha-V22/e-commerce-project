@@ -4,7 +4,7 @@ import { createContext } from "react";
 import { cartReducer } from "../reducers/cartReducer";
 import { useContext } from "react";
 import { useEffect } from "react";
-import { getItemFromLocalStorage } from "../common/utils";
+import { getItemFromSessionStorage } from "../common/utils";
 
 const CartContext = createContext(null);
 const CartDispatchContext = createContext(null);
@@ -15,7 +15,7 @@ const initialCartState = {
 
 export default function CartProvider({ children }) {
   const [cart, cartDispatch] = useReducer(cartReducer, initialCartState);
-  const token = getItemFromLocalStorage("token");
+  const token = getItemFromSessionStorage("token");
 
   const getCartItems = async () => {
     if (token) {

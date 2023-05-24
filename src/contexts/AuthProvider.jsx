@@ -26,9 +26,9 @@ export default function AuthProvider({ children }) {
           });
         }
       } else {
-        localStorage.setItem("user", JSON.stringify(res.createdUser));
+        sessionStorage.setItem("user", JSON.stringify(res.createdUser));
         setUser(res.createdUser);
-        localStorage.setItem("token", res.encodedToken);
+        sessionStorage.setItem("token", res.encodedToken);
         toast.success("Registered Successfully!", {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -60,7 +60,7 @@ export default function AuthProvider({ children }) {
           });
         }
       } else {
-        localStorage.setItem("token", res.encodedToken);
+        sessionStorage.setItem("token", res.encodedToken);
         toast.success("Logged In Successfully!", {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -74,7 +74,7 @@ export default function AuthProvider({ children }) {
   };
 
   const signOut = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
   };
 
   return (

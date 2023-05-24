@@ -1,6 +1,6 @@
 import { Response } from "miragejs";
 import { formatDate, requiresAuth } from "../utils/authUtils";
-import { getItemFromLocalStorage } from "../../common/utils";
+import { getItemFromSessionStorage } from "../../common/utils";
 
 /**
  * All the routes related to Cart are present here.
@@ -24,7 +24,7 @@ export const getCartItemsHandler = function (schema, request) {
     );
   }
   const userCart =
-    JSON.parse(getItemFromLocalStorage("user")).cart ||
+    JSON.parse(getItemFromSessionStorage("user")).cart ||
     schema.users.findBy({ _id: userId }).cart;
   return new Response(200, {}, { cart: userCart });
 };
@@ -48,7 +48,7 @@ export const addItemToCartHandler = function (schema, request) {
       );
     }
     const userCart =
-      JSON.parse(getItemFromLocalStorage("user")).cart ||
+      JSON.parse(getItemFromSessionStorage("user")).cart ||
       schema.users.findBy({ _id: userId }).cart;
     const { product } = JSON.parse(request.requestBody);
     userCart.push({
@@ -88,7 +88,7 @@ export const removeItemFromCartHandler = function (schema, request) {
       );
     }
     let userCart =
-      JSON.parse(getItemFromLocalStorage("user"))?.cart ||
+      JSON.parse(getItemFromSessionStorage("user"))?.cart ||
       schema.users.findBy({ _id: userId }).cart;
     const productId = request.params.productId;
     userCart = userCart.filter((item) => item.id !== productId);
@@ -125,7 +125,7 @@ export const updateCartItemHandler = function (schema, request) {
       );
     }
     const userCart =
-      JSON.parse(getItemFromLocalStorage("user"))?.cart ||
+      JSON.parse(getItemFromSessionStorage("user"))?.cart ||
       schema.users.findBy({ _id: userId }).cart;
     const { action } = JSON.parse(request.requestBody);
     if (action.type === "increment") {

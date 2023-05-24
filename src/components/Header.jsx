@@ -29,8 +29,8 @@ export default function Header() {
   const timerId = useRef(null);
   const { signOut } = useAuth();
 
-  const userFound = JSON.parse(localStorage.getItem("user"));
-  const token = localStorage.getItem("token");
+  const userFound = JSON.parse(sessionStorage.getItem("user"));
+  const token = sessionStorage.getItem("token");
 
   const handleMouseEnter = () => {
     if (timerId.current) {

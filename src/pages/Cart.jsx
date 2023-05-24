@@ -2,15 +2,15 @@ import React from "react";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import {
   getImgUrl,
-  getItemFromLocalStorage,
-  setItemToLocalStorage,
+  getItemFromSessionStorage,
+  setItemToSessionStorage,
 } from "../common/utils";
 import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const { cart } = useCart();
-  const cartFound = JSON.parse(getItemFromLocalStorage("user"))?.cart;
-  const token = getItemFromLocalStorage("token");
+  const cartFound = JSON.parse(getItemFromSessionStorage("user"))?.cart;
+  const token = getItemFromSessionStorage("token");
   const navigate = useNavigate();
 
   const totalPrice = (cart) =>
@@ -72,8 +72,8 @@ export default function Cart() {
 function CartItem({ item }) {
   const cartDispatch = useCartDispatch();
   const { id, product_name, brand, price, category } = item;
-  const token = getItemFromLocalStorage("token");
-  const userFound = JSON.parse(getItemFromLocalStorage("user"));
+  const token = getItemFromSessionStorage("token");
+  const userFound = JSON.parse(getItemFromSessionStorage("user"));
 
   const removeItemFromCart = async () => {
     if (token) {
@@ -85,7 +85,7 @@ function CartItem({ item }) {
           },
         });
         const res = await request.json();
-        setItemToLocalStorage(
+        setItemToSessionStorage(
           "user",
           JSON.stringify({ ...userFound, cart: res.cart })
         );
@@ -108,7 +108,7 @@ function CartItem({ item }) {
         });
         const res = await request.json();
         console.log(res);
-        setItemToLocalStorage(
+        setItemToSessionStorage(
           "user",
           JSON.stringify({ ...userFound, cart: res.cart })
         );

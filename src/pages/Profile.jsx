@@ -8,23 +8,23 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 export default function Profile() {
   const [showAddressInput, setShowAddressInput] = useState(false);
   const [addressText, setAddressText] = useState("");
-  const userFound = JSON.parse(localStorage.getItem("user"));
+  const userFound = JSON.parse(sessionStorage.getItem("user"));
   const [addresses, setAddresses] = useState(
-    () => JSON.parse(localStorage.getItem("user"))?.address || []
+    () => JSON.parse(sessionStorage.getItem("user"))?.address || []
   );
 
   const addUserAddress = () => {
     userFound.address = userFound.address
       ? [...userFound.address, { id: uuid(), add: addressText }]
       : [{ id: uuid(), add: addressText }];
-    localStorage.setItem("user", JSON.stringify(userFound));
+    sessionStorage.setItem("user", JSON.stringify(userFound));
     setAddresses(userFound.address);
     setShowAddressInput(false);
   };
 
   const deleteAddress = (addId) => {
     userFound.address = userFound.address.filter(({ id }) => id !== addId);
-    localStorage.setItem("user", JSON.stringify(userFound));
+    sessionStorage.setItem("user", JSON.stringify(userFound));
     setAddresses(userFound.address);
   };
 

@@ -7,8 +7,8 @@ import { Link } from "react-router-dom";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import {
   getImgUrl,
-  getItemFromLocalStorage,
-  setItemToLocalStorage,
+  getItemFromSessionStorage,
+  setItemToSessionStorage,
 } from "../common/utils";
 
 export default function Checkout() {
@@ -27,7 +27,7 @@ export default function Checkout() {
     cardNumber: "",
     expiryDate: "",
   });
-  const userFound = JSON.parse(getItemFromLocalStorage("user"));
+  const userFound = JSON.parse(getItemFromSessionStorage("user"));
 
   const updateIndexNum = () => {
     if (elIndex === 3) {
@@ -54,7 +54,7 @@ export default function Checkout() {
 
   const placeOrder = () => {
     updateIndexNum();
-    setItemToLocalStorage("user", JSON.stringify({ ...userFound, cart: [] }));
+    setItemToSessionStorage("user", JSON.stringify({ ...userFound, cart: [] }));
     cartDispatch({ type: "INITIALISE_CART", payload: [] });
   };
 

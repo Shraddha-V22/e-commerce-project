@@ -1,7 +1,7 @@
 import { Response } from "miragejs";
 import dayjs from "dayjs";
 import jwt_decode from "jwt-decode";
-import { getItemFromLocalStorage } from "../../common/utils";
+import { getItemFromSessionStorage } from "../../common/utils";
 
 export const requiresAuth = function (request) {
   const encodedToken = request.requestHeaders.authorization;
@@ -12,7 +12,7 @@ export const requiresAuth = function (request) {
   if (decodedToken) {
     const user =
       this.db.users.findBy({ email: decodedToken.email }) ||
-      JSON.parse(getItemFromLocalStorage("user"));
+      JSON.parse(getItemFromSessionStorage("user"));
     if (user) {
       return user._id;
     }

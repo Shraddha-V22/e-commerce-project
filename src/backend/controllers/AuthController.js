@@ -64,8 +64,8 @@ export const loginHandler = function (schema, request) {
   try {
     const foundUser =
       schema.users.findBy({ email }) ??
-      (JSON.parse(localStorage.getItem("user")).email === email &&
-        JSON.parse(localStorage.getItem("user")));
+      (JSON.parse(sessionStorage.getItem("user")).email === email &&
+        JSON.parse(sessionStorage.getItem("user")));
     if (!foundUser) {
       return new Response(
         404,
