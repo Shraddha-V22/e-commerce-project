@@ -30,7 +30,6 @@ export default function WishlistProvider({ children }) {
           },
         });
         const result = await res.json();
-        console.log(result);
         wishlistDispatch({ type: "INITIALISE_CART", payload: result.wishlist });
       } catch (error) {
         console.error(error);

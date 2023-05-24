@@ -17,3 +17,6 @@
     @apply h-0.5 w-full rounded bg-gray-800 outline-none;
   }
 }
+
+.Toastify__toast-container {
+}

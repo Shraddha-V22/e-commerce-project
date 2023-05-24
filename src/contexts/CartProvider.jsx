@@ -27,7 +27,6 @@ export default function CartProvider({ children }) {
           },
         });
         const result = await res.json();
-        console.log(result);
         cartDispatch({ type: "INITIALISE_CART", payload: result.cart });
       } catch (error) {
         console.error(error);
