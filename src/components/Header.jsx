@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
@@ -6,7 +6,6 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
-import { useRef, useState, useEffect } from "react";
 import { getImgUrl } from "../common/utils";
 import { useCart } from "../contexts/CartProvider";
 import { useProducts, useProductsDispatch } from "../contexts/ProductProvider";
@@ -19,7 +18,7 @@ export default function Header() {
   const { wishlist } = useWishlist();
   const productDispatch = useProductsDispatch();
   const {
-    products: { categories },
+    products: { categories, search },
   } = useProducts();
   const { signOut } = useAuth();
   const navigate = useNavigate();
@@ -135,6 +134,7 @@ export default function Header() {
               onChange={(e) =>
                 productDispatch({ type: "SEARCH", payload: e.target.value })
               }
+              value={search}
             />
           )}
         </li>

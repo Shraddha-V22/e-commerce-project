@@ -4,28 +4,59 @@ import { v4 as uuid } from "uuid";
 import React from "react";
 import { useState } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { DetailsInput } from "../components/DetailsInput";
+import { isEmptyObject } from "../common/utils";
 
 export default function Profile() {
   const [showAddressInput, setShowAddressInput] = useState(false);
-  const [addressText, setAddressText] = useState("");
+  const [addressInput, setAddressInput] = useState({
+    line1: "",
+    line2: "",
+    city: "",
+    zipcode: "",
+    country: "",
+  });
   const userFound = JSON.parse(sessionStorage.getItem("user"));
   const [addresses, setAddresses] = useState(
     () => JSON.parse(sessionStorage.getItem("user"))?.address || []
   );
 
-  const addUserAddress = () => {
-    userFound.address = userFound.address
-      ? [...userFound.address, { id: uuid(), add: addressText }]
-      : [{ id: uuid(), add: addressText }];
-    sessionStorage.setItem("user", JSON.stringify(userFound));
-    setAddresses(userFound.address);
-    setShowAddressInput(false);
+  const addUserAddress = (type) => {
+    if (type === "SAVE" && !isEmptyObject(addressInput)) {
+      userFound.address = userFound.address
+        ? [...userFound.address, { id: uuid(), add: { ...addressInput } }]
+        : [{ id: uuid(), add: { ...addressInput } }];
+      sessionStorage.setItem("user", JSON.stringify(userFound));
+      setAddresses(userFound.address);
+      setShowAddressInput(false);
+      setAddressInput({
+        line1: "",
+        line2: "",
+        city: "",
+        zipcode: "",
+        country: "",
+      });
+    } else if (type === "CANCEL") {
+      setAddressInput({
+        line1: "",
+        line2: "",
+        city: "",
+        zipcode: "",
+        country: "",
+      });
+      setShowAddressInput(false);
+    }
   };
 
   const deleteAddress = (addId) => {
     userFound.address = userFound.address.filter(({ id }) => id !== addId);
     sessionStorage.setItem("user", JSON.stringify(userFound));
     setAddresses(userFound.address);
+  };
+
+  const addressChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setAddressInput((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
@@ -39,29 +70,70 @@ export default function Profile() {
           {userFound?.firstName} {userFound?.lastName}
         </h1>
       </div>
-      <div className="flex flex-col items-start gap-4 p-2">
+      <div className="mb-4 flex flex-col items-start gap-4 p-2">
         <h2>Saved Addresses</h2>
-        {showAddressInput && (
-          <div className="flex w-full justify-between">
-            <input
-              type="text"
-              className="border-[1px]"
-              onChange={(e) => setAddressText(e.target.value)}
-            />
-
-            <button className="border-[1px] p-1" onClick={addUserAddress}>
-              save
-            </button>
-          </div>
-        )}
         {addresses.map((el) => (
-          <div key={el.id} className="flex items-center gap-4">
-            <p>{el.add}</p>
+          <div
+            key={el.id}
+            className="flex items-center gap-4 rounded-md border-[1px] p-2"
+          >
+            <p>{Object.values(el.add).join(",")}.</p>
             <button onClick={() => deleteAddress(el.id)}>
               <FontAwesomeIcon icon={faTrash} />
             </button>
           </div>
         ))}
+        {showAddressInput && (
+          <div className="flex w-full flex-col gap-4 rounded-md border-[1px] p-2">
+            <article className="flex flex-col gap-4">
+              <DetailsInput
+                placeholder="Address Line 1*"
+                name="line1"
+                value={addressInput.line1}
+                onChange={addressChangeHandler}
+              />
+              <DetailsInput
+                placeholder="Address Line 2*"
+                name="line2"
+                value={addressInput.line2}
+                onChange={addressChangeHandler}
+              />
+              <DetailsInput
+                placeholder="City*"
+                name="city"
+                value={addressInput.city}
+                onChange={addressChangeHandler}
+              />
+              <DetailsInput
+                placeholder="Zip Code/Postal Code*"
+                name="zipcode"
+                value={addressInput.zipcode}
+                onChange={addressChangeHandler}
+              />
+              <DetailsInput
+                placeholder="Country*"
+                name="country"
+                value={addressInput.country}
+                onChange={addressChangeHandler}
+              />
+            </article>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                className="border-[1px] p-1 capitalize"
+                onClick={() => addUserAddress("SAVE")}
+              >
+                save
+              </button>
+              <button
+                className="border-[1px] p-1 capitalize"
+                onClick={() => addUserAddress("CANCEL")}
+              >
+                cancel
+              </button>
+            </div>
+          </div>
+        )}
+
         <button
           className="text-2xl"
           onClick={() => setShowAddressInput((prev) => !prev)}

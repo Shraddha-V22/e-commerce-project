@@ -1,51 +1,53 @@
+import React from "react";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import React from "react";
-import { useState } from "react";
-import { useRef } from "react";
-import { Link } from "react-router-dom";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import {
   getImgUrl,
   getItemFromSessionStorage,
   setItemToSessionStorage,
 } from "../common/utils";
+import { DetailsInput } from "../components/DetailsInput";
+import { useReducer } from "react";
+import { checkoutReducer } from "../reducers/checkoutReducer";
 
-export default function Checkout() {
-  const { cart } = useCart();
-  const cartDispatch = useCartDispatch();
-  const [elIndex, setElIndex] = useState(0);
-  const [addressInput, setAddressInput] = useState({
+const initialCheckout = {
+  addressInput: {
     line1: "",
     line2: "",
     city: "",
     zipcode: "",
     country: "",
-  });
-  const [paymentDetails, setPaymentDetails] = useState({
+  },
+  paymentDetails: {
     nameOnCard: "",
     cardNumber: "",
     expiryDate: "",
-  });
-  const userFound = JSON.parse(getItemFromSessionStorage("user"));
+  },
+  elIndex: 0,
+  shippingAdd: "",
+};
 
-  const updateIndexNum = () => {
-    if (elIndex === 3) {
-      setElIndex(0);
-    } else {
-      setElIndex((prev) => prev + 1);
-    }
-  };
+export default function Checkout() {
+  const { cart } = useCart();
+  const cartDispatch = useCartDispatch();
+  const [checkoutInputs, dispatch] = useReducer(
+    checkoutReducer,
+    initialCheckout
+  );
+
+  const userFound = JSON.parse(getItemFromSessionStorage("user"));
+  const addresses = userFound?.address || [];
 
   const addressChangeHandler = (e) => {
     const { name, value } = e.target;
-    setAddressInput((prev) => ({ ...prev, [name]: value }));
-    // console.log(addressInput);
+    dispatch({ type: "ADDRESS_CHANGE", payload: { name, value } });
   };
 
   const paymentDetailsHandler = (e) => {
     const { name, value } = e.target;
-    setPaymentDetails((prev) => ({ ...prev, [name]: value }));
+    dispatch({ type: "PAYMENT_DETAILS_CHANGE", payload: { name, value } });
   };
 
   const totalPrice = (cart) =>
@@ -53,52 +55,98 @@ export default function Checkout() {
   const totalQty = (cart) => cart.reduce((acc, item) => acc + item.qty, 0);
 
   const placeOrder = () => {
-    updateIndexNum();
+    dispatch({ type: "UPDATE_INDEX" });
     setItemToSessionStorage("user", JSON.stringify({ ...userFound, cart: [] }));
     cartDispatch({ type: "INITIALISE_CART", payload: [] });
   };
 
   return (
     <section className="m-4 mx-auto max-w-[500px] bg-white p-8">
-      {elIndex === 0 && (
+      {checkoutInputs.elIndex === 0 && (
         <section className="flex flex-col gap-6">
           <h2 className="">Shipping Address</h2>
+          {addresses.length > 0 && (
+            <div className="flex flex-col gap-2">
+              <p className="pl-2 text-sm text-gray-400">
+                Choose from Saved Addresses
+              </p>
+              {addresses.map((el) => {
+                const add = Object.values(el.add).join(",");
+                return (
+                  <div
+                    key={el.id}
+                    className={`${
+                      checkoutInputs.shippingAdd === add
+                        ? "border-pink-600"
+                        : ""
+                    } flex items-center gap-4 rounded-md border-[1px] p-2`}
+                  >
+                    <input
+                      type="radio"
+                      className="hidden"
+                      name="shippingAdd"
+                      id={el.id}
+                      value={checkoutInputs.shippingAdd}
+                      onChange={() =>
+                        dispatch({
+                          type: "SELECT_ADDRESS",
+                          payload: { add, addInput: el.add },
+                        })
+                      }
+                      checked={checkoutInputs.shippingAdd === add}
+                    />
+                    <label htmlFor={el.id}>
+                      {Object.values(el.add).join(",")}.
+                    </label>
+                  </div>
+                );
+              })}
+              <p className="pl-2 pt-4 text-sm text-gray-400">
+                Or Add a new address
+              </p>
+            </div>
+          )}
           <article className="flex flex-col gap-4">
             <DetailsInput
               placeholder="Address Line 1"
               name="line1"
               onChange={addressChangeHandler}
+              value={checkoutInputs.addressInput.line1}
             />
             <DetailsInput
               placeholder="Address Line 2"
               name="line2"
               onChange={addressChangeHandler}
+              value={checkoutInputs.addressInput.line2}
             />
             <DetailsInput
               placeholder="City"
               name="city"
               onChange={addressChangeHandler}
+              value={checkoutInputs.addressInput.city}
             />
             <DetailsInput
               placeholder="Zip Code/Postal Code"
               name="zipcode"
               onChange={addressChangeHandler}
+              value={checkoutInputs.addressInput.zipcode}
             />
             <DetailsInput
               placeholder="Country"
               name="country"
               onChange={addressChangeHandler}
+              value={checkoutInputs.addressInput.country}
             />
           </article>
           <button
-            onClick={updateIndexNum}
+            onClick={() => dispatch({ type: "UPDATE_INDEX" })}
             className="ml-auto border-[1px] border-black p-1 px-2"
           >
             Next
           </button>
         </section>
       )}
-      {elIndex === 1 && (
+      {checkoutInputs.elIndex === 1 && (
         <section className="flex flex-col gap-6">
           <h2>Payment Details</h2>
           <article className="flex flex-col gap-4">
@@ -106,16 +154,19 @@ export default function Checkout() {
               placeholder="Name on Card"
               name="nameOnCard"
               onChange={paymentDetailsHandler}
+              value={checkoutInputs.paymentDetails.nameOnCard}
             />
             <DetailsInput
               placeholder="Card Number"
               name="cardNumber"
               onChange={paymentDetailsHandler}
+              value={checkoutInputs.paymentDetails.cardNumber}
             />
             <DetailsInput
               placeholder="Expiry Date"
               name="expiryDate"
               onChange={paymentDetailsHandler}
+              value={checkoutInputs.paymentDetails.expiryDate}
             />
             <input
               className="border-b-[1px] outline-none"
@@ -124,14 +175,14 @@ export default function Checkout() {
             />
           </article>
           <button
-            onClick={updateIndexNum}
+            onClick={() => dispatch({ type: "UPDATE_INDEX" })}
             className="ml-auto border-[1px] border-black p-1 px-2"
           >
             Next
           </button>
         </section>
       )}
-      {elIndex === 2 && (
+      {checkoutInputs.elIndex === 2 && (
         <section className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
             <h2>Order Summary</h2>
@@ -157,16 +208,18 @@ export default function Checkout() {
           </div>
           <div className="flex flex-col gap-2">
             <h2>Shipping Address</h2>
-            <p className="text-sm">{Object.values(addressInput).join(",")}.</p>
+            <p className="text-sm">
+              {Object.values(checkoutInputs.addressInput).join(",")}.
+            </p>
           </div>
           <div className="flex flex-col gap-2">
             <h2>Payment details</h2>
             <div className="text-sm">
               <p className="capitalize">
-                Name on Card: {paymentDetails.nameOnCard}
+                Name on Card: {checkoutInputs.paymentDetails.nameOnCard}
               </p>
-              <p>Card Number: {paymentDetails.cardNumber}</p>
-              <p>Expiry Date: {paymentDetails.expiryDate}</p>
+              <p>Card Number: {checkoutInputs.paymentDetails.cardNumber}</p>
+              <p>Expiry Date: {checkoutInputs.paymentDetails.expiryDate}</p>
             </div>
           </div>
           <button
@@ -177,7 +230,7 @@ export default function Checkout() {
           </button>
         </section>
       )}
-      {elIndex === 3 && (
+      {checkoutInputs.elIndex === 3 && (
         <section className="flex flex-col items-center gap-4">
           <FontAwesomeIcon icon={faCircleCheck} className="text-6xl" />
           <h1>Ordered Placed!</h1>
@@ -187,19 +240,6 @@ export default function Checkout() {
         </section>
       )}
     </section>
-  );
-}
-
-function DetailsInput({ placeholder, name, onChange }) {
-  return (
-    <input
-      className="border-b-[1px] outline-none"
-      type="text"
-      placeholder={placeholder}
-      name={name}
-      onChange={onChange}
-      autoComplete="off"
-    />
   );
 }
 

@@ -21,13 +21,16 @@ export default function ProductDetails() {
   const token = getItemFromSessionStorage("token");
   const userFound = JSON.parse(getItemFromSessionStorage("user"));
   const [product, setProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   const getProduct = async () => {
     try {
       const { product } = await fetchRequest(`/api/products/${productId}`);
+      setIsLoading(false);
       setProduct(product);
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
 
@@ -109,7 +112,7 @@ export default function ProductDetails() {
       .map(() => <FontAwesomeIcon icon={faStar} />);
   };
 
-  return (
+  return !isLoading ? (
     <section className="mx-auto my-8 flex w-[fit-content] flex-wrap items-center justify-center gap-8">
       <img
         src={getImgUrl(category?.toLowerCase())}
@@ -154,6 +157,14 @@ export default function ProductDetails() {
           </ul>
         </div>
       </article>
+    </section>
+  ) : (
+    <section className="mx-auto my-8 flex w-[fit-content] flex-wrap items-start justify-center gap-8">
+      <div className="h-[500px] w-[80vw] bg-[#E3F2C1]/40 md:w-[400px]"></div>
+      <div className="flex w-[80vw] flex-col gap-4 px-4 py-8 md:w-[400px]">
+        <div className="h-4 w-full rounded-lg bg-[#E3F2C1]/80"></div>
+        <div className="h-4 w-[80%] rounded-lg bg-[#E3F2C1]/80"></div>
+      </div>
     </section>
   );
 }

@@ -4,11 +4,13 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { getItemFromSessionStorage } from "../common/utils";
+import PasswordInput from "../components/PasswordInput";
 
 export default function Login() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
   const [loginCreds, setLoginCreds] = useState({ email: "", password: "" });
+
   // const token = getItemFromSessionStorage("token");
 
   const handleLoginCreds = (e) => {
@@ -37,13 +39,7 @@ export default function Login() {
             name="email"
             onChange={handleLoginCreds}
           />
-          <input
-            className="rounded-md border-[1px] border-[#2C74B3]/20 p-2 outline-none"
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={handleLoginCreds}
-          />
+          <PasswordInput onChangeHandler={handleLoginCreds} />
           <button
             onClick={() => loginHandler(loginCreds)}
             className="rounded-md border-[1px] border-[#2C74B3]/20 p-2"

@@ -22,20 +22,25 @@ export default function ProductProvider({ children }) {
     materials: [],
     sort: "",
   });
+  const [isLoading, setIsLoading] = useState(true);
 
   const getData = async () => {
     try {
       const { products: data } = await fetchRequest("/api/products");
+      setIsLoading(false);
       productDispatch({ type: "INITIALISED_DATA", payload: data });
     } catch (error) {
       console.error(error);
+      setIsLoading(false);
     }
   };
   const getCategories = async () => {
     try {
       const { categories: data } = await fetchRequest("/api/categories");
+      setIsLoading(false);
       productDispatch({ type: "INITIALISED_CATEGORIES", payload: data });
     } catch (error) {
+      setIsLoading(false);
       console.error(error);
     }
   };
@@ -46,7 +51,7 @@ export default function ProductProvider({ children }) {
   }, []);
 
   return (
-    <ProductContext.Provider value={{ products }}>
+    <ProductContext.Provider value={{ products, isLoading }}>
       <ProductDispatchContext.Provider value={productDispatch}>
         {children}
       </ProductDispatchContext.Provider>

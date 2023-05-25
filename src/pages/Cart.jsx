@@ -18,7 +18,7 @@ export default function Cart() {
 
   if (token) {
     return cartFound?.length > 0 ? (
-      <section className="m-8 mx-auto flex w-[fit-content] gap-8">
+      <section className="m-8 mx-auto flex w-[fit-content] flex-wrap justify-center gap-8">
         <section className="flex w-[450px] flex-col gap-4">
           {cartFound.map((item) => (
             <CartItem key={item.id} item={item} />
@@ -36,7 +36,7 @@ export default function Cart() {
         </section>
       </section>
     ) : (
-      <section className="mx-auto grid h-full w-[fit-content] place-items-center">
+      <section className="mx-auto grid h-full w-[fit-content] max-w-[500px] place-items-center text-center">
         <p>
           Well, our cart seems to have taken a break. Time to fill it up with
           your amazing choices!
@@ -46,7 +46,7 @@ export default function Cart() {
   } else {
     {
       return cart.length > 0 ? (
-        <section className="mx-auto mb-8 flex w-[fit-content] gap-8">
+        <section className="mx-auto mb-8 flex w-[fit-content] flex-wrap justify-center gap-8">
           <section className="flex w-[450px] flex-col gap-4">
             {cart.map((item) => (
               <CartItem key={item.id} item={item} />
@@ -64,7 +64,7 @@ export default function Cart() {
           </section>
         </section>
       ) : (
-        <section className="mx-auto grid h-full w-[fit-content] place-items-center">
+        <section className="mx-auto grid h-full w-[fit-content] max-w-[500px] place-items-center text-center">
           <p>
             Well, our cart seems to have taken a break. Time to fill it up with
             your amazing choices!

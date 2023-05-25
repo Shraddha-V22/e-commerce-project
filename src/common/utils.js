@@ -26,3 +26,6 @@ export const getItemFromSessionStorage = (key) => {
 export const setItemToSessionStorage = (key, value) => {
   return sessionStorage.setItem(key, value);
 };
+
+export const isEmptyObject = (obj) =>
+  Object.values(obj).some((el) => el === "");

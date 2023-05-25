@@ -18,5 +18,17 @@
   }
 }
 
-.Toastify__toast-container {
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  visibility: hidden;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #90b241;
+  border-radius: 3px;
 }

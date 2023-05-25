@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import PasswordInput from "../components/PasswordInput";
 
 export default function Registration() {
   const { signUp } = useAuth();
@@ -53,13 +54,7 @@ export default function Registration() {
             name="email"
             onChange={handleSignUpCreds}
           />
-          <input
-            className="rounded-md border-[1px] border-[#2C74B3]/20 p-2 outline-none"
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={handleSignUpCreds}
-          />
+          <PasswordInput onChangeHandler={handleSignUpCreds} />
           <button
             onClick={() => signUpHandler(signUpCreds)}
             className="rounded-md border-[1px] border-[#2C74B3]/20 p-2"
