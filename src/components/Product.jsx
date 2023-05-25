@@ -3,6 +3,7 @@ import {
   getImgUrl,
   getItemFromSessionStorage,
   setItemToSessionStorage,
+  userFound,
 } from "../common/utils";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +20,7 @@ export default function Product({ item }) {
   const { wishlist } = useWishlist();
   const { cart } = useCart();
   const { id, product_name, brand, price, category } = item;
-  const userFound = JSON.parse(getItemFromSessionStorage("user"));
+  // const userFound = JSON.parse(getItemFromSessionStorage("user"));
   const token = getItemFromSessionStorage("token");
 
   const inCart = cart.find((item) => item.id === id);

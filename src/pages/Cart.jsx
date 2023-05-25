@@ -4,12 +4,13 @@ import {
   getImgUrl,
   getItemFromSessionStorage,
   setItemToSessionStorage,
+  userFound,
 } from "../common/utils";
 import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const { cart } = useCart();
-  const cartFound = JSON.parse(getItemFromSessionStorage("user"))?.cart;
+  const cartFound = userFound?.cart;
   const token = getItemFromSessionStorage("token");
   const navigate = useNavigate();
 
@@ -79,7 +80,7 @@ function CartItem({ item }) {
   const cartDispatch = useCartDispatch();
   const { id, product_name, brand, price, category } = item;
   const token = getItemFromSessionStorage("token");
-  const userFound = JSON.parse(getItemFromSessionStorage("user"));
+  // const userFound = JSON.parse(getItemFromSessionStorage("user"));
 
   const removeItemFromCart = async () => {
     if (token) {

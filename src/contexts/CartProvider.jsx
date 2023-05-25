@@ -39,11 +39,9 @@ export default function CartProvider({ children }) {
   }, []);
 
   return (
-    <CartContext.Provider value={cart}>
-      <CartDispatchContext.Provider value={cartDispatch}>
-        {children}
-      </CartDispatchContext.Provider>
-    </CartContext.Provider>
+    <CartDispatchContext.Provider value={cartDispatch}>
+      <CartContext.Provider value={cart}>{children}</CartContext.Provider>
+    </CartDispatchContext.Provider>
   );
 }
 

@@ -5,6 +5,7 @@ import {
   getImgUrl,
   getItemFromSessionStorage,
   setItemToSessionStorage,
+  userFound,
 } from "../common/utils";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useWishlistDispatch } from "../contexts/WishlistProvider";
@@ -19,7 +20,7 @@ export default function ProductDetails() {
   const wishlistDispatch = useWishlistDispatch();
   const { productId } = useParams();
   const token = getItemFromSessionStorage("token");
-  const userFound = JSON.parse(getItemFromSessionStorage("user"));
+  // const userFound = JSON.parse(getItemFromSessionStorage("user"));
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 

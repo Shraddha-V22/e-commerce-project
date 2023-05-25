@@ -42,11 +42,11 @@ export default function WishlistProvider({ children }) {
   }, []);
 
   return (
-    <WishlistContext.Provider value={wishlist}>
-      <WishlistDispatchContext.Provider value={wishlistDispatch}>
+    <WishlistDispatchContext.Provider value={wishlistDispatch}>
+      <WishlistContext.Provider value={wishlist}>
         {children}
-      </WishlistDispatchContext.Provider>
-    </WishlistContext.Provider>
+      </WishlistContext.Provider>
+    </WishlistDispatchContext.Provider>
   );
 }
 

@@ -7,6 +7,7 @@ import {
   getImgUrl,
   getItemFromSessionStorage,
   setItemToSessionStorage,
+  userFound,
 } from "../common/utils";
 import { DetailsInput } from "../components/DetailsInput";
 import { useReducer } from "react";
@@ -37,7 +38,7 @@ export default function Checkout() {
     initialCheckout
   );
 
-  const userFound = JSON.parse(getItemFromSessionStorage("user"));
+  // const userFound = JSON.parse(getItemFromSessionStorage("user"));
   const addresses = userFound?.address || [];
 
   const addressChangeHandler = (e) => {
