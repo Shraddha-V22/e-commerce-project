@@ -14,9 +14,9 @@ export const cartReducer = (state, { type, payload }) => {
           : state.cart,
       };
     case "CHANGE_QTY":
-      // console.log(payload.value);
+      console.log(payload);
       let tempCart =
-        payload.action === "increment"
+        payload.action.type === "increment"
           ? state.cart.map((item) =>
               item.id === payload.id ? { ...item, qty: item.qty++ } : item
             )

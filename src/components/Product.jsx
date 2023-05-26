@@ -1,14 +1,5 @@
 import React from "react";
-<<<<<<< HEAD
-import {
-  getImgUrl,
-  getItemFromSessionStorage,
-  setItemToSessionStorage,
-  userFound,
-} from "../common/utils";
-=======
 import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
->>>>>>> new-branch
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -24,12 +15,7 @@ export default function Product({ item }) {
   const { wishlist } = useWishlist();
   const { cart } = useCart();
   const { id, product_name, brand, price, category } = item;
-<<<<<<< HEAD
-  // const userFound = JSON.parse(getItemFromSessionStorage("user"));
-  const token = getItemFromSessionStorage("token");
-=======
   const token = getItemFromLocalStorage("token");
->>>>>>> new-branch
 
   const inCart = cart.find((item) => item.id === id);
   const inWishlist = wishlist.find((item) => item.id === id);
@@ -101,7 +87,10 @@ export default function Product({ item }) {
         console.error(error);
       }
     } else {
-      wishlistDispatch({ type: "REMOVE_FROM_WISHLIST", payload: id });
+      wishlistDispatch({
+        type: "REMOVE_FROM_WISHLIST",
+        payload: id,
+      });
     }
   };
 

@@ -41,7 +41,7 @@ export default function Cart() {
 
 function CartItem({ item }) {
   const cartDispatch = useCartDispatch();
-  const { id, product_name, brand, price, category } = item;
+  const { id, product_name, brand, price, category, qty } = item;
   const token = getItemFromLocalStorage("token");
 
   const removeItemFromCart = async () => {
@@ -80,7 +80,7 @@ function CartItem({ item }) {
         console.error(error);
       }
     } else {
-      cartDispatch({ type: "CHANGE_QTY", payload: { id, action } });
+      cartDispatch({ type: "CHANGE_QTY", payload: { id, qty, action } });
     }
   };
 
