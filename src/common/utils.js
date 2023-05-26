@@ -22,12 +22,12 @@ export const getImgUrl = (category) => {
   }
 };
 
-export const getItemFromSessionStorage = (key) => {
-  return sessionStorage.getItem(key);
+export const getItemFromLocalStorage = (key) => {
+  return localStorage.getItem(key);
 };
 
-export const setItemToSessionStorage = (key, value) => {
-  return sessionStorage.setItem(key, value);
+export const setItemToLocalStorage = (key, value) => {
+  return localStorage.setItem(key, value);
 };
 
 export const isEmptyObject = (obj) =>

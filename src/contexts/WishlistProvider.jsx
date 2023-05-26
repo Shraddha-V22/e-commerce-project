@@ -3,7 +3,7 @@ import { useReducer } from "react";
 import { createContext } from "react";
 import { useContext } from "react";
 import { wishlistReducer } from "../reducers/wishlistReducer";
-import { getItemFromSessionStorage } from "../common/utils";
+import { getItemFromLocalStorage } from "../common/utils";
 import { useEffect } from "react";
 
 const WishlistContext = createContext(null);
@@ -18,7 +18,7 @@ export default function WishlistProvider({ children }) {
     wishlistReducer,
     initialWishlistState
   );
-  const token = getItemFromSessionStorage("token");
+  const token = getItemFromLocalStorage("token");
 
   const getWishlistItems = async () => {
     if (token) {

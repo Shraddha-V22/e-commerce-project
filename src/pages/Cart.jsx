@@ -1,86 +1,67 @@
 import React from "react";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
+<<<<<<< HEAD
 import {
   getImgUrl,
   getItemFromSessionStorage,
   setItemToSessionStorage,
   userFound,
 } from "../common/utils";
+=======
+import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
+>>>>>>> new-branch
 import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const { cart } = useCart();
+<<<<<<< HEAD
   const cartFound = userFound?.cart;
   const token = getItemFromSessionStorage("token");
+=======
+  const token = getItemFromLocalStorage("token");
+>>>>>>> new-branch
   const navigate = useNavigate();
 
   const totalPrice = (cart) =>
     cart.reduce((acc, item) => acc + item.price * item.qty, 0);
 
-  if (token) {
-    return cartFound?.length > 0 ? (
-      <section className="m-8 mx-auto flex w-[fit-content] flex-wrap justify-center gap-8">
-        <section className="flex w-[450px] flex-col gap-4">
-          {cartFound.map((item) => (
-            <CartItem key={item.id} item={item} />
-          ))}
-        </section>
-        <section className="flex h-[fit-content] w-[300px] flex-col gap-4 bg-white p-4">
-          <h1>SubTotal</h1>
-          <p>${totalPrice(cartFound).toFixed(2)}</p>
-          <button
-            className="border-[1px] p-1 px-2"
-            onClick={() => navigate("/checkout")}
-          >
-            Buy now
-          </button>
-        </section>
+  return cart?.length > 0 ? (
+    <section className="m-8 mx-auto flex w-[fit-content] flex-wrap justify-center gap-8">
+      <section className="flex w-[450px] flex-col gap-4">
+        {cart.map((item) => (
+          <CartItem key={item.id} item={item} />
+        ))}
       </section>
-    ) : (
-      <section className="mx-auto grid h-full w-[fit-content] max-w-[500px] place-items-center text-center">
-        <p>
-          Well, our cart seems to have taken a break. Time to fill it up with
-          your amazing choices!
-        </p>
+      <section className="flex h-[fit-content] w-[300px] flex-col gap-4 bg-white p-4">
+        <h1>SubTotal</h1>
+        <p>${totalPrice(cart).toFixed(2)}</p>
+        <button
+          className="border-[1px] p-1 px-2"
+          onClick={() => navigate("/checkout")}
+        >
+          Buy now
+        </button>
       </section>
-    );
-  } else {
-    {
-      return cart.length > 0 ? (
-        <section className="mx-auto mb-8 flex w-[fit-content] flex-wrap justify-center gap-8">
-          <section className="flex w-[450px] flex-col gap-4">
-            {cart.map((item) => (
-              <CartItem key={item.id} item={item} />
-            ))}
-          </section>
-          <section className="flex h-[fit-content] w-[300px] flex-col gap-4 bg-white p-4">
-            <h1>SubTotal</h1>
-            <p>${totalPrice(cart).toFixed(2)}</p>
-            <button
-              className="border-[1px] p-1 px-2"
-              onClick={() => navigate("/checkout")}
-            >
-              Buy now
-            </button>
-          </section>
-        </section>
-      ) : (
-        <section className="mx-auto grid h-full w-[fit-content] max-w-[500px] place-items-center text-center">
-          <p>
-            Well, our cart seems to have taken a break. Time to fill it up with
-            your amazing choices!
-          </p>
-        </section>
-      );
-    }
-  }
+    </section>
+  ) : (
+    <section className="mx-auto grid h-full w-[fit-content] max-w-[500px] place-items-center text-center">
+      <p>
+        Well, our cart seems to have taken a break. Time to fill it up with your
+        amazing choices!
+      </p>
+    </section>
+  );
 }
 
 function CartItem({ item }) {
   const cartDispatch = useCartDispatch();
   const { id, product_name, brand, price, category } = item;
+<<<<<<< HEAD
   const token = getItemFromSessionStorage("token");
   // const userFound = JSON.parse(getItemFromSessionStorage("user"));
+=======
+  const token = getItemFromLocalStorage("token");
+>>>>>>> new-branch
 
   const removeItemFromCart = async () => {
     if (token) {
@@ -92,37 +73,29 @@ function CartItem({ item }) {
           },
         });
         const res = await request.json();
-        setItemToSessionStorage(
-          "user",
-          JSON.stringify({ ...userFound, cart: res.cart })
-        );
+        console.log(res);
         cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
       } catch (error) {
         console.error(error);
       }
+    } else {
+      cartDispatch({ type: "REMOVE_FROM_CART", payload: id });
     }
   };
 
   const updateQty = async (action) => {
-    if (token) {
-      try {
-        const request = await fetch(`/api/user/cart/${id}`, {
-          method: "POST",
-          headers: {
-            authorization: token,
-          },
-          body: JSON.stringify({ action }),
-        });
-        const res = await request.json();
-        console.log(res);
-        setItemToSessionStorage(
-          "user",
-          JSON.stringify({ ...userFound, cart: res.cart })
-        );
-        cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
-      } catch (error) {
-        console.error(error);
-      }
+    try {
+      const request = await fetch(`/api/user/cart/${id}`, {
+        method: "POST",
+        headers: {
+          authorization: token,
+        },
+        body: JSON.stringify({ action }),
+      });
+      const res = await request.json();
+      cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
+    } catch (error) {
+      console.error(error);
     }
   };
 
