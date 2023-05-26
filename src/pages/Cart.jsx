@@ -2,6 +2,8 @@ import React from "react";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
 import { useNavigate } from "react-router-dom";
+import { useWishlistDispatch } from "../contexts/WishlistProvider";
+import { toast } from "react-toastify";
 
 export default function Cart() {
   const { cart } = useCart();
@@ -63,6 +65,7 @@ export default function Cart() {
 
 function CartItem({ item }) {
   const cartDispatch = useCartDispatch();
+  const wishlistDispatch = useWishlistDispatch();
   const { id, product_name, brand, price, category, qty } = item;
   const token = getItemFromLocalStorage("token");
 
@@ -106,6 +109,38 @@ function CartItem({ item }) {
     }
   };
 
+  const addToWishlist = async (item) => {
+    if (token) {
+      try {
+        const request = await fetch("/api/user/wishlist", {
+          method: "POST",
+          headers: {
+            authorization: token,
+          },
+          body: JSON.stringify({ product: item }),
+        });
+
+        const res = await request.json();
+        wishlistDispatch({
+          type: "INITIALISE_WISHLIST",
+          payload: res.wishlist,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      wishlistDispatch({ type: "ADD_TO_WISHLIST", payload: item });
+    }
+  };
+
+  const moveToWishlist = () => {
+    removeItemFromCart();
+    addToWishlist(item);
+    toast.success("Moved to Wishlist!", {
+      position: toast.POSITION.TOP_CENTER,
+    });
+  };
+
   return (
     <section className="grid h-[200px] w-full grid-cols-[150px_1fr] overflow-hidden rounded-lg">
       <img
@@ -113,7 +148,7 @@ function CartItem({ item }) {
         alt={`${product_name}`}
         className="h-full w-[150px] object-cover"
       />
-      <div className="bottom-0 flex w-full flex-col items-start gap-1 bg-white px-4 py-2">
+      <div className="bottom-0 flex w-full flex-col items-start gap-0 bg-white px-4 py-2">
         <h3 className="line-clamp-1 font-bold uppercase">{product_name}</h3>
         <p className="text-xs uppercase">{brand}</p>
         <p>${price}</p>
@@ -142,10 +177,16 @@ function CartItem({ item }) {
           )}
         </div>
         <button
-          className="mt-2 rounded-md border-[1px] p-1 px-2"
+          className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize"
           onClick={removeItemFromCart}
         >
           Remove From cart
+        </button>
+        <button
+          className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize"
+          onClick={moveToWishlist}
+        >
+          Move to wishlist
         </button>
       </div>
     </section>

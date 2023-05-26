@@ -7,6 +7,7 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartFilled } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useWishlist, useWishlistDispatch } from "../contexts/WishlistProvider";
+import { toast } from "react-toastify";
 
 export default function Product({ item }) {
   const navigate = useNavigate();
@@ -34,11 +35,17 @@ export default function Product({ item }) {
 
         const res = await request.json();
         cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
+        toast.success("Item Added to Cart!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       } catch (error) {
         console.error(error);
       }
     } else {
       cartDispatch({ type: "ADD_TO_CART", payload: item });
+      toast.success("Item Added to Cart!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 
@@ -59,11 +66,17 @@ export default function Product({ item }) {
           type: "INITIALISE_WISHLIST",
           payload: res.wishlist,
         });
+        toast.success("Item Added to Wishlist!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       } catch (error) {
         console.error(error);
       }
     } else {
       wishlistDispatch({ type: "ADD_TO_WISHLIST", payload: item });
+      toast.success("Item Added to Wishlist!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 
@@ -86,10 +99,16 @@ export default function Product({ item }) {
       } catch (error) {
         console.error(error);
       }
+      toast.success("Item removed from Wishlist!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     } else {
       wishlistDispatch({
         type: "REMOVE_FROM_WISHLIST",
         payload: id,
+      });
+      toast.success("Item removed from Wishlist!", {
+        position: toast.POSITION.TOP_CENTER,
       });
     }
   };

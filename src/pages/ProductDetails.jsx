@@ -7,6 +7,7 @@ import { useWishlistDispatch } from "../contexts/WishlistProvider";
 import { fetchRequest } from "../common/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 export default function ProductDetails() {
   const navigate = useNavigate();
@@ -61,11 +62,17 @@ export default function ProductDetails() {
 
         const res = await request.json();
         cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
+        toast.success("Item Added to Cart!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       } catch (error) {
         console.error(error);
       }
     } else {
       cartDispatch({ type: "ADD_TO_CART", payload: item });
+      toast.success("Item Added to Cart!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 
@@ -85,11 +92,17 @@ export default function ProductDetails() {
           type: "INITIALISE_WISHLIST",
           payload: res.wishlist,
         });
+        toast.success("Item Added to Wishlist!", {
+          position: toast.POSITION.TOP_CENTER,
+        });
       } catch (error) {
         console.error(error);
       }
     } else {
       wishlistDispatch({ type: "ADD_TO_WISHLIST", payload: item });
+      toast.success("Item Added to Wishlist!", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   };
 
