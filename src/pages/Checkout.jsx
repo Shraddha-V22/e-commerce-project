@@ -8,6 +8,7 @@ import { DetailsInput } from "../components/DetailsInput";
 import { useReducer } from "react";
 import { checkoutReducer } from "../reducers/checkoutReducer";
 import { useState } from "react";
+import { useAuth } from "../contexts/AuthProvider";
 
 const initialCheckout = {
   addressInput: {
@@ -27,14 +28,13 @@ const initialCheckout = {
 };
 
 export default function Checkout() {
+  const { user } = useAuth();
   const { cart } = useCart();
   const cartDispatch = useCartDispatch();
   const [checkoutInputs, dispatch] = useReducer(
     checkoutReducer,
     initialCheckout
   );
-
-  const [addresses, setAddresses] = useState([]);
 
   const addressChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -60,12 +60,12 @@ export default function Checkout() {
       {checkoutInputs.elIndex === 0 && (
         <section className="flex flex-col gap-6">
           <h2 className="">Shipping Address</h2>
-          {addresses.length > 0 && (
+          {user.addresses.length > 0 && (
             <div className="flex flex-col gap-2">
               <p className="pl-2 text-sm text-gray-400">
                 Choose from Saved Addresses
               </p>
-              {addresses.map((el) => {
+              {user.addresses.map((el) => {
                 const add = Object.values(el.add).join(",");
                 return (
                   <div

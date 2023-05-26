@@ -8,9 +8,10 @@ import { faUserCircle } from "@fortawesome/free-regular-svg-icons";
 import { DetailsInput } from "../components/DetailsInput";
 import { isEmptyObject } from "../common/utils";
 import { useAuth } from "../contexts/AuthProvider";
+import { useEffect } from "react";
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [showAddressInput, setShowAddressInput] = useState(false);
   const [addressInput, setAddressInput] = useState({
     line1: "",
@@ -19,16 +20,16 @@ export default function Profile() {
     zipcode: "",
     country: "",
   });
-  // const user = JSON.parse(localStorage.getItem("user"));
-  const [addresses, setAddresses] = useState([]);
 
   const addUserAddress = (type) => {
     if (type === "SAVE" && !isEmptyObject(addressInput)) {
-      user.address = user.address
-        ? [...user.address, { id: uuid(), add: { ...addressInput } }]
-        : [{ id: uuid(), add: { ...addressInput } }];
-      // localStorage.setItem("user", JSON.stringify(user));
-      setAddresses(user.address);
+      setUser((prev) => ({
+        ...prev,
+        addresses: [
+          ...prev.addresses,
+          { id: uuid(), add: { ...addressInput } },
+        ],
+      }));
       setShowAddressInput(false);
       setAddressInput({
         line1: "",
@@ -49,10 +50,15 @@ export default function Profile() {
     }
   };
 
-  const deleteAddress = (addId) => {
-    user.address = user.address.filter(({ id }) => id !== addId);
+  useEffect(() => {
     localStorage.setItem("user", JSON.stringify(user));
-    setAddresses(user.address);
+  }, [user]);
+
+  const deleteAddress = (addId) => {
+    setUser((prev) => ({
+      ...prev,
+      addresses: prev.addresses.filter(({ id }) => id !== addId),
+    }));
   };
 
   const addressChangeHandler = (e) => {
@@ -72,7 +78,7 @@ export default function Profile() {
       </div>
       <div className="mb-4 flex flex-col items-start gap-4 p-2">
         <h2>Saved Addresses</h2>
-        {addresses.map((el) => (
+        {user.addresses.map((el) => (
           <div
             key={el.id}
             className="flex items-center gap-4 rounded-md border-[1px] p-2"

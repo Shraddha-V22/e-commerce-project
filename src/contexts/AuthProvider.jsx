@@ -29,12 +29,17 @@ export default function AuthProvider({ children }) {
           });
         }
       } else {
-        setUser(res.createdUser);
+        setUser({
+          firstName: res.createdUser.firstName,
+          lastName: res.createdUser.lastName,
+          addresses: [],
+        });
         localStorage.setItem(
           "user",
           JSON.stringify({
             firstName: res.createdUser.firstName,
             lastName: res.createdUser.lastName,
+            addresses: [],
           })
         );
         localStorage.setItem("token", res.encodedToken);
@@ -69,12 +74,17 @@ export default function AuthProvider({ children }) {
           });
         }
       } else {
-        setUser(res.foundUser);
+        setUser({
+          firstName: res.foundUser.firstName,
+          lastName: res.foundUser.lastName,
+          addresses: [],
+        });
         localStorage.setItem(
           "user",
           JSON.stringify({
             firstName: res.foundUser.firstName,
             lastName: res.foundUser.lastName,
+            addresses: [],
           })
         );
         localStorage.setItem("token", res.encodedToken);
@@ -96,7 +106,7 @@ export default function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, signUp, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, setUser, signUp, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
