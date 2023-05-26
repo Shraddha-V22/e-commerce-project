@@ -3,15 +3,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import { getItemFromLocalStorage } from "../common/utils";
 import PasswordInput from "../components/PasswordInput";
+import { useLocation } from "react-router-dom";
 
 export default function Login() {
   const { signIn } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
   const [loginCreds, setLoginCreds] = useState({ email: "", password: "" });
-
-  // const token = getItemFromLocalStorage("token");
 
   const handleLoginCreds = (e) => {
     const { name, value } = e.target;
@@ -20,12 +19,9 @@ export default function Login() {
 
   const loginHandler = (creds) => {
     signIn(creds);
-    navigate("/");
+    console.log(location);
+    // navigate(location?.state?.from?.pathname);
   };
-
-  // const loginAsGuest = (creds) => {
-
-  // }
 
   return (
     <section className="grid h-[100vh] w-full place-items-center">

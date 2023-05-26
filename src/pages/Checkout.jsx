@@ -7,6 +7,7 @@ import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
 import { DetailsInput } from "../components/DetailsInput";
 import { useReducer } from "react";
 import { checkoutReducer } from "../reducers/checkoutReducer";
+import { useState } from "react";
 
 const initialCheckout = {
   addressInput: {
@@ -33,8 +34,7 @@ export default function Checkout() {
     initialCheckout
   );
 
-  const userFound = JSON.parse(getItemFromLocalStorage("user"));
-  const addresses = userFound?.address || [];
+  const [addresses, setAddresses] = useState([]);
 
   const addressChangeHandler = (e) => {
     const { name, value } = e.target;

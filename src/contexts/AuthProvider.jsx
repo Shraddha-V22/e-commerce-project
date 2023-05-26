@@ -61,6 +61,7 @@ export default function AuthProvider({ children }) {
       } else {
         setUser(res.foundUser);
         localStorage.setItem("token", res.encodedToken);
+
         toast.success("Logged In Successfully!", {
           position: toast.POSITION.TOP_CENTER,
         });
