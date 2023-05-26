@@ -144,7 +144,7 @@ export default function Profile() {
           className="text-2xl"
           onClick={() => setShowAddressInput((prev) => !prev)}
         >
-          <FontAwesomeIcon icon={faCirclePlus} />
+          <FontAwesomeIcon icon={faCirclePlus} title={"Add new address"} />
         </button>
       </div>
     </section>

@@ -103,12 +103,21 @@ function CartItem({ item }) {
             ▲
           </button>
           <p>{item.qty}</p>
-          <button
-            className="border-[1px] px-2 text-xs"
-            onClick={() => updateQty({ type: "decrement" })}
-          >
-            ▼
-          </button>
+          {item.qty > 1 ? (
+            <button
+              className="border-[1px] px-2 text-xs"
+              onClick={() => updateQty({ type: "decrement" })}
+            >
+              ▼
+            </button>
+          ) : (
+            <button
+              className="border-[1px] px-2 text-xs"
+              onClick={removeItemFromCart}
+            >
+              ▼
+            </button>
+          )}
         </div>
         <button
           className="mt-2 rounded-md border-[1px] p-1 px-2"
