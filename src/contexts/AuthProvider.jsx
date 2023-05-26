@@ -3,11 +3,14 @@ import { useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
 import { toast } from "react-toastify";
+import { getItemFromLocalStorage } from "../common/utils";
 
 const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(
+    () => JSON.parse(getItemFromLocalStorage("user")) || {}
+  );
 
   const signUp = async (creds) => {
     try {
@@ -27,6 +30,13 @@ export default function AuthProvider({ children }) {
         }
       } else {
         setUser(res.createdUser);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            firstName: res.createdUser.firstName,
+            lastName: res.createdUser.lastName,
+          })
+        );
         localStorage.setItem("token", res.encodedToken);
         toast.success("Registered Successfully!", {
           position: toast.POSITION.TOP_CENTER,
@@ -60,8 +70,14 @@ export default function AuthProvider({ children }) {
         }
       } else {
         setUser(res.foundUser);
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            firstName: res.foundUser.firstName,
+            lastName: res.foundUser.lastName,
+          })
+        );
         localStorage.setItem("token", res.encodedToken);
-
         toast.success("Logged In Successfully!", {
           position: toast.POSITION.TOP_CENTER,
         });
@@ -76,6 +92,7 @@ export default function AuthProvider({ children }) {
 
   const signOut = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
   };
 
   return (

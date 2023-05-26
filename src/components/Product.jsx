@@ -17,7 +17,7 @@ export default function Product({ item }) {
   const { id, product_name, brand, price, category } = item;
   const token = getItemFromLocalStorage("token");
 
-  const inCart = cart.find((item) => item.id === id);
+  const inCart = cart?.find((item) => item.id === id);
   const inWishlist = wishlist.find((item) => item.id === id);
 
   const addToCart = async (e, item) => {

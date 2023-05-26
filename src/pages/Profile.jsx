@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import React from "react";
 import { useState } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faUserCircle } from "@fortawesome/free-regular-svg-icons";
 import { DetailsInput } from "../components/DetailsInput";
 import { isEmptyObject } from "../common/utils";
 import { useAuth } from "../contexts/AuthProvider";
@@ -62,10 +63,8 @@ export default function Profile() {
   return (
     <section className="m-2 mx-auto max-w-[500px] bg-white p-4">
       <div className="p- flex items-center gap-4 border-b-[1px] px-2 pb-4">
-        <div className="relative rounded-full bg-pink-600/80 p-1 px-2 text-xl uppercase text-white">
-          {/* {user?.firstName.substr(0, 1)}
-          {user?.lastName.substr(0, 1)} */}
-          user
+        <div className="relative rounded-full text-2xl uppercase text-black">
+          <FontAwesomeIcon icon={faUserCircle} title="Login" />
         </div>
         <h1 className="text-lg uppercase">
           {user?.firstName} {user?.lastName}

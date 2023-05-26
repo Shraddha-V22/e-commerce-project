@@ -32,7 +32,7 @@ export default function Header() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const token = getItemFromLocalStorage("token");
-  console.log(user);
+  // console.log(user);
 
   const handleMouseEnter = () => {
     if (timerId.current) {
@@ -143,7 +143,7 @@ export default function Header() {
             <FontAwesomeIcon icon={faCartShopping} title="Cart" />
           </Link>
 
-          {cart.length > 0 && (
+          {cart?.length > 0 && (
             <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
               {cart.length}
             </p>
@@ -173,9 +173,8 @@ export default function Header() {
               }
               className="relative rounded-full bg-pink-600/90 p-1 px-2 uppercase text-white"
             >
-              {/* {user.firstName.substr(0, 1)}
-              {user.lastName.substr(0, 1)} */}
-              user
+              {user.firstName.substr(0, 1)}
+              {user.lastName.substr(0, 1)}
             </button>
             <ul
               className={`${

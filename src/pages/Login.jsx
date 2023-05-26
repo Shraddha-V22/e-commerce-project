@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 
 export default function Login() {
   const { signIn } = useAuth();
-  const location = useLocation();
+  // const location = useLocation();
   const navigate = useNavigate();
   const [loginCreds, setLoginCreds] = useState({ email: "", password: "" });
 
@@ -19,8 +19,7 @@ export default function Login() {
 
   const loginHandler = (creds) => {
     signIn(creds);
-    console.log(location);
-    // navigate(location?.state?.from?.pathname);
+    navigate("/");
   };
 
   return (
