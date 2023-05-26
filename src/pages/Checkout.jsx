@@ -3,11 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
-import {
-  getImgUrl,
-  getItemFromSessionStorage,
-  setItemToSessionStorage,
-} from "../common/utils";
+import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
 import { DetailsInput } from "../components/DetailsInput";
 import { useReducer } from "react";
 import { checkoutReducer } from "../reducers/checkoutReducer";
@@ -37,7 +33,7 @@ export default function Checkout() {
     initialCheckout
   );
 
-  const userFound = JSON.parse(getItemFromSessionStorage("user"));
+  const userFound = JSON.parse(getItemFromLocalStorage("user"));
   const addresses = userFound?.address || [];
 
   const addressChangeHandler = (e) => {
@@ -56,7 +52,6 @@ export default function Checkout() {
 
   const placeOrder = () => {
     dispatch({ type: "UPDATE_INDEX" });
-    setItemToSessionStorage("user", JSON.stringify({ ...userFound, cart: [] }));
     cartDispatch({ type: "INITIALISE_CART", payload: [] });
   };
 

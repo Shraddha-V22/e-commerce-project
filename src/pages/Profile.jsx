@@ -6,8 +6,10 @@ import { useState } from "react";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { DetailsInput } from "../components/DetailsInput";
 import { isEmptyObject } from "../common/utils";
+import { useAuth } from "../contexts/AuthProvider";
 
 export default function Profile() {
+  const { user } = useAuth();
   const [showAddressInput, setShowAddressInput] = useState(false);
   const [addressInput, setAddressInput] = useState({
     line1: "",
@@ -16,18 +18,16 @@ export default function Profile() {
     zipcode: "",
     country: "",
   });
-  const userFound = JSON.parse(sessionStorage.getItem("user"));
-  const [addresses, setAddresses] = useState(
-    () => JSON.parse(sessionStorage.getItem("user"))?.address || []
-  );
+  // const user = JSON.parse(localStorage.getItem("user"));
+  const [addresses, setAddresses] = useState([]);
 
   const addUserAddress = (type) => {
     if (type === "SAVE" && !isEmptyObject(addressInput)) {
-      userFound.address = userFound.address
-        ? [...userFound.address, { id: uuid(), add: { ...addressInput } }]
+      user.address = user.address
+        ? [...user.address, { id: uuid(), add: { ...addressInput } }]
         : [{ id: uuid(), add: { ...addressInput } }];
-      sessionStorage.setItem("user", JSON.stringify(userFound));
-      setAddresses(userFound.address);
+      // localStorage.setItem("user", JSON.stringify(user));
+      setAddresses(user.address);
       setShowAddressInput(false);
       setAddressInput({
         line1: "",
@@ -49,9 +49,9 @@ export default function Profile() {
   };
 
   const deleteAddress = (addId) => {
-    userFound.address = userFound.address.filter(({ id }) => id !== addId);
-    sessionStorage.setItem("user", JSON.stringify(userFound));
-    setAddresses(userFound.address);
+    user.address = user.address.filter(({ id }) => id !== addId);
+    localStorage.setItem("user", JSON.stringify(user));
+    setAddresses(user.address);
   };
 
   const addressChangeHandler = (e) => {
@@ -63,11 +63,12 @@ export default function Profile() {
     <section className="m-2 mx-auto max-w-[500px] bg-white p-4">
       <div className="p- flex items-center gap-4 border-b-[1px] px-2 pb-4">
         <div className="relative rounded-full bg-pink-600/80 p-1 px-2 text-xl uppercase text-white">
-          {userFound?.firstName.substr(0, 1)}
-          {userFound?.lastName.substr(0, 1)}
+          {/* {user?.firstName.substr(0, 1)}
+          {user?.lastName.substr(0, 1)} */}
+          user
         </div>
         <h1 className="text-lg uppercase">
-          {userFound?.firstName} {userFound?.lastName}
+          {user?.firstName} {user?.lastName}
         </h1>
       </div>
       <div className="mb-4 flex flex-col items-start gap-4 p-2">

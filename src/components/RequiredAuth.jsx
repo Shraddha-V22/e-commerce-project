@@ -1,8 +1,8 @@
 import React from "react";
-import { getItemFromSessionStorage } from "../common/utils";
+import { getItemFromLocalStorage } from "../common/utils";
 import { Navigate } from "react-router-dom";
 
 export default function RequiredAuth({ children }) {
-  const token = getItemFromSessionStorage("token");
+  const token = getItemFromLocalStorage("token");
   return !token ? <Navigate to="/login" /> : children;
 }

@@ -1,9 +1,5 @@
 import React from "react";
-import {
-  getImgUrl,
-  getItemFromSessionStorage,
-  setItemToSessionStorage,
-} from "../common/utils";
+import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -19,8 +15,7 @@ export default function Product({ item }) {
   const { wishlist } = useWishlist();
   const { cart } = useCart();
   const { id, product_name, brand, price, category } = item;
-  const userFound = JSON.parse(getItemFromSessionStorage("user"));
-  const token = getItemFromSessionStorage("token");
+  const token = getItemFromLocalStorage("token");
 
   const inCart = cart.find((item) => item.id === id);
   const inWishlist = wishlist.find((item) => item.id === id);
@@ -38,10 +33,6 @@ export default function Product({ item }) {
         });
 
         const res = await request.json();
-        setItemToSessionStorage(
-          "user",
-          JSON.stringify({ ...userFound, cart: res.cart })
-        );
         cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
       } catch (error) {
         console.error(error);
@@ -64,11 +55,6 @@ export default function Product({ item }) {
         });
 
         const res = await request.json();
-        console.log(res);
-        setItemToSessionStorage(
-          "user",
-          JSON.stringify({ ...userFound, wishlist: res.wishlist })
-        );
         wishlistDispatch({
           type: "INITIALISE_WISHLIST",
           payload: res.wishlist,
@@ -93,11 +79,6 @@ export default function Product({ item }) {
         });
 
         const res = await request.json();
-        console.log(res);
-        setItemToSessionStorage(
-          "user",
-          JSON.stringify({ ...userFound, wishlist: res.wishlist })
-        );
         wishlistDispatch({
           type: "INITIALISE_WISHLIST",
           payload: res.wishlist,

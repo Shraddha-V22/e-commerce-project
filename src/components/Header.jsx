@@ -6,7 +6,7 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
-import { getImgUrl } from "../common/utils";
+import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
 import { useCart } from "../contexts/CartProvider";
 import { useProducts, useProductsDispatch } from "../contexts/ProductProvider";
 import { useAuth } from "../contexts/AuthProvider";
@@ -20,7 +20,7 @@ export default function Header() {
   const {
     products: { categories, search },
   } = useProducts();
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
   const navigate = useNavigate();
   const categoryRef = useRef(null);
   const timerId = useRef(null);
@@ -31,8 +31,8 @@ export default function Header() {
   });
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const userFound = JSON.parse(sessionStorage.getItem("user"));
-  const token = sessionStorage.getItem("token");
+  const token = getItemFromLocalStorage("token");
+  console.log(user);
 
   const handleMouseEnter = () => {
     if (timerId.current) {
@@ -173,8 +173,9 @@ export default function Header() {
               }
               className="relative rounded-full bg-pink-600/90 p-1 px-2 uppercase text-white"
             >
-              {userFound?.firstName.substr(0, 1)}
-              {userFound?.lastName.substr(0, 1)}
+              {/* {user.firstName.substr(0, 1)}
+              {user.lastName.substr(0, 1)} */}
+              user
             </button>
             <ul
               className={`${

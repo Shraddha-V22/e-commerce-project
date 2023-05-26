@@ -1,6 +1,6 @@
 import { Response } from "miragejs";
 import { formatDate, requiresAuth } from "../utils/authUtils";
-import { getItemFromSessionStorage } from "../../common/utils";
+import { getItemFromLocalStorage } from "../../common/utils";
 
 /**
  * All the routes related to Wishlist are present here.
@@ -24,9 +24,7 @@ export const getWishlistItemsHandler = function (schema, request) {
       }
     );
   }
-  const userWishlist =
-    JSON.parse(getItemFromSessionStorage("user"))?.wishlist ||
-    schema.users.findBy({ _id: userId }).wishlist;
+  const userWishlist = schema.users.findBy({ _id: userId }).wishlist;
   return new Response(200, {}, { wishlist: userWishlist });
 };
 
@@ -48,9 +46,7 @@ export const addItemToWishlistHandler = function (schema, request) {
         }
       );
     }
-    const userWishlist =
-      JSON.parse(getItemFromSessionStorage("user"))?.wishlist ||
-      schema.users.findBy({ _id: userId }).wishlist;
+    const userWishlist = schema.users.findBy({ _id: userId }).wishlist;
     const { product } = JSON.parse(request.requestBody);
     userWishlist.push({
       ...product,
@@ -88,9 +84,7 @@ export const removeItemFromWishlistHandler = function (schema, request) {
         }
       );
     }
-    let userWishlist =
-      JSON.parse(getItemFromSessionStorage("user"))?.wishlist ||
-      schema.users.findBy({ _id: userId }).wishlist;
+    let userWishlist = schema.users.findBy({ _id: userId }).wishlist;
     const productId = request.params.productId;
     userWishlist = userWishlist.filter((item) => item.id !== productId);
     this.db.users.update({ _id: userId }, { wishlist: userWishlist });

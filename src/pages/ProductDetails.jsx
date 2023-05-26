@@ -1,11 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import {
-  getImgUrl,
-  getItemFromSessionStorage,
-  setItemToSessionStorage,
-} from "../common/utils";
+import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useWishlistDispatch } from "../contexts/WishlistProvider";
 import { fetchRequest } from "../common/api";
@@ -18,8 +14,8 @@ export default function ProductDetails() {
   const cartDispatch = useCartDispatch();
   const wishlistDispatch = useWishlistDispatch();
   const { productId } = useParams();
-  const token = getItemFromSessionStorage("token");
-  const userFound = JSON.parse(getItemFromSessionStorage("user"));
+  const token = getItemFromLocalStorage("token");
+  const userFound = JSON.parse(getItemFromLocalStorage("user"));
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -65,10 +61,6 @@ export default function ProductDetails() {
         });
 
         const res = await request.json();
-        setItemToSessionStorage(
-          "user",
-          JSON.stringify({ ...userFound, cart: res.cart })
-        );
         cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
       } catch (error) {
         console.error(error);
@@ -90,10 +82,6 @@ export default function ProductDetails() {
         });
 
         const res = await request.json();
-        setItemToSessionStorage(
-          "user",
-          JSON.stringify({ ...userFound, wishlist: res.wishlist })
-        );
         wishlistDispatch({
           type: "INITIALISE_WISHLIST",
           payload: res.wishlist,

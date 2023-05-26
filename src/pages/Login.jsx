@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
-import { getItemFromSessionStorage } from "../common/utils";
+import { getItemFromLocalStorage } from "../common/utils";
 import PasswordInput from "../components/PasswordInput";
 
 export default function Login() {
@@ -11,7 +11,7 @@ export default function Login() {
   const navigate = useNavigate();
   const [loginCreds, setLoginCreds] = useState({ email: "", password: "" });
 
-  // const token = getItemFromSessionStorage("token");
+  // const token = getItemFromLocalStorage("token");
 
   const handleLoginCreds = (e) => {
     const { name, value } = e.target;
