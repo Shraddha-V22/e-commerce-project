@@ -3,16 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
-<<<<<<< HEAD
-import {
-  getImgUrl,
-  getItemFromSessionStorage,
-  setItemToSessionStorage,
-  userFound,
-} from "../common/utils";
-=======
 import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
->>>>>>> new-branch
 import { DetailsInput } from "../components/DetailsInput";
 import { useReducer } from "react";
 import { checkoutReducer } from "../reducers/checkoutReducer";
@@ -43,12 +34,7 @@ export default function Checkout() {
     initialCheckout
   );
 
-<<<<<<< HEAD
-  // const userFound = JSON.parse(getItemFromSessionStorage("user"));
-  const addresses = userFound?.address || [];
-=======
   const [addresses, setAddresses] = useState([]);
->>>>>>> new-branch
 
   const addressChangeHandler = (e) => {
     const { name, value } = e.target;

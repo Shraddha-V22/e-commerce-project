@@ -1,25 +1,11 @@
 import React from "react";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
-<<<<<<< HEAD
-import {
-  getImgUrl,
-  getItemFromSessionStorage,
-  setItemToSessionStorage,
-  userFound,
-} from "../common/utils";
-=======
 import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
->>>>>>> new-branch
 import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const { cart } = useCart();
-<<<<<<< HEAD
-  const cartFound = userFound?.cart;
-  const token = getItemFromSessionStorage("token");
-=======
   const token = getItemFromLocalStorage("token");
->>>>>>> new-branch
   const navigate = useNavigate();
 
   const totalPrice = (cart) =>
@@ -56,12 +42,7 @@ export default function Cart() {
 function CartItem({ item }) {
   const cartDispatch = useCartDispatch();
   const { id, product_name, brand, price, category } = item;
-<<<<<<< HEAD
-  const token = getItemFromSessionStorage("token");
-  // const userFound = JSON.parse(getItemFromSessionStorage("user"));
-=======
   const token = getItemFromLocalStorage("token");
->>>>>>> new-branch
 
   const removeItemFromCart = async () => {
     if (token) {
@@ -84,18 +65,22 @@ function CartItem({ item }) {
   };
 
   const updateQty = async (action) => {
-    try {
-      const request = await fetch(`/api/user/cart/${id}`, {
-        method: "POST",
-        headers: {
-          authorization: token,
-        },
-        body: JSON.stringify({ action }),
-      });
-      const res = await request.json();
-      cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
-    } catch (error) {
-      console.error(error);
+    if (token) {
+      try {
+        const request = await fetch(`/api/user/cart/${id}`, {
+          method: "POST",
+          headers: {
+            authorization: token,
+          },
+          body: JSON.stringify({ action }),
+        });
+        const res = await request.json();
+        cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      cartDispatch({ type: "CHANGE_QTY", payload: { id, action } });
     }
   };
 

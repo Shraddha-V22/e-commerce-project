@@ -1,16 +1,7 @@
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-<<<<<<< HEAD
-import {
-  getImgUrl,
-  getItemFromSessionStorage,
-  setItemToSessionStorage,
-  userFound,
-} from "../common/utils";
-=======
 import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
->>>>>>> new-branch
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useWishlistDispatch } from "../contexts/WishlistProvider";
 import { fetchRequest } from "../common/api";
@@ -23,13 +14,7 @@ export default function ProductDetails() {
   const cartDispatch = useCartDispatch();
   const wishlistDispatch = useWishlistDispatch();
   const { productId } = useParams();
-<<<<<<< HEAD
-  const token = getItemFromSessionStorage("token");
-  // const userFound = JSON.parse(getItemFromSessionStorage("user"));
-=======
   const token = getItemFromLocalStorage("token");
-  const userFound = JSON.parse(getItemFromLocalStorage("user"));
->>>>>>> new-branch
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 

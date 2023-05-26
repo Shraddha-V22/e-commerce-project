@@ -14,13 +14,15 @@ export const cartReducer = (state, { type, payload }) => {
           : state.cart,
       };
     case "CHANGE_QTY":
-      console.log(payload.value);
+      // console.log(payload.value);
       let tempCart =
-        payload.value !== 0
+        payload.action === "increment"
           ? state.cart.map((item) =>
-              item.id === payload.id ? { ...item, qty: payload.value } : item
+              item.id === payload.id ? { ...item, qty: item.qty++ } : item
             )
-          : state.cart.filter(({ id }) => id !== payload.id);
+          : state.cart.map((item) =>
+              item.id === payload.id ? { ...item, qty: item.qty-- } : item
+            );
       return {
         ...state,
         cart: tempCart,
