@@ -19,8 +19,30 @@ export default function Cart() {
         ))}
       </section>
       <section className="flex h-[fit-content] w-[300px] flex-col gap-4 bg-white p-4">
-        <h1>SubTotal</h1>
-        <p>${totalPrice(cart).toFixed(2)}</p>
+        <h1>Price Details</h1>
+        <div className="flex justify-between">
+          <p>Price</p>
+          <p>${totalPrice(cart).toFixed(2)}</p>
+        </div>
+        {totalPrice(cart) > 100 && (
+          <div className="flex justify-between">
+            <p>Discount</p>
+            <p>- $25.00</p>
+          </div>
+        )}
+        <div className="flex justify-between capitalize">
+          <p>Delivery charges</p>
+          <p>free</p>
+        </div>
+        <div className="-mt-2 flex justify-between border-t-[1px] pt-2">
+          <p>Total Price</p>
+          <p className="font-semibold text-green-700">
+            $
+            {totalPrice(cart) > 100
+              ? `${totalPrice(cart).toFixed(2) - 25}`
+              : `${totalPrice(cart).toFixed(2)}`}
+          </p>
+        </div>
         <button
           className="border-[1px] p-1 px-2"
           onClick={() => navigate("/checkout")}
