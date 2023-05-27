@@ -56,7 +56,7 @@ export default function Checkout() {
   };
 
   return (
-    <section className="m-4 mx-auto max-w-[500px] bg-white p-8">
+    <section className="m-4 mx-auto w-[90vw] bg-white p-4 sm:max-w-[500px] sm:p-8">
       {checkoutInputs.elIndex === 0 && (
         <section className="flex flex-col gap-6">
           <h2 className="">Shipping Address</h2>

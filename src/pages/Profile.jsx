@@ -70,9 +70,9 @@ export default function Profile() {
   };
 
   return (
-    <section className="m-2 mx-auto max-w-[500px] bg-white p-4">
+    <section className="m-2 mx-auto w-[90vw] bg-white p-4 sm:max-w-[500px]">
       <div className="p- flex items-center gap-4 border-b-[1px] px-2 pb-4">
-        <div className="relative rounded-full text-2xl uppercase text-black">
+        <div className="rounded-full text-2xl uppercase text-black">
           <FontAwesomeIcon icon={faUserCircle} title="Login" />
         </div>
         <h1 className="text-lg uppercase">
@@ -84,10 +84,10 @@ export default function Profile() {
         {user.addresses.map((el) => (
           <div
             key={el.id}
-            className="flex items-center gap-4 rounded-md border-[1px] p-2"
+            className="flex w-full flex-wrap items-center gap-4 rounded-md border-[1px] p-2"
           >
             <p>{Object.values(el.add).join(",")}.</p>
-            <button onClick={() => deleteAddress(el.id)}>
+            <button onClick={() => deleteAddress(el.id)} className="">
               <FontAwesomeIcon icon={faTrash} />
             </button>
           </div>

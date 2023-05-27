@@ -14,14 +14,14 @@ export default function Cart() {
     cart.reduce((acc, item) => acc + item.price * item.qty, 0);
 
   return cart?.length > 0 ? (
-    <section className="m-8 mx-auto flex w-[fit-content] flex-wrap justify-center gap-8">
-      <section className="flex w-[450px] flex-col gap-4">
+    <section className="mx-auto grid w-[90vw] grid-rows-[auto_auto] justify-center gap-8 py-4 md:w-full md:grid-cols-[auto_auto]">
+      <section className="flex flex-col gap-4 md:w-[450px]">
         {cart.map((item) => (
           <CartItem key={item.id} item={item} />
         ))}
       </section>
-      <section className="flex h-[fit-content] w-[300px] flex-col gap-4 bg-white p-4">
-        <h1>Price Details</h1>
+      <section className="flex h-[fit-content] w-[300px] flex-col gap-4 rounded-lg bg-white p-4 max-[800px]:w-[90vw]">
+        <h1 className="text-lg uppercase">Price Details</h1>
         <div className="flex justify-between">
           <p>Price</p>
           <p>${totalPrice(cart).toFixed(2)}</p>
@@ -36,7 +36,7 @@ export default function Cart() {
           <p>Delivery charges</p>
           <p>free</p>
         </div>
-        <div className="-mt-2 flex justify-between border-t-[1px] pt-2">
+        <div className="-mt-2 flex w-auto justify-between border-t-[1px] pt-2 md:w-full">
           <p>Total Price</p>
           <p className="font-semibold text-green-700">
             $
@@ -46,7 +46,7 @@ export default function Cart() {
           </p>
         </div>
         <button
-          className="border-[1px] p-1 px-2"
+          className="rounded-md border-[1px] p-1 px-2 capitalize"
           onClick={() => navigate("/checkout")}
         >
           Buy now
@@ -54,7 +54,7 @@ export default function Cart() {
       </section>
     </section>
   ) : (
-    <section className="mx-auto grid h-full w-[fit-content] max-w-[500px] place-items-center text-center">
+    <section className="mx-auto grid h-[300px] w-[90%] place-items-center text-center text-sm md:h-full md:text-lg">
       <p>
         Well, our cart seems to have taken a break. Time to fill it up with your
         amazing choices!
@@ -135,7 +135,7 @@ function CartItem({ item }) {
   };
 
   return (
-    <section className="grid h-[200px] w-full grid-cols-[150px_1fr] overflow-hidden rounded-lg">
+    <section className="grid h-[200px] w-full grid-cols-[150px_1fr] overflow-hidden rounded-lg md:w-[auto]">
       <img
         src={getImgUrl(category.toLowerCase())}
         alt={`${product_name}`}
