@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 export default function Layout() {
   return (
-    <section className="relative grid h-[100vh] grid-rows-[1fr_auto]  font-nanumGothic">
+    <section className="relative grid h-[100vh] grid-rows-[1fr_auto] overflow-x-hidden font-nanumGothic">
       <Header />
       <main className="bg-[#E3F2C1]/20 pt-[100px]">
         <Outlet />

@@ -11,6 +11,7 @@ import { useAuth } from "../contexts/AuthProvider";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -24,8 +25,8 @@ export default function Profile() {
     country: "",
   });
 
-  const addUserAddress = (type) => {
-    if (type === "SAVE" && !isEmptyObject(addressInput)) {
+  const saveAddress = () => {
+    if (!isEmptyObject(addressInput)) {
       setUser((prev) => ({
         ...prev,
         addresses: [
@@ -41,16 +42,18 @@ export default function Profile() {
         zipcode: "",
         country: "",
       });
-    } else if (type === "CANCEL") {
-      setAddressInput({
-        line1: "",
-        line2: "",
-        city: "",
-        zipcode: "",
-        country: "",
-      });
-      setShowAddressInput(false);
     }
+  };
+
+  const cancelAction = () => {
+    setAddressInput({
+      line1: "",
+      line2: "",
+      city: "",
+      zipcode: "",
+      country: "",
+    });
+    setShowAddressInput(false);
   };
 
   useEffect(() => {
@@ -81,68 +84,24 @@ export default function Profile() {
       </div>
       <div className="mb-4 flex flex-col items-start gap-4 p-2">
         <h2>Saved Addresses</h2>
-        {user.addresses.map((el) => (
-          <div
-            key={el.id}
-            className="flex w-full flex-wrap items-center gap-4 rounded-md border-[1px] p-2"
-          >
-            <p>{Object.values(el.add).join(",")}.</p>
-            <button onClick={() => deleteAddress(el.id)} className="">
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </div>
+        {user.addresses.map((address) => (
+          <AddressComp
+            key={address.id}
+            address={address}
+            deleteAddress={deleteAddress}
+            addressInput={addressInput}
+            setAddressInput={setAddressInput}
+            changeHandler={addressChangeHandler}
+          />
         ))}
         {showAddressInput && (
-          <div className="flex w-full flex-col gap-4 rounded-md border-[1px] p-2">
-            <article className="flex flex-col gap-4">
-              <DetailsInput
-                placeholder="Address Line 1*"
-                name="line1"
-                value={addressInput.line1}
-                onChange={addressChangeHandler}
-              />
-              <DetailsInput
-                placeholder="Address Line 2*"
-                name="line2"
-                value={addressInput.line2}
-                onChange={addressChangeHandler}
-              />
-              <DetailsInput
-                placeholder="City*"
-                name="city"
-                value={addressInput.city}
-                onChange={addressChangeHandler}
-              />
-              <DetailsInput
-                placeholder="Zip Code/Postal Code*"
-                name="zipcode"
-                value={addressInput.zipcode}
-                onChange={addressChangeHandler}
-              />
-              <DetailsInput
-                placeholder="Country*"
-                name="country"
-                value={addressInput.country}
-                onChange={addressChangeHandler}
-              />
-            </article>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                className="border-[1px] p-1 capitalize"
-                onClick={() => addUserAddress("SAVE")}
-              >
-                save
-              </button>
-              <button
-                className="border-[1px] p-1 capitalize"
-                onClick={() => addUserAddress("CANCEL")}
-              >
-                cancel
-              </button>
-            </div>
-          </div>
+          <AddressInputsComp
+            addressInput={addressInput}
+            changeHandler={addressChangeHandler}
+            saveAddress={saveAddress}
+            cancelAction={cancelAction}
+          />
         )}
-
         <button
           className="text-2xl"
           onClick={() => setShowAddressInput((prev) => !prev)}
@@ -165,5 +124,127 @@ export default function Profile() {
         </button>
       </div>
     </section>
+  );
+}
+
+function AddressComp({
+  address,
+  deleteAddress,
+  addressInput,
+  setAddressInput,
+  changeHandler,
+}) {
+  const [showEditInput, setShowEditInput] = useState(false);
+  const { setUser } = useAuth();
+
+  const editAddress = () => {
+    setShowEditInput((prev) => !prev);
+    setAddressInput(address.add);
+  };
+
+  const saveAddress = (id) => {
+    if (!isEmptyObject(addressInput)) {
+      setUser((prev) => ({
+        ...prev,
+        addresses: prev.addresses.map((el) =>
+          el.id === id ? { ...el, add: addressInput } : el
+        ),
+      }));
+      setShowEditInput(false);
+      setAddressInput({
+        line1: "",
+        line2: "",
+        city: "",
+        zipcode: "",
+        country: "",
+      });
+    }
+  };
+
+  const cancelAction = () => {
+    setAddressInput({
+      line1: "",
+      line2: "",
+      city: "",
+      zipcode: "",
+      country: "",
+    });
+    setShowEditInput(false);
+  };
+
+  return !showEditInput ? (
+    <div
+      key={address.id}
+      className="flex w-full flex-wrap items-center gap-4 rounded-md border-[1px] p-2"
+    >
+      <p>{Object.values(address.add).join(",")}.</p>
+      <div className="flex gap-4">
+        <button onClick={() => editAddress()} className="">
+          <FontAwesomeIcon icon={faPenToSquare} />
+        </button>
+        <button onClick={() => deleteAddress(address.id)} className="">
+          <FontAwesomeIcon icon={faTrash} />
+        </button>
+      </div>
+    </div>
+  ) : (
+    <AddressInputsComp
+      addressInput={addressInput}
+      changeHandler={changeHandler}
+      saveAddress={() => saveAddress(address.id)}
+      cancelAction={cancelAction}
+    />
+  );
+}
+
+function AddressInputsComp({
+  addressInput,
+  changeHandler,
+  saveAddress,
+  cancelAction,
+}) {
+  return (
+    <div className="flex w-full flex-col gap-4 rounded-md border-[1px] p-2">
+      <article className="flex flex-col gap-4">
+        <DetailsInput
+          placeholder="Address Line 1*"
+          name="line1"
+          value={addressInput.line1}
+          onChange={changeHandler}
+        />
+        <DetailsInput
+          placeholder="Address Line 2*"
+          name="line2"
+          value={addressInput.line2}
+          onChange={changeHandler}
+        />
+        <DetailsInput
+          placeholder="City*"
+          name="city"
+          value={addressInput.city}
+          onChange={changeHandler}
+        />
+        <DetailsInput
+          placeholder="Zip Code/Postal Code*"
+          name="zipcode"
+          value={addressInput.zipcode}
+          onChange={changeHandler}
+        />
+        <DetailsInput
+          placeholder="Country*"
+          name="country"
+          value={addressInput.country}
+          onChange={changeHandler}
+        />
+      </article>
+      <div className="grid grid-cols-2 gap-2">
+        <button className="border-[1px] p-1 capitalize" onClick={saveAddress}>
+          save
+        </button>
+        <button className="border-[1px] p-1 capitalize" onClick={cancelAction}>
+          cancel
+        </button>
+      </div>
+    </div>
   );
 }
