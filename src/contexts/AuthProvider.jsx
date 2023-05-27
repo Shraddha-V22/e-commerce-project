@@ -25,7 +25,7 @@ export default function AuthProvider({ children }) {
       if (res.errors) {
         if (res.errors[0] === 422) {
           toast.error("Email Already Exists!", {
-            position: toast.POSITION.TOP_CENTER,
+            position: toast.POSITION.TOP_RIGHT,
           });
         }
       } else {
@@ -44,13 +44,13 @@ export default function AuthProvider({ children }) {
         );
         localStorage.setItem("token", res.encodedToken);
         toast.success("Registered Successfully!", {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.TOP_RIGHT,
         });
       }
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong!", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.TOP_RIGHT,
       });
     }
   };
@@ -66,11 +66,11 @@ export default function AuthProvider({ children }) {
       if (res.errors) {
         if (res.errors[0] === 404) {
           toast.error("Email entered is not registered!", {
-            position: toast.POSITION.TOP_CENTER,
+            position: toast.POSITION.TOP_RIGHT,
           });
         } else if (res.errors[0] === 401) {
           toast.error("Invalid Email or Password!", {
-            position: toast.POSITION.TOP_CENTER,
+            position: toast.POSITION.TOP_RIGHT,
           });
         }
       } else {
@@ -89,13 +89,13 @@ export default function AuthProvider({ children }) {
         );
         localStorage.setItem("token", res.encodedToken);
         toast.success("Logged In Successfully!", {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.TOP_RIGHT,
         });
       }
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong!", {
-        position: toast.POSITION.TOP_CENTER,
+        position: toast.POSITION.TOP_RIGHT,
       });
     }
   };

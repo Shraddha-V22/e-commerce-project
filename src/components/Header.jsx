@@ -195,7 +195,7 @@ export default function Header() {
                 onClick={() => {
                   signOut();
                   toast.success("Logged out!", {
-                    position: toast.POSITION.TOP_CENTER,
+                    position: toast.POSITION.TOP_RIGHT,
                   });
                   navigate("/");
                 }}

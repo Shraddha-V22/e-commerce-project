@@ -63,7 +63,7 @@ export default function ProductDetails() {
         const res = await request.json();
         cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
         toast.success("Item Added to Cart!", {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.TOP_RIGHT,
         });
       } catch (error) {
         console.error(error);
@@ -88,7 +88,7 @@ export default function ProductDetails() {
           payload: res.wishlist,
         });
         toast.success("Item Added to Wishlist!", {
-          position: toast.POSITION.TOP_CENTER,
+          position: toast.POSITION.TOP_RIGHT,
         });
       } catch (error) {
         console.error(error);

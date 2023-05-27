@@ -115,7 +115,7 @@ export default function Profile() {
           onClick={() => {
             signOut();
             toast.success("Logged out!", {
-              position: toast.POSITION.TOP_CENTER,
+              position: toast.POSITION.TOP_RIGHT,
             });
             navigate("/");
           }}

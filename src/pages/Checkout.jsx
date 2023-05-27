@@ -3,12 +3,17 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
-import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
+import {
+  getImgUrl,
+  getItemFromLocalStorage,
+  isEmptyObject,
+} from "../common/utils";
 import { DetailsInput } from "../components/DetailsInput";
 import { useReducer } from "react";
 import { checkoutReducer } from "../reducers/checkoutReducer";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
+import { toast } from "react-toastify";
 
 const initialCheckout = {
   addressInput: {
@@ -134,7 +139,15 @@ export default function Checkout() {
             />
           </article>
           <button
-            onClick={() => dispatch({ type: "UPDATE_INDEX" })}
+            onClick={() => {
+              if (!isEmptyObject(checkoutInputs.addressInput)) {
+                dispatch({ type: "UPDATE_INDEX" });
+              } else {
+                toast.error("All fields are required!", {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+              }
+            }}
             className="ml-auto border-[1px] border-black p-1 px-2"
           >
             Next
@@ -170,7 +183,15 @@ export default function Checkout() {
             />
           </article>
           <button
-            onClick={() => dispatch({ type: "UPDATE_INDEX" })}
+            onClick={() => {
+              if (!isEmptyObject(checkoutInputs.addressInput)) {
+                dispatch({ type: "UPDATE_INDEX" });
+              } else {
+                toast.error("All fields are required!", {
+                  position: toast.POSITION.TOP_RIGHT,
+                });
+              }
+            }}
             className="ml-auto border-[1px] border-black p-1 px-2"
           >
             Next

@@ -130,7 +130,7 @@ function CartItem({ item }) {
     removeItemFromCart();
     addToWishlist(item);
     toast.success("Moved to Wishlist!", {
-      position: toast.POSITION.TOP_CENTER,
+      position: toast.POSITION.TOP_RIGHT,
     });
   };
 
