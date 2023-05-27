@@ -79,13 +79,10 @@ function CartItem({ item }) {
           },
         });
         const res = await request.json();
-        console.log(res);
         cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
       } catch (error) {
         console.error(error);
       }
-    } else {
-      cartDispatch({ type: "REMOVE_FROM_CART", payload: id });
     }
   };
 
@@ -104,8 +101,6 @@ function CartItem({ item }) {
       } catch (error) {
         console.error(error);
       }
-    } else {
-      cartDispatch({ type: "CHANGE_QTY", payload: { id, qty, action } });
     }
   };
 
@@ -128,8 +123,6 @@ function CartItem({ item }) {
       } catch (error) {
         console.error(error);
       }
-    } else {
-      wishlistDispatch({ type: "ADD_TO_WISHLIST", payload: item });
     }
   };
 

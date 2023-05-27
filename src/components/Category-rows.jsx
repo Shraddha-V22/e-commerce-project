@@ -43,7 +43,7 @@ export default function CategoryRows({ categoryIndex }) {
         <i className="text-xl">→</i>
       </div>
       {!isLoading ? (
-        <article className="flex flex-wrap justify-center gap-8">
+        <article className="flex flex-wrap justify-center gap-8 max-[500px]:gap-[5px]">
           {productsData
             .filter(
               ({ category }) =>

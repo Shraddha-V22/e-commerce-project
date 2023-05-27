@@ -39,7 +39,7 @@ export default function FilterComp() {
 
   return (
     <section className="flex max-h-[400px] w-[250px] flex-col overflow-y-auto rounded-md bg-[#E3F2C1] p-2 px-4">
-      <div className="mb-4 flex justify-between">
+      <div className="flex justify-between">
         <h1
           onClick={() => setShowFilters((prev) => !prev)}
           className="cursor-pointer text-lg uppercase hover:text-pink-600"

@@ -16,7 +16,7 @@ export default function Products() {
         <FilterComp />
       </section>
       {!isLoading ? (
-        <section className="mt-8 grid grid-cols-auto justify-items-center gap-4 max-[500px]:grid-cols-autoSmall">
+        <section className="mt-8 grid grid-cols-auto justify-items-center gap-4 max-[500px]:grid-cols-autoSmall max-[500px]:gap-[5px]">
           {productsData.map((item) => (
             <Product key={item.id} item={item} />
           ))}
