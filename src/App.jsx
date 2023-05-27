@@ -27,8 +27,22 @@ const AppRouter = () => {
       <>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/wishlist" element={<Wishlist />} />
+          <Route
+            path="/cart"
+            element={
+              <RequiredAuth>
+                <Cart />
+              </RequiredAuth>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <RequiredAuth>
+                <Wishlist />
+              </RequiredAuth>
+            }
+          />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:productId" element={<ProductDetails />} />
           <Route path="/profile" element={<Profile />} />

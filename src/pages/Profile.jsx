@@ -9,9 +9,12 @@ import { DetailsInput } from "../components/DetailsInput";
 import { isEmptyObject } from "../common/utils";
 import { useAuth } from "../contexts/AuthProvider";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Profile() {
-  const { user, setUser } = useAuth();
+  const navigate = useNavigate();
+  const { user, setUser, signOut } = useAuth();
   const [showAddressInput, setShowAddressInput] = useState(false);
   const [addressInput, setAddressInput] = useState({
     line1: "",
@@ -145,6 +148,20 @@ export default function Profile() {
           onClick={() => setShowAddressInput((prev) => !prev)}
         >
           <FontAwesomeIcon icon={faCirclePlus} title={"Add new address"} />
+        </button>
+      </div>
+      <div className="border-t-[1px] pt-4">
+        <button
+          className="rounded-md border-[1px] border-[#2C74B3]/20 p-2 capitalize outline-none"
+          onClick={() => {
+            signOut();
+            toast.success("Logged out!", {
+              position: toast.POSITION.TOP_CENTER,
+            });
+            navigate("/");
+          }}
+        >
+          Logout
         </button>
       </div>
     </section>

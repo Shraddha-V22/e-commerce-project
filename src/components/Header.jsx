@@ -194,7 +194,7 @@ export default function Header() {
                 className="cursor-pointer p-1 pl-1"
                 onClick={() => {
                   signOut();
-                  toast.success("Logged out", {
+                  toast.success("Logged out!", {
                     position: toast.POSITION.TOP_CENTER,
                   });
                   navigate("/");

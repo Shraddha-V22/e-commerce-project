@@ -68,11 +68,6 @@ export default function ProductDetails() {
       } catch (error) {
         console.error(error);
       }
-    } else {
-      cartDispatch({ type: "ADD_TO_CART", payload: item });
-      toast.success("Item Added to Cart!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
     }
   };
 
@@ -98,11 +93,6 @@ export default function ProductDetails() {
       } catch (error) {
         console.error(error);
       }
-    } else {
-      wishlistDispatch({ type: "ADD_TO_WISHLIST", payload: item });
-      toast.success("Item Added to Wishlist!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
     }
   };
 

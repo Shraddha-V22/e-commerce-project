@@ -42,10 +42,7 @@ export default function Product({ item }) {
         console.error(error);
       }
     } else {
-      cartDispatch({ type: "ADD_TO_CART", payload: item });
-      toast.success("Item Added to Cart!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      navigate("/login");
     }
   };
 
@@ -73,10 +70,7 @@ export default function Product({ item }) {
         console.error(error);
       }
     } else {
-      wishlistDispatch({ type: "ADD_TO_WISHLIST", payload: item });
-      toast.success("Item Added to Wishlist!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
+      navigate("/login");
     }
   };
 
@@ -99,14 +93,6 @@ export default function Product({ item }) {
       } catch (error) {
         console.error(error);
       }
-      toast.success("Item removed from Wishlist!", {
-        position: toast.POSITION.TOP_CENTER,
-      });
-    } else {
-      wishlistDispatch({
-        type: "REMOVE_FROM_WISHLIST",
-        payload: id,
-      });
       toast.success("Item removed from Wishlist!", {
         position: toast.POSITION.TOP_CENTER,
       });
