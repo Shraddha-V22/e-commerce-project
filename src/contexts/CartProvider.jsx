@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { getItemFromLocalStorage } from "../common/utils";
 import { useAuth } from "./AuthProvider";
 
-const CartContext = createContext(null);
+const CartContext = createContext({ cart: [] });
 const CartDispatchContext = createContext(null);
 
 const initialCartState = {

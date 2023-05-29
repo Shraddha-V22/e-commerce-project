@@ -5,6 +5,11 @@ export const cartReducer = (state, { type, payload }) => {
         ...state,
         cart: payload,
       };
+    case "RESET_CART":
+      return {
+        ...state,
+        cart: [],
+      };
     default:
       return state;
   }

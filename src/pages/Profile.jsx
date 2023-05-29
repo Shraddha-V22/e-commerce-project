@@ -72,6 +72,16 @@ export default function Profile() {
     setAddressInput((prev) => ({ ...prev, [name]: value }));
   };
 
+  const logUserOut = () => {
+    signOut();
+    toast.success("Logged out!", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    cartDispatch({ type: "RESET_CART" });
+    wishlistDispatch({ type: "RESET_WISHLIST" });
+    navigate("/");
+  };
+
   return (
     <section className="m-2 mx-auto w-[90vw] bg-white p-4 sm:max-w-[500px]">
       <div className="p- flex items-center gap-4 border-b-[1px] px-2 pb-4">
@@ -112,13 +122,7 @@ export default function Profile() {
       <div className="border-t-[1px] pt-4">
         <button
           className="rounded-md border-[1px] border-[#2C74B3]/20 p-2 capitalize outline-none"
-          onClick={() => {
-            signOut();
-            toast.success("Logged out!", {
-              position: toast.POSITION.TOP_RIGHT,
-            });
-            navigate("/");
-          }}
+          onClick={logUserOut}
         >
           Logout
         </button>

@@ -161,10 +161,7 @@ function CartItem({ item }) {
               ▼
             </button>
           ) : (
-            <button
-              className="border-[1px] px-2 text-xs"
-              onClick={removeItemFromCart}
-            >
+            <button className="border-[1px] px-2 text-xs text-gray-500">
               ▼
             </button>
           )}

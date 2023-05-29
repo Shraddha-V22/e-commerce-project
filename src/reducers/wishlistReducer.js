@@ -5,6 +5,11 @@ export const wishlistReducer = (state, { type, payload }) => {
         ...state,
         wishlist: payload,
       };
+    case "RESET_WISHLIST":
+      return {
+        ...state,
+        wishlist: [],
+      };
     default:
       return state;
   }

@@ -7,29 +7,35 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faUser } from "@fortawesome/free-regular-svg-icons";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
-import { useCart } from "../contexts/CartProvider";
+import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { useProducts, useProductsDispatch } from "../contexts/ProductProvider";
 import { useAuth } from "../contexts/AuthProvider";
-import { useWishlist } from "../contexts/WishlistProvider";
+import { useWishlist, useWishlistDispatch } from "../contexts/WishlistProvider";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 export default function Header() {
   const { cart } = useCart();
   const { wishlist } = useWishlist();
+  const cartDispatch = useCartDispatch();
+  const wishlistDispatch = useWishlistDispatch();
   const productDispatch = useProductsDispatch();
   const {
     products: { categories, search },
   } = useProducts();
   const { signOut, user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const categoryRef = useRef(null);
   const timerId = useRef(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [show, setShow] = useState({
     categories: false,
     searchInput: false,
     profileMenu: false,
   });
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  console.log(cart);
 
   const handleMouseEnter = () => {
     if (timerId.current) {
@@ -77,6 +83,16 @@ export default function Header() {
         checked: true,
       },
     });
+  };
+
+  const logUserOut = () => {
+    signOut();
+    toast.success("Logged out!", {
+      position: toast.POSITION.TOP_RIGHT,
+    });
+    cartDispatch({ type: "RESET_CART" });
+    wishlistDispatch({ type: "RESET_WISHLIST" });
+    navigate("/");
   };
 
   return (
@@ -128,9 +144,10 @@ export default function Header() {
               type="text"
               placeholder="Search products..."
               className="border-b-[1px] border-[#2C74B3]/20 outline-none"
-              onChange={(e) =>
-                productDispatch({ type: "SEARCH", payload: e.target.value })
-              }
+              onChange={(e) => {
+                productDispatch({ type: "SEARCH", payload: e.target.value });
+                location?.pathname === "/" && navigate("/products");
+              }}
               value={search}
             />
           )}
@@ -187,16 +204,7 @@ export default function Header() {
               >
                 Go to profile
               </li>
-              <li
-                className="cursor-pointer p-1 pl-1"
-                onClick={() => {
-                  signOut();
-                  toast.success("Logged out!", {
-                    position: toast.POSITION.TOP_RIGHT,
-                  });
-                  navigate("/");
-                }}
-              >
+              <li className="cursor-pointer p-1 pl-1" onClick={logUserOut}>
                 logout
               </li>
             </ul>
