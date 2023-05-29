@@ -5,6 +5,7 @@ import { cartReducer } from "../reducers/cartReducer";
 import { useContext } from "react";
 import { useEffect } from "react";
 import { getItemFromLocalStorage } from "../common/utils";
+import { useAuth } from "./AuthProvider";
 
 const CartContext = createContext(null);
 const CartDispatchContext = createContext(null);
@@ -15,15 +16,15 @@ const initialCartState = {
 
 export default function CartProvider({ children }) {
   const [cart, cartDispatch] = useReducer(cartReducer, initialCartState);
-  const token = getItemFromLocalStorage("token");
+  const { user, isLoggedIn } = useAuth();
 
   const getCartItems = async () => {
-    if (token) {
+    if (isLoggedIn) {
       try {
         const res = await fetch("/api/user/cart", {
           method: "GET",
           headers: {
-            authorization: token,
+            authorization: user.token,
           },
         });
         const result = await res.json();

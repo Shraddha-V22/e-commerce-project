@@ -8,14 +8,15 @@ import { fetchRequest } from "../common/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
+import { useAuth } from "../contexts/AuthProvider";
 
 export default function ProductDetails() {
   const navigate = useNavigate();
   const { cart } = useCart();
+  const { user, isLoggedIn } = useAuth();
   const cartDispatch = useCartDispatch();
   const wishlistDispatch = useWishlistDispatch();
   const { productId } = useParams();
-  const token = getItemFromLocalStorage("token");
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
@@ -50,12 +51,12 @@ export default function ProductDetails() {
   const inCart = cart.find((item) => item.id === id);
 
   const addToCart = async (item) => {
-    if (token) {
+    if (isLoggedIn) {
       try {
         const request = await fetch("/api/user/cart", {
           method: "POST",
           headers: {
-            authorization: token,
+            authorization: user.token,
           },
           body: JSON.stringify({ product: item }),
         });
@@ -72,12 +73,12 @@ export default function ProductDetails() {
   };
 
   const addToWishlist = async (item) => {
-    if (token) {
+    if (isLoggedIn) {
       try {
         const request = await fetch("/api/user/wishlist", {
           method: "POST",
           headers: {
-            authorization: token,
+            authorization: user.token,
           },
           body: JSON.stringify({ product: item }),
         });

@@ -5,8 +5,8 @@ import { useLocation } from "react-router-dom";
 
 export default function RequiredAuth({ children }) {
   const location = useLocation();
-  const token = getItemFromLocalStorage("token");
-  return !token ? (
+  const { isLoggedIn } = useAuth();
+  return !isLoggedIn ? (
     <Navigate to="/login" state={{ from: location }} />
   ) : (
     children

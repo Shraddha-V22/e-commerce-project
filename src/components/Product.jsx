@@ -8,6 +8,7 @@ import { faHeart as faHeartFilled } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useWishlist, useWishlistDispatch } from "../contexts/WishlistProvider";
 import { toast } from "react-toastify";
+import { useAuth } from "../contexts/AuthProvider";
 
 export default function Product({ item }) {
   const navigate = useNavigate();
@@ -15,20 +16,20 @@ export default function Product({ item }) {
   const wishlistDispatch = useWishlistDispatch();
   const { wishlist } = useWishlist();
   const { cart } = useCart();
+  const { isLoggedIn, user } = useAuth();
   const { id, product_name, brand, price, category } = item;
-  const token = getItemFromLocalStorage("token");
 
   const inCart = cart?.find((item) => item.id === id);
   const inWishlist = wishlist.find((item) => item.id === id);
 
   const addToCart = async (e, item) => {
     e.stopPropagation();
-    if (token) {
+    if (isLoggedIn) {
       try {
         const request = await fetch("/api/user/cart", {
           method: "POST",
           headers: {
-            authorization: token,
+            authorization: user.token,
           },
           body: JSON.stringify({ product: item }),
         });
@@ -48,12 +49,12 @@ export default function Product({ item }) {
 
   const addToWishlist = async (e, item) => {
     e.stopPropagation();
-    if (token) {
+    if (isLoggedIn) {
       try {
         const request = await fetch("/api/user/wishlist", {
           method: "POST",
           headers: {
-            authorization: token,
+            authorization: user.token,
           },
           body: JSON.stringify({ product: item }),
         });
@@ -76,12 +77,12 @@ export default function Product({ item }) {
 
   const removeFromWishlist = async (e, id) => {
     e.stopPropagation();
-    if (token) {
+    if (isLoggedIn) {
       try {
         const request = await fetch(`/api/user/wishlist/${id}`, {
           method: "DELETE",
           headers: {
-            authorization: token,
+            authorization: user.token,
           },
         });
 

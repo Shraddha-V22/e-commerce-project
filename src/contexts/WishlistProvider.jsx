@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { wishlistReducer } from "../reducers/wishlistReducer";
 import { getItemFromLocalStorage } from "../common/utils";
 import { useEffect } from "react";
+import { useAuth } from "./AuthProvider";
 
 const WishlistContext = createContext(null);
 const WishlistDispatchContext = createContext(null);
@@ -18,15 +19,15 @@ export default function WishlistProvider({ children }) {
     wishlistReducer,
     initialWishlistState
   );
-  const token = getItemFromLocalStorage("token");
+  const { user, isLoggedIn } = useAuth();
 
   const getWishlistItems = async () => {
-    if (token) {
+    if (isLoggedIn) {
       try {
         const res = await fetch("/api/user/wishlist", {
           method: "GET",
           headers: {
-            authorization: token,
+            authorization: user.token,
           },
         });
         const result = await res.json();

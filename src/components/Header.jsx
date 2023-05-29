@@ -20,7 +20,7 @@ export default function Header() {
   const {
     products: { categories, search },
   } = useProducts();
-  const { signOut, user } = useAuth();
+  const { signOut, user, isLoggedIn } = useAuth();
   const navigate = useNavigate();
   const categoryRef = useRef(null);
   const timerId = useRef(null);
@@ -30,9 +30,6 @@ export default function Header() {
     profileMenu: false,
   });
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  const token = getItemFromLocalStorage("token");
-  // console.log(user);
 
   const handleMouseEnter = () => {
     if (timerId.current) {
@@ -159,7 +156,7 @@ export default function Header() {
             </p>
           )}
         </li>
-        {!token ? (
+        {!isLoggedIn ? (
           <li>
             <Link to="/login">
               <FontAwesomeIcon icon={faUser} title="Login" />
@@ -173,8 +170,8 @@ export default function Header() {
               }
               className="relative rounded-full bg-pink-600/90 p-1 px-2 uppercase text-white"
             >
-              {user.firstName.substr(0, 1)}
-              {user.lastName.substr(0, 1)}
+              {user?.userDetails?.firstName.substr(0, 1)}
+              {user?.userDetails?.lastName.substr(0, 1)}
             </button>
             <ul
               className={`${

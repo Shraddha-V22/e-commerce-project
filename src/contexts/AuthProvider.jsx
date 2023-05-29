@@ -8,9 +8,8 @@ import { getItemFromLocalStorage } from "../common/utils";
 const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(
-    () => JSON.parse(getItemFromLocalStorage("user")) || {}
-  );
+  const [user, setUser] = useState({ userDetails: {}, token: "" });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const signUp = async (creds) => {
     try {
@@ -30,19 +29,10 @@ export default function AuthProvider({ children }) {
         }
       } else {
         setUser({
-          firstName: res.createdUser.firstName,
-          lastName: res.createdUser.lastName,
-          addresses: [],
+          userDetails: res.createdUser,
+          token: res.encodedToken,
         });
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            firstName: res.createdUser.firstName,
-            lastName: res.createdUser.lastName,
-            addresses: [],
-          })
-        );
-        localStorage.setItem("token", res.encodedToken);
+        if (res.encodedToken != "undefinded") setIsLoggedIn(true);
         toast.success("Registered Successfully!", {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -75,19 +65,10 @@ export default function AuthProvider({ children }) {
         }
       } else {
         setUser({
-          firstName: res.foundUser.firstName,
-          lastName: res.foundUser.lastName,
-          addresses: [],
+          userDetails: res.foundUser,
+          token: res.encodedToken,
         });
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            firstName: res.foundUser.firstName,
-            lastName: res.foundUser.lastName,
-            addresses: [],
-          })
-        );
-        localStorage.setItem("token", res.encodedToken);
+        if (res.encodedToken != "undefinded") setIsLoggedIn(true);
         toast.success("Logged In Successfully!", {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -100,13 +81,16 @@ export default function AuthProvider({ children }) {
     }
   };
 
+  console.log(isLoggedIn);
+
   const signOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    setIsLoggedIn(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, signUp, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user, isLoggedIn, setUser, signUp, signIn, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -4,10 +4,10 @@ import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
 import { useNavigate } from "react-router-dom";
 import { useWishlistDispatch } from "../contexts/WishlistProvider";
 import { toast } from "react-toastify";
+import { useAuth } from "../contexts/AuthProvider";
 
 export default function Cart() {
   const { cart } = useCart();
-  const token = getItemFromLocalStorage("token");
   const navigate = useNavigate();
 
   const totalPrice = (cart) =>
@@ -67,15 +67,15 @@ function CartItem({ item }) {
   const cartDispatch = useCartDispatch();
   const wishlistDispatch = useWishlistDispatch();
   const { id, product_name, brand, price, category, qty } = item;
-  const token = getItemFromLocalStorage("token");
+  const { user, isLoggedIn } = useAuth();
 
   const removeItemFromCart = async () => {
-    if (token) {
+    if (isLoggedIn) {
       try {
         const request = await fetch(`/api/user/cart/${id}`, {
           method: "DELETE",
           headers: {
-            authorization: token,
+            authorization: user.token,
           },
         });
         const res = await request.json();
@@ -87,12 +87,12 @@ function CartItem({ item }) {
   };
 
   const updateQty = async (action) => {
-    if (token) {
+    if (isLoggedIn) {
       try {
         const request = await fetch(`/api/user/cart/${id}`, {
           method: "POST",
           headers: {
-            authorization: token,
+            authorization: user.token,
           },
           body: JSON.stringify({ action }),
         });
@@ -105,12 +105,12 @@ function CartItem({ item }) {
   };
 
   const addToWishlist = async (item) => {
-    if (token) {
+    if (isLoggedIn) {
       try {
         const request = await fetch("/api/user/wishlist", {
           method: "POST",
           headers: {
-            authorization: token,
+            authorization: user.token,
           },
           body: JSON.stringify({ product: item }),
         });
