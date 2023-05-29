@@ -35,8 +35,6 @@ export default function Header() {
     profileMenu: false,
   });
 
-  console.log(cart);
-
   const handleMouseEnter = () => {
     if (timerId.current) {
       clearTimeout(timerId);
@@ -76,12 +74,9 @@ export default function Header() {
     navigate("/products");
     productDispatch({
       type: "CATEGORY_FILTER",
-      payload: {
-        name:
-          categoryName[0].toUpperCase() +
-          categoryName.substr(1, categoryName.length),
-        checked: true,
-      },
+      payload:
+        categoryName[0].toUpperCase() +
+        categoryName.substr(1, categoryName.length),
     });
   };
 

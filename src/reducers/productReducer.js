@@ -33,14 +33,22 @@ export const productReducer = (state, { type, payload }) => {
       };
       break;
     case "CATEGORY_FILTER":
-      console.log(payload);
-      tempState = {
-        ...tempState,
-        category: payload.checked
-          ? [...tempState.category, payload.name]
-          : tempState.category.filter((el) => el !== payload.name),
-      };
+      if (typeof payload !== "object") {
+        tempState = {
+          ...tempState,
+          category: [payload],
+        };
+      } else {
+        tempState = {
+          ...tempState,
+          category: payload.checked
+            ? [...tempState.category, payload.name]
+            : tempState.category.filter((el) => el !== payload.name),
+        };
+      }
+      console.log(tempState.category);
       break;
+
     case "PRICE_FILTER":
       tempState = {
         ...tempState,

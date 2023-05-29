@@ -16,12 +16,9 @@ export default function CategoryRows({ categoryIndex }) {
     navigate("/products");
     productDispatch({
       type: "CATEGORY_FILTER",
-      payload: {
-        name:
-          categoryName[0].toUpperCase() +
-          categoryName.substr(1, categoryName.length),
-        checked: true,
-      },
+      payload:
+        categoryName[0].toUpperCase() +
+        categoryName.substr(1, categoryName.length),
     });
   };
 
