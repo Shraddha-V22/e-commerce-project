@@ -4,11 +4,9 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import PasswordInput from "../components/PasswordInput";
-import { useLocation } from "react-router-dom";
 
 export default function Login() {
   const { signIn } = useAuth();
-  // const location = useLocation();
   const navigate = useNavigate();
   const [loginCreds, setLoginCreds] = useState({ email: "", password: "" });
 

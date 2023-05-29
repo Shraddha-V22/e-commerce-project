@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
-import { useWishlistDispatch } from "../contexts/WishlistProvider";
+import { useWishlist, useWishlistDispatch } from "../contexts/WishlistProvider";
 import { fetchRequest } from "../common/api";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
@@ -13,6 +13,7 @@ import { useAuth } from "../contexts/AuthProvider";
 export default function ProductDetails() {
   const navigate = useNavigate();
   const { cart } = useCart();
+  const { wishlist } = useWishlist();
   const { user, isLoggedIn } = useAuth();
   const cartDispatch = useCartDispatch();
   const wishlistDispatch = useWishlistDispatch();
@@ -48,7 +49,9 @@ export default function ProductDetails() {
     rating,
     material,
   } = product;
+
   const inCart = cart.find((item) => item.id === id);
+  const inWishlist = wishlist.find((item) => item.id === id);
 
   const addToCart = async (item) => {
     if (isLoggedIn) {
@@ -97,6 +100,30 @@ export default function ProductDetails() {
     }
   };
 
+  const removeFromWishlist = async (id) => {
+    if (isLoggedIn) {
+      try {
+        const request = await fetch(`/api/user/wishlist/${id}`, {
+          method: "DELETE",
+          headers: {
+            authorization: user.token,
+          },
+        });
+
+        const res = await request.json();
+        wishlistDispatch({
+          type: "INITIALISE_WISHLIST",
+          payload: res.wishlist,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+      toast.success("Item removed from Wishlist!", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
+
   const getRatingStars = (rating) => {
     return new Array(rating)
       .fill(0)
@@ -132,12 +159,21 @@ export default function ProductDetails() {
             Go to cart
           </button>
         )}
-        <button
-          onClick={() => addToWishlist(product)}
-          className="rounded-md border-[1px] border-[#2C74B3]/20 p-2 capitalize outline-none"
-        >
-          Add to wishlist
-        </button>
+        {!inWishlist ? (
+          <button
+            onClick={() => addToWishlist(product)}
+            className="rounded-md border-[1px] border-[#2C74B3]/20 p-2 capitalize outline-none"
+          >
+            Add to wishlist
+          </button>
+        ) : (
+          <button
+            onClick={() => removeFromWishlist(id)}
+            className="rounded-md border-[1px] border-[#2C74B3]/20 p-2 capitalize outline-none"
+          >
+            Remove from wishlist
+          </button>
+        )}
         <div className="text-xs leading-4 text-gray-500">
           <p>{description}</p>
           <ul className="ml-4 mt-2 list-disc capitalize">

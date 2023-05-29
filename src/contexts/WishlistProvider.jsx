@@ -7,7 +7,7 @@ import { getItemFromLocalStorage } from "../common/utils";
 import { useEffect } from "react";
 import { useAuth } from "./AuthProvider";
 
-const WishlistContext = createContext(null);
+const WishlistContext = createContext({ wishlist: [] });
 const WishlistDispatchContext = createContext(null);
 
 const initialWishlistState = {
