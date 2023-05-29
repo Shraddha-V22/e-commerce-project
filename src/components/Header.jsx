@@ -87,9 +87,7 @@ export default function Header() {
 
   const logUserOut = () => {
     signOut();
-    toast.success("Logged out!", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
+    toast.success("Logged out!");
     cartDispatch({ type: "RESET_CART" });
     wishlistDispatch({ type: "RESET_WISHLIST" });
     navigate("/");

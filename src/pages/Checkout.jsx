@@ -143,9 +143,7 @@ export default function Checkout() {
               if (!isEmptyObject(checkoutInputs.addressInput)) {
                 dispatch({ type: "UPDATE_INDEX" });
               } else {
-                toast.error("All fields are required!", {
-                  position: toast.POSITION.TOP_RIGHT,
-                });
+                toast.error("All fields are required!");
               }
             }}
             className="ml-auto border-[1px] border-black p-1 px-2"
@@ -187,9 +185,7 @@ export default function Checkout() {
               if (!isEmptyObject(checkoutInputs.addressInput)) {
                 dispatch({ type: "UPDATE_INDEX" });
               } else {
-                toast.error("All fields are required!", {
-                  position: toast.POSITION.TOP_RIGHT,
-                });
+                toast.error("All fields are required!");
               }
             }}
             className="ml-auto border-[1px] border-black p-1 px-2"

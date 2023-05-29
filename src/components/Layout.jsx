@@ -11,7 +11,15 @@ export default function Layout() {
       <Header />
       <main className="bg-[#E3F2C1]/20 pt-[100px]">
         <Outlet />
-        <ToastContainer className="h-[50px] w-[200px]" />
+        <ToastContainer
+          autoClose={2000}
+          position="bottom-right"
+          hideProgressBar={true}
+          closeOnClick
+          pauseOnFocusLoss={false}
+          className="w-[fit-content]"
+          theme="light"
+        />
       </main>
       <Footer />
     </section>

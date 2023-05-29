@@ -66,9 +66,7 @@ export default function ProductDetails() {
 
         const res = await request.json();
         cartDispatch({ type: "INITIALISE_CART", payload: res.cart });
-        toast.success("Item Added to Cart!", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+        toast.success("Item Added to Cart!");
       } catch (error) {
         console.error(error);
       }
@@ -91,9 +89,7 @@ export default function ProductDetails() {
           type: "INITIALISE_WISHLIST",
           payload: res.wishlist,
         });
-        toast.success("Item Added to Wishlist!", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+        toast.success("Item Added to Wishlist!");
       } catch (error) {
         console.error(error);
       }
@@ -118,9 +114,7 @@ export default function ProductDetails() {
       } catch (error) {
         console.error(error);
       }
-      toast.success("Item removed from Wishlist!", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      toast.success("Item removed from Wishlist!");
     }
   };
 

@@ -129,9 +129,7 @@ function CartItem({ item }) {
   const moveToWishlist = () => {
     removeItemFromCart();
     addToWishlist(item);
-    toast.success("Moved to Wishlist!", {
-      position: toast.POSITION.TOP_RIGHT,
-    });
+    toast.success("Moved to Wishlist!");
   };
 
   return (

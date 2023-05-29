@@ -23,9 +23,7 @@ export default function AuthProvider({ children }) {
 
       if (res.errors) {
         if (res.errors[0] === 422) {
-          toast.error("Email Already Exists!", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
+          toast.error("Email Already Exists!");
         }
       } else {
         setUser({
@@ -33,15 +31,11 @@ export default function AuthProvider({ children }) {
           token: res.encodedToken,
         });
         if (res.encodedToken != "undefinded") setIsLoggedIn(true);
-        toast.success("Registered Successfully!", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+        toast.success("Registered Successfully!");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong!", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      toast.error("Something went wrong!");
     }
   };
   const signIn = async (creds) => {
@@ -55,13 +49,9 @@ export default function AuthProvider({ children }) {
       const res = await request.json();
       if (res.errors) {
         if (res.errors[0] === 404) {
-          toast.error("Email entered is not registered!", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
+          toast.error("Email entered is not registered!");
         } else if (res.errors[0] === 401) {
-          toast.error("Invalid Email or Password!", {
-            position: toast.POSITION.TOP_RIGHT,
-          });
+          toast.error("Invalid Email or Password!");
         }
       } else {
         setUser({
@@ -69,15 +59,11 @@ export default function AuthProvider({ children }) {
           token: res.encodedToken,
         });
         if (res.encodedToken != "undefinded") setIsLoggedIn(true);
-        toast.success("Logged In Successfully!", {
-          position: toast.POSITION.TOP_RIGHT,
-        });
+        toast.success("Logged In Successfully!");
       }
     } catch (error) {
       console.error(error);
-      toast.error("Something went wrong!", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      toast.error("Something went wrong!");
     }
   };
 
