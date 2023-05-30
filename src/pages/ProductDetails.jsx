@@ -137,7 +137,7 @@ export default function ProductDetails() {
           <p className="uppercase">{brand}</p>
           <div className="text-pink-600">{getRatingStars(rating)}</div>
         </div>
-        <p>${price}</p>
+        <p>₹{price}</p>
         {!inCart ? (
           <button
             onClick={() => addToCart(product)}

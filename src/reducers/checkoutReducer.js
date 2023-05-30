@@ -22,7 +22,7 @@ export const checkoutReducer = (state, { type, payload }) => {
     case "UPDATE_INDEX":
       tempState = {
         ...tempState,
-        elIndex: tempState.elIndex === 3 ? 0 : tempState.elIndex + 1,
+        elIndex: tempState.elIndex === 2 ? 0 : tempState.elIndex + 1,
       };
       break;
     case "SELECT_ADDRESS":

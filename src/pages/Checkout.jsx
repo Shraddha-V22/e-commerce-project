@@ -46,18 +46,70 @@ export default function Checkout() {
     dispatch({ type: "ADDRESS_CHANGE", payload: { name, value } });
   };
 
-  const paymentDetailsHandler = (e) => {
-    const { name, value } = e.target;
-    dispatch({ type: "PAYMENT_DETAILS_CHANGE", payload: { name, value } });
-  };
-
   const totalPrice = (cart) =>
     cart.reduce((acc, item) => acc + item.price * item.qty, 0);
   const totalQty = (cart) => cart.reduce((acc, item) => acc + item.qty, 0);
 
   const placeOrder = () => {
-    dispatch({ type: "UPDATE_INDEX" });
-    cartDispatch({ type: "INITIALISE_CART", payload: [] });
+    console.log(totalPrice(cart), cart);
+    if (totalPrice === 0) {
+      toast.error("Please add products to the cart!");
+    } else {
+      displayRazorpay();
+    }
+  };
+
+  const loadScript = async (url) => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = url;
+
+      script.onload = () => {
+        resolve(true);
+      };
+
+      script.onerror = () => {
+        resolve(false);
+      };
+
+      document.body.appendChild(script);
+    });
+  };
+
+  const displayRazorpay = async () => {
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
+
+    if (!res) {
+      toast.error("Razorpay SDK failed to load, check you internet connection");
+      return;
+    }
+
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_API_KEY,
+      amount: totalPrice(cart) * 100,
+      currency: "INR",
+      name: "CHARME",
+      description: "Thank you for shopping with us",
+      // image: "",
+      handler: function (response) {
+        alert(response.razorpay_payment_id);
+        dispatch({ type: "UPDATE_INDEX" });
+        cartDispatch({ type: "INITIALISE_CART", payload: [] });
+      },
+      prefill: {
+        name: `${user?.userDetails?.firstName} ${user?.userDetails?.lastName}`,
+        email: user?.userDetails?.email,
+        contact: "9876543210",
+      },
+      theme: {
+        color: "#CC0066",
+      },
+    };
+
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
   };
 
   return (
@@ -65,12 +117,12 @@ export default function Checkout() {
       {checkoutInputs.elIndex === 0 && (
         <section className="flex flex-col gap-6">
           <h2 className="">Shipping Address</h2>
-          {user.addresses.length > 0 && (
+          {user?.userDetails?.addresses?.length > 0 && (
             <div className="flex flex-col gap-2">
               <p className="pl-2 text-sm text-gray-400">
                 Choose from Saved Addresses
               </p>
-              {user.addresses.map((el) => {
+              {user?.userDetails?.addresses?.map((el) => {
                 const add = Object.values(el.add).join(",");
                 return (
                   <div
@@ -154,48 +206,6 @@ export default function Checkout() {
       )}
       {checkoutInputs.elIndex === 1 && (
         <section className="flex flex-col gap-6">
-          <h2>Payment Details</h2>
-          <article className="flex flex-col gap-4">
-            <DetailsInput
-              placeholder="Name on Card"
-              name="nameOnCard"
-              onChange={paymentDetailsHandler}
-              value={checkoutInputs.paymentDetails.nameOnCard}
-            />
-            <DetailsInput
-              placeholder="Card Number"
-              name="cardNumber"
-              onChange={paymentDetailsHandler}
-              value={checkoutInputs.paymentDetails.cardNumber}
-            />
-            <DetailsInput
-              placeholder="Expiry Date"
-              name="expiryDate"
-              onChange={paymentDetailsHandler}
-              value={checkoutInputs.paymentDetails.expiryDate}
-            />
-            <input
-              className="border-b-[1px] outline-none"
-              type="text"
-              placeholder="CVV"
-            />
-          </article>
-          <button
-            onClick={() => {
-              if (!isEmptyObject(checkoutInputs.addressInput)) {
-                dispatch({ type: "UPDATE_INDEX" });
-              } else {
-                toast.error("All fields are required!");
-              }
-            }}
-            className="ml-auto border-[1px] border-black p-1 px-2"
-          >
-            Next
-          </button>
-        </section>
-      )}
-      {checkoutInputs.elIndex === 2 && (
-        <section className="flex flex-col gap-6">
           <div className="flex flex-col gap-4">
             <h2>Order Summary</h2>
             <table className="w-full table-auto">
@@ -213,7 +223,7 @@ export default function Checkout() {
                 <tr className="font-bold">
                   <td className="border-[1px] p-1 pl-2">Subtotal</td>
                   <td className="border-[1px] p-1 pl-2">{totalQty(cart)}</td>
-                  <td className="border-[1px] p-1 pl-2">${totalPrice(cart)}</td>
+                  <td className="border-[1px] p-1 pl-2">₹{totalPrice(cart)}</td>
                 </tr>
               </tbody>
             </table>
@@ -224,16 +234,6 @@ export default function Checkout() {
               {Object.values(checkoutInputs.addressInput).join(",")}.
             </p>
           </div>
-          <div className="flex flex-col gap-2">
-            <h2>Payment details</h2>
-            <div className="text-sm">
-              <p className="capitalize">
-                Name on Card: {checkoutInputs.paymentDetails.nameOnCard}
-              </p>
-              <p>Card Number: {checkoutInputs.paymentDetails.cardNumber}</p>
-              <p>Expiry Date: {checkoutInputs.paymentDetails.expiryDate}</p>
-            </div>
-          </div>
           <button
             onClick={placeOrder}
             className="ml-auto border-[1px] border-black p-1 px-2"
@@ -242,7 +242,7 @@ export default function Checkout() {
           </button>
         </section>
       )}
-      {checkoutInputs.elIndex === 3 && (
+      {checkoutInputs.elIndex === 2 && (
         <section className="flex flex-col items-center gap-4">
           <FontAwesomeIcon icon={faCircleCheck} className="text-6xl" />
           <h1>Ordered Placed!</h1>

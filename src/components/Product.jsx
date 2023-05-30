@@ -87,10 +87,10 @@ export default function Product({ item }) {
           type: "INITIALISE_WISHLIST",
           payload: res.wishlist,
         });
+        toast.success("Item removed from Wishlist!");
       } catch (error) {
         console.error(error);
       }
-      toast.success("Item removed from Wishlist!");
     }
   };
 
@@ -128,7 +128,7 @@ export default function Product({ item }) {
         <p className="text-xs uppercase text-gray-500 max-[500px]:text-[10px]">
           {brand}
         </p>
-        <p className="max-[500px]:text-sm">${price}</p>
+        <p className="max-[500px]:text-sm">₹{price}</p>
         {!inCart ? (
           <button
             onClick={(e) => addToCart(e, item)}

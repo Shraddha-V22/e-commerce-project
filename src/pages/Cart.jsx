@@ -20,16 +20,16 @@ export default function Cart() {
           <CartItem key={item.id} item={item} />
         ))}
       </section>
-      <section className="flex h-[fit-content] w-[300px] flex-col gap-4 rounded-lg bg-white p-4 max-[800px]:w-[90vw]">
+      <section className="flex h-[fit-content] w-[300px] flex-col gap-4 rounded-lg bg-white p-4 shadow-sm max-[800px]:w-[90vw]">
         <h1 className="text-lg uppercase">Price Details</h1>
         <div className="flex justify-between">
           <p>Price</p>
-          <p>${totalPrice(cart).toFixed(2)}</p>
+          <p>₹{totalPrice(cart).toFixed(2)}</p>
         </div>
         {totalPrice(cart) > 100 && (
           <div className="flex justify-between">
             <p>Discount</p>
-            <p>- $25.00</p>
+            <p>- ₹25.00</p>
           </div>
         )}
         <div className="flex justify-between capitalize">
@@ -39,7 +39,7 @@ export default function Cart() {
         <div className="-mt-2 flex w-auto justify-between border-t-[1px] pt-2 md:w-full">
           <p>Total Price</p>
           <p className="font-semibold text-green-700">
-            $
+            ₹
             {totalPrice(cart) > 100
               ? `${totalPrice(cart).toFixed(2) - 25}`
               : `${totalPrice(cart).toFixed(2)}`}
@@ -133,7 +133,7 @@ function CartItem({ item }) {
   };
 
   return (
-    <section className="grid h-[200px] w-full grid-cols-[150px_1fr] overflow-hidden rounded-lg md:w-[auto]">
+    <section className="grid h-[200px] w-full grid-cols-[150px_1fr] overflow-hidden rounded-lg shadow-sm md:w-[auto]">
       <img
         src={getImgUrl(category.toLowerCase())}
         alt={`${product_name}`}
@@ -142,7 +142,7 @@ function CartItem({ item }) {
       <div className="bottom-0 flex w-full flex-col items-start gap-0 bg-white px-4 py-2">
         <h3 className="line-clamp-1 font-bold uppercase">{product_name}</h3>
         <p className="text-xs uppercase">{brand}</p>
-        <p>${price}</p>
+        <p>₹{price}</p>
         <div className="flex gap-4">
           <button
             className="border-[1px] px-2 text-xs"
