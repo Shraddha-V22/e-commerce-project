@@ -121,7 +121,7 @@ export default function ProductDetails() {
   const getRatingStars = (rating) => {
     return new Array(rating)
       .fill(0)
-      .map(() => <FontAwesomeIcon icon={faStar} />);
+      .map((el, idx) => <FontAwesomeIcon key={idx} icon={faStar} />);
   };
 
   return !isLoading ? (

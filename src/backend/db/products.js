@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid";
 
 export const products = [
   {
-    id: uuid(),
+    id: "73170184-4671-4c84-a42c-6da5eccedefb",
     product_name: "hendrerit at vulputate",
     brand: "Gucci",
     category: "Accessories",
@@ -23,7 +23,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "e9829982-4105-4d6a-b928-b0fb71b3f22b",
     product_name: "nisi nam ultrices libero",
     brand: "Nike",
     category: "Shoes",
@@ -38,7 +38,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "9f31a868-e02a-42e5-aa9c-d0588f644d81",
     product_name: "dolor sit amet consectetuer",
     brand: "Gucci",
     category: "Accessories",
@@ -53,7 +53,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "eb3b7b52-d23e-404d-a03f-377532e6a190",
     product_name: "maecenas pulvinar lobortis est phasellus",
     brand: "Zara",
     category: "Shoes",
@@ -68,7 +68,7 @@ export const products = [
     rating: 5,
   },
   {
-    id: uuid(),
+    id: "2a721f42-f394-436c-8080-847c2245cfba",
     product_name: "non sodales",
     brand: "Adidas",
     category: "Accessories",
@@ -83,7 +83,7 @@ export const products = [
     rating: 5,
   },
   {
-    id: uuid(),
+    id: "0d023d93-1369-472c-8924-c866092465fd",
     product_name: "interdum venenatis turpis enim",
     brand: "Zara",
     category: "Clothing",
@@ -98,7 +98,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "d6894588-09ea-4a65-9c24-1997b9ddf9de",
     product_name: "nulla eget eros elementum pellentesque",
     brand: "Adidas",
     category: "Accessories",
@@ -113,7 +113,7 @@ export const products = [
     rating: 5,
   },
   {
-    id: uuid(),
+    id: "9960c1da-1bf9-4414-824b-4cb05bc6a0c4",
     product_name: "volutpat convallis morbi odio odio",
     brand: "Adidas",
     category: "Shoes",
@@ -128,7 +128,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "e09c52a7-76fa-4a2a-9738-5fe474b49764",
     product_name: "tempus",
     brand: "Adidas",
     category: "Shoes",
@@ -143,7 +143,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "2923880c-3f2f-463a-9a6a-c2f2d08e35b8",
     product_name: "nunc",
     brand: "Zara",
     category: "Shoes",
@@ -158,7 +158,7 @@ export const products = [
     rating: 5,
   },
   {
-    id: uuid(),
+    id: "c977fb58-5cbf-4553-a4eb-dd6f5e58d2cf",
     product_name: "vel",
     brand: "Zara",
     category: "Accessories",
@@ -174,7 +174,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "a8ecee40-50f2-4264-b88e-a87b32c81c43",
     product_name: "ultrices phasellus id sapien in",
     brand: "Zara",
     category: "Shoes",
@@ -190,7 +190,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "d9336a7d-1155-405e-89bd-313ff83a7be0",
     product_name: "justo in blandit ultrices enim",
     brand: "Gucci",
     category: "Shoes",
@@ -205,7 +205,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "3c6f4ae6-6bbf-47c9-a611-fdd31f8b287f",
     product_name: "dolor",
     brand: "Adidas",
     category: "Clothing",
@@ -220,7 +220,7 @@ export const products = [
     rating: 4,
   },
   {
-    id: uuid(),
+    id: "82c041dd-29f8-4ed3-8de5-780b1a554e5c",
     product_name: "justo nec",
     brand: "Adidas",
     category: "Accessories",
@@ -236,7 +236,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "8ad7166e-59db-4ee5-ba88-60b741ab8c0a",
     product_name: "elementum pellentesque",
     brand: "Adidas",
     category: "Shoes",
@@ -251,7 +251,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "9783671c-3170-4f91-a502-74565ad9560b",
     product_name: "ac consequat metus sapien",
     brand: "Adidas",
     category: "Accessories",
@@ -267,7 +267,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "28df3ebb-634e-4199-84ba-1beb98e8ca0b",
     product_name: "consectetuer eget",
     brand: "Adidas",
     category: "Shoes",
@@ -282,7 +282,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "09d07e78-2d54-4c5d-a33d-b7d92b2b6194",
     product_name: "tristique est et tempus",
     brand: "Zara",
     category: "Accessories",
@@ -297,7 +297,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "19e3049c-2aef-48ae-ab4a-ef00c1ccc460",
     product_name: "turpis",
     brand: "Nike",
     category: "Clothing",
@@ -312,7 +312,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "07f6fac5-f95a-4a46-b105-e9655d0b0ba6",
     product_name: "a pede posuere",
     brand: "Gucci",
     category: "Shoes",
@@ -327,7 +327,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "aae32a11-d20a-42bb-930b-09b0cfab931e",
     product_name: "quam fringilla",
     brand: "Adidas",
     category: "Clothing",
@@ -342,7 +342,7 @@ export const products = [
     rating: 4,
   },
   {
-    id: uuid(),
+    id: "f283d600-56aa-49b5-9d62-2e2c486077a2",
     product_name: "nullam",
     brand: "Nike",
     category: "Clothing",
@@ -357,7 +357,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "a94a1df4-fb81-4a78-bd0e-5b6b3de6d683",
     product_name: "varius ut blandit non",
     brand: "Zara",
     category: "Shoes",
@@ -372,7 +372,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "2f3e93ac-fc11-44da-9e09-c2c3245a6126",
     product_name: "imperdiet et commodo vulputate justo",
     brand: "Adidas",
     category: "Clothing",
@@ -388,7 +388,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "ffa58616-04fe-45d0-be7e-bcb49b8cb384",
     product_name: "purus",
     brand: "Zara",
     category: "Clothing",
@@ -403,7 +403,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "818fe820-5216-4ae1-a6e8-3a7b8715d706",
     product_name: "ut erat curabitur gravida nisi",
     brand: "Adidas",
     category: "Accessories",
@@ -418,11 +418,11 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "8aff9fd4-b116-4427-9f41-a0c29299ca25",
     product_name: "vestibulum ac est lacinia",
     brand: "Adidas",
     category: "Accessories",
-    price: 277.0,
+    price: 277,
     color: "Violet",
     size: "L",
     material: "Cotton",
@@ -433,7 +433,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "bf123261-1859-414a-95e7-80d38f5df5a2",
     product_name: "arcu",
     brand: "Gucci",
     category: "Accessories",
@@ -448,7 +448,7 @@ export const products = [
     rating: 4,
   },
   {
-    id: uuid(),
+    id: "730eb2ec-8c5b-418f-a57b-e91e0b276608",
     product_name: "posuere",
     brand: "Adidas",
     category: "Clothing",
@@ -463,7 +463,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "5473bdb5-ecbf-41d8-bcfa-d0de6e211d6a",
     product_name: "velit nec nisi vulputate",
     brand: "Nike",
     category: "Accessories",
@@ -478,7 +478,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "42777be9-c5ca-41e7-886d-a5548047aee4",
     product_name: "faucibus orci luctus et",
     brand: "Nike",
     category: "Accessories",
@@ -493,7 +493,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "5b921348-747d-42f2-bc0e-f238487195dc",
     product_name: "sit amet lobortis",
     brand: "Adidas",
     category: "Accessories",
@@ -508,7 +508,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "387e927c-fd6e-4584-b152-a1411712f064",
     product_name: "ligula nec sem duis",
     brand: "Zara",
     category: "Accessories",
@@ -523,7 +523,7 @@ export const products = [
     rating: 4,
   },
   {
-    id: uuid(),
+    id: "5ece62f5-ce30-4f57-b0b8-88288669bae5",
     product_name: "in",
     brand: "Zara",
     category: "Shoes",
@@ -538,7 +538,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "063d2607-5419-465b-8143-d24d5f53c63d",
     product_name: "cubilia curae",
     brand: "Nike",
     category: "Shoes",
@@ -553,7 +553,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "29cb7c13-0b96-454a-8acb-a9a57432f9be",
     product_name: "vel nisl duis ac",
     brand: "Gucci",
     category: "Clothing",
@@ -568,7 +568,7 @@ export const products = [
     rating: 4,
   },
   {
-    id: uuid(),
+    id: "538f7425-61a2-4398-99c7-8b8a0bcd1ad2",
     product_name: "nulla ut",
     brand: "Gucci",
     category: "Accessories",
@@ -583,7 +583,7 @@ export const products = [
     rating: 4,
   },
   {
-    id: uuid(),
+    id: "b775bc11-afd6-4ef8-8594-02f1af23b51c",
     product_name: "nullam porttitor lacus",
     brand: "Adidas",
     category: "Accessories",
@@ -598,7 +598,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "726e4bf7-7ce5-4b71-9756-e8218a52078f",
     product_name: "lobortis",
     brand: "Zara",
     category: "Clothing",
@@ -613,7 +613,7 @@ export const products = [
     rating: 5,
   },
   {
-    id: uuid(),
+    id: "ad4013ac-f311-4a31-85e4-403f85be5f3d",
     product_name: "rutrum ac lobortis",
     brand: "Nike",
     category: "Accessories",
@@ -629,7 +629,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "682b969a-0d41-47fa-b264-8cce3607bf97",
     product_name: "in blandit ultrices",
     brand: "Adidas",
     category: "Accessories",
@@ -644,7 +644,7 @@ export const products = [
     rating: 5,
   },
   {
-    id: uuid(),
+    id: "1c39508c-e311-4b06-9450-88454372aa32",
     product_name: "adipiscing elit",
     brand: "Adidas",
     category: "Shoes",
@@ -659,7 +659,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "c7aa2498-a98a-42f9-a52d-b06985603a76",
     product_name: "ut erat id mauris",
     brand: "Zara",
     category: "Clothing",
@@ -674,7 +674,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "416023dc-f4dd-43af-8e3b-52ebd306c411",
     product_name: "posuere cubilia curae mauris",
     brand: "Gucci",
     category: "Clothing",
@@ -689,7 +689,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "8f0cfd08-ef99-4562-8ad4-e497b99532f5",
     product_name: "ut",
     brand: "Adidas",
     category: "Accessories",
@@ -704,7 +704,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "f1631247-793f-465b-8444-88078e208dfd",
     product_name: "neque",
     brand: "Zara",
     category: "Clothing",
@@ -719,7 +719,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "3770e1e5-61f1-493c-a808-11020af71562",
     product_name: "maecenas leo odio condimentum id",
     brand: "Zara",
     category: "Accessories",
@@ -734,7 +734,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "04d352f7-0174-4cbc-831a-77337dc7420a",
     product_name: "ipsum dolor sit amet consectetuer",
     brand: "Gucci",
     category: "Clothing",
@@ -749,7 +749,7 @@ export const products = [
     rating: 1,
   },
   {
-    id: uuid(),
+    id: "a8670842-8c62-4a08-bee1-5107262c289a",
     product_name: "turpis donec posuere",
     brand: "Adidas",
     category: "Accessories",
@@ -764,7 +764,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "c3161730-bce1-473e-bf7c-03c6439d0b54",
     product_name: "ac est",
     brand: "Nike",
     category: "Accessories",
@@ -780,7 +780,7 @@ export const products = [
     rating: 4,
   },
   {
-    id: uuid(),
+    id: "329877ef-d812-46c6-b68d-9bebd9beb3bf",
     product_name: "iaculis diam erat fermentum",
     brand: "Nike",
     category: "Accessories",
@@ -795,7 +795,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "87d1b0ae-2cc1-4bfd-a340-ba730228471d",
     product_name: "nulla ut",
     brand: "Zara",
     category: "Shoes",
@@ -810,7 +810,7 @@ export const products = [
     rating: 3,
   },
   {
-    id: uuid(),
+    id: "e1ccaaa4-3a56-41dd-bf61-098545dc729b",
     product_name: "blandit nam nulla integer",
     brand: "Adidas",
     category: "Accessories",
@@ -825,7 +825,7 @@ export const products = [
     rating: 4,
   },
   {
-    id: uuid(),
+    id: "135f1d1d-3a68-47b9-b365-0a7fdfdcb1e1",
     product_name: "ac diam cras pellentesque",
     brand: "Zara",
     category: "Clothing",
@@ -840,7 +840,7 @@ export const products = [
     rating: 4,
   },
   {
-    id: uuid(),
+    id: "7192ec46-0310-4bb8-9207-f22ed3c44a27",
     product_name: "magna vestibulum aliquet ultrices erat",
     brand: "Gucci",
     category: "Accessories",
@@ -855,7 +855,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "a237c36d-8684-4ec0-bf5a-f30fe604f807",
     product_name: "integer aliquet massa id",
     brand: "Adidas",
     category: "Shoes",
@@ -870,7 +870,7 @@ export const products = [
     rating: 5,
   },
   {
-    id: uuid(),
+    id: "d1ea2d95-ec09-4d95-abda-dd3eae97fae6",
     product_name: "sit amet sapien dignissim",
     brand: "Zara",
     category: "Accessories",
@@ -885,7 +885,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "5d659471-de5f-4dcf-a814-2ad93c034097",
     product_name: "luctus et ultrices",
     brand: "Nike",
     category: "Shoes",
@@ -900,7 +900,7 @@ export const products = [
     rating: 2,
   },
   {
-    id: uuid(),
+    id: "907b3378-0a7a-4778-94a4-47261a40b6db",
     product_name: "ut massa",
     brand: "Gucci",
     category: "Shoes",

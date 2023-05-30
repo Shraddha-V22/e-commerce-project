@@ -25,11 +25,6 @@ const initialCheckout = {
     zipcode: "",
     country: "",
   },
-  paymentDetails: {
-    nameOnCard: "",
-    cardNumber: "",
-    expiryDate: "",
-  },
   elIndex: 0,
   shippingAdd: "",
 };

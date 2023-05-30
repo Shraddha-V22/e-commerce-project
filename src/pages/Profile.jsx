@@ -29,10 +29,13 @@ export default function Profile() {
     if (!isEmptyObject(addressInput)) {
       setUser((prev) => ({
         ...prev,
-        addresses: [
-          ...prev.addresses,
-          { id: uuid(), add: { ...addressInput } },
-        ],
+        userDetails: {
+          ...prev.userDetails,
+          addresses: [
+            ...prev.userDetails.addresses,
+            { id: uuid(), add: { ...addressInput } },
+          ],
+        },
       }));
       setShowAddressInput(false);
       setAddressInput({
@@ -63,7 +66,10 @@ export default function Profile() {
   const deleteAddress = (addId) => {
     setUser((prev) => ({
       ...prev,
-      addresses: prev.addresses.filter(({ id }) => id !== addId),
+      userDetails: {
+        ...prev.userDetails,
+        addresses: prev.userDetails.addresses.filter(({ id }) => id !== addId),
+      },
     }));
   };
 
@@ -87,12 +93,12 @@ export default function Profile() {
           <FontAwesomeIcon icon={faUserCircle} title="Login" />
         </div>
         <h1 className="text-lg uppercase">
-          {user?.firstName} {user?.lastName}
+          {user?.userDetails?.firstName} {user?.userDetails?.lastName}
         </h1>
       </div>
       <div className="mb-4 flex flex-col items-start gap-4 p-2">
         <h2>Saved Addresses</h2>
-        {user.addresses.map((address) => (
+        {user?.userDetails?.addresses?.map((address) => (
           <AddressComp
             key={address.id}
             address={address}
@@ -148,9 +154,12 @@ function AddressComp({
     if (!isEmptyObject(addressInput)) {
       setUser((prev) => ({
         ...prev,
-        addresses: prev.addresses.map((el) =>
-          el.id === id ? { ...el, add: addressInput } : el
-        ),
+        userDetails: {
+          ...prev.userDetails,
+          addresses: prev.userDetails.addresses.map((el) =>
+            el.id === id ? { ...el, add: addressInput } : el
+          ),
+        },
       }));
       setShowEditInput(false);
       setAddressInput({
