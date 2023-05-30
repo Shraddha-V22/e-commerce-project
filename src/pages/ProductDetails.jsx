@@ -50,8 +50,8 @@ export default function ProductDetails() {
     material,
   } = product;
 
-  const inCart = cart.find((item) => item.id === id);
-  const inWishlist = wishlist.find((item) => item.id === id);
+  const inCart = cart?.find((item) => item.id === id);
+  const inWishlist = wishlist?.find((item) => item.id === id);
 
   const addToCart = async (item) => {
     if (isLoggedIn) {

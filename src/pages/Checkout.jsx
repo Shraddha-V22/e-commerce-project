@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import {
+  clearItemsFromCart,
   getImgUrl,
   getItemFromLocalStorage,
   isEmptyObject,
@@ -14,6 +15,7 @@ import { checkoutReducer } from "../reducers/checkoutReducer";
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
 import { toast } from "react-toastify";
+import { useOrders } from "../contexts/OrderProvider";
 
 const initialCheckout = {
   addressInput: {
@@ -33,8 +35,9 @@ const initialCheckout = {
 };
 
 export default function Checkout() {
-  const { user } = useAuth();
+  const { user, isLoggedIn } = useAuth();
   const { cart } = useCart();
+  const { setOrders } = useOrders();
   const cartDispatch = useCartDispatch();
   const [checkoutInputs, dispatch] = useReducer(
     checkoutReducer,
@@ -49,6 +52,15 @@ export default function Checkout() {
   const totalPrice = (cart) =>
     cart.reduce((acc, item) => acc + item.price * item.qty, 0);
   const totalQty = (cart) => cart.reduce((acc, item) => acc + item.qty, 0);
+
+  const clearAllCartItems = () => {
+    if (cart?.length > 0) {
+      for (let item of cart) {
+        const data = clearItemsFromCart(item?.id, user?.token, isLoggedIn);
+        cartDispatch({ type: "INITIALISE_CART", payload: data.cart });
+      }
+    }
+  };
 
   const placeOrder = () => {
     console.log(totalPrice(cart), cart);
@@ -88,15 +100,21 @@ export default function Checkout() {
 
     const options = {
       key: import.meta.env.VITE_RAZORPAY_API_KEY,
-      amount: totalPrice(cart) * 100,
+      amount: totalPrice(cart).toFixed(2) * 100,
       currency: "INR",
       name: "CHARME",
       description: "Thank you for shopping with us",
       // image: "",
       handler: function (response) {
-        alert(response.razorpay_payment_id);
+        const orderData = {
+          orderedItems: [...cart],
+          amount: totalPrice(cart).toFixed(2) * 100,
+          address: Object.values(checkoutInputs.addressInput).join(","),
+          paymentId: response.razorpay_payment_id,
+        };
+        setOrders((prev) => [orderData, ...prev]);
         dispatch({ type: "UPDATE_INDEX" });
-        cartDispatch({ type: "INITIALISE_CART", payload: [] });
+        clearAllCartItems();
       },
       prefill: {
         name: `${user?.userDetails?.firstName} ${user?.userDetails?.lastName}`,
@@ -217,13 +235,15 @@ export default function Checkout() {
                 </tr>
               </thead>
               <tbody>
-                {cart.map((item) => (
+                {cart?.map((item) => (
                   <OrderedItem key={item.id} {...item} />
                 ))}
                 <tr className="font-bold">
                   <td className="border-[1px] p-1 pl-2">Subtotal</td>
                   <td className="border-[1px] p-1 pl-2">{totalQty(cart)}</td>
-                  <td className="border-[1px] p-1 pl-2">₹{totalPrice(cart)}</td>
+                  <td className="border-[1px] p-1 pl-2">
+                    ₹{totalPrice(cart).toFixed(2)}
+                  </td>
                 </tr>
               </tbody>
             </table>

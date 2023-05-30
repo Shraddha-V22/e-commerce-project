@@ -46,7 +46,6 @@ export const productReducer = (state, { type, payload }) => {
             : tempState.category.filter((el) => el !== payload.name),
         };
       }
-      console.log(tempState.category);
       break;
 
     case "PRICE_FILTER":

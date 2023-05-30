@@ -1,6 +1,3 @@
-import { v4 as uuid } from "uuid";
-import { formatDate } from "../backend/utils/authUtils";
-
 export const getUniqueElementArray = (arr, property) => {
   return arr.reduce(
     (acc, item) =>
@@ -28,3 +25,20 @@ export const getItemFromLocalStorage = (key) => {
 
 export const isEmptyObject = (obj) =>
   Object.values(obj).some((el) => el === "");
+
+export const clearItemsFromCart = async (productId, token, isLoggedIn) => {
+  if (isLoggedIn) {
+    try {
+      const response = await fetch(`/api/user/cart/${productId}`, {
+        method: "DELETE",
+        headers: {
+          authorization: token,
+        },
+      });
+      const data = response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+};

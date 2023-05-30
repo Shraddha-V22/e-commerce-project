@@ -20,6 +20,7 @@ import AuthProvider from "./contexts/AuthProvider";
 import Profile from "./pages/Profile";
 import RequiredAuth from "./components/RequiredAuth";
 import Checkout from "./pages/Checkout";
+import OrderProvider from "./contexts/OrderProvider";
 
 const AppRouter = () => {
   const router = createBrowserRouter(
@@ -67,15 +68,17 @@ const AppRouter = () => {
 
 function App() {
   return (
-    <ProductProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <ProductProvider>
         <CartProvider>
-          <WishlistProvider>
-            <AppRouter />
-          </WishlistProvider>
+          <OrderProvider>
+            <WishlistProvider>
+              <AppRouter />
+            </WishlistProvider>
+          </OrderProvider>
         </CartProvider>
-      </AuthProvider>
-    </ProductProvider>
+      </ProductProvider>
+    </AuthProvider>
   );
 }
 
