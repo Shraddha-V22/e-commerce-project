@@ -12,8 +12,22 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useOrders } from "../contexts/OrderProvider";
+import OrderedItem from "../components/OrderedItems";
 
 export default function Profile() {
+  return (
+    <section>
+      <Outlet />
+    </section>
+  );
+}
+
+export function UserDetails() {
   const navigate = useNavigate();
   const { user, setUser, signOut } = useAuth();
   const [showAddressInput, setShowAddressInput] = useState(false);
@@ -96,7 +110,7 @@ export default function Profile() {
           {user?.userDetails?.firstName} {user?.userDetails?.lastName}
         </h1>
       </div>
-      <div className="mb-4 flex flex-col items-start gap-4 p-2">
+      <section className="mb-4 flex flex-col items-start gap-4 p-2">
         <h2>Saved Addresses</h2>
         {user?.userDetails?.addresses?.map((address) => (
           <AddressComp
@@ -122,7 +136,14 @@ export default function Profile() {
         >
           <FontAwesomeIcon icon={faCirclePlus} title={"Add new address"} />
         </button>
-      </div>
+      </section>
+      <button
+        onClick={() => navigate("/profile/order-history")}
+        className="flex w-full items-center justify-between border-t-[1px] border-[#2C74B3]/20 p-2"
+      >
+        <h2>Order History</h2>
+        <FontAwesomeIcon icon={faArrowRight} />
+      </button>
       <div className="border-t-[1px] pt-4">
         <button
           className="rounded-md border-[1px] border-[#2C74B3]/20 p-2 capitalize outline-none"
@@ -131,6 +152,57 @@ export default function Profile() {
           Logout
         </button>
       </div>
+    </section>
+  );
+}
+
+export function OrderHistory() {
+  const navigate = useNavigate();
+  const { orders } = useOrders();
+
+  return (
+    <section className="m-2 mx-auto w-[90vw] bg-white p-4 sm:max-w-[500px]">
+      <button
+        onClick={() => navigate("/profile")}
+        className="w-full border-b-[1px] p-2 text-left"
+      >
+        <FontAwesomeIcon icon={faArrowLeft} />
+      </button>
+      <section>
+        <h1 className="m-2 mb-4 text-lg uppercase">Order history</h1>
+        {orders?.map((order) => {
+          const { orderedItems, amount, address, paymentId } = order;
+          return (
+            <section className="flex w-full flex-wrap items-center gap-4 rounded-md border-[1px] p-2">
+              <table className="w-full table-auto">
+                <thead>
+                  <tr className="text-left capitalize">
+                    <th className="border-[1px] p-1 pl-2">product details</th>
+                    <th className="border-[1px] p-1 pl-2">qty</th>
+                    <th className="border-[1px] p-1 pl-2">price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orderedItems?.map((item) => (
+                    <OrderedItem key={item.id} {...item} />
+                  ))}
+                </tbody>
+              </table>
+              <section className="text-sm">
+                <p>
+                  <span className="font-bold">Payment ID:</span> {paymentId}
+                </p>
+                <p>
+                  <span className="font-bold">Amount:</span> ₹{amount}
+                </p>
+                <p>
+                  <span className="font-bold">Shipping Address:</span> {address}
+                </p>
+              </section>
+            </section>
+          );
+        })}
+      </section>
     </section>
   );
 }

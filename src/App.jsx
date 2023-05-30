@@ -17,7 +17,7 @@ import ProductDetails from "./pages/ProductDetails";
 import CartProvider from "./contexts/CartProvider";
 import WishlistProvider from "./contexts/WishlistProvider";
 import AuthProvider from "./contexts/AuthProvider";
-import Profile from "./pages/Profile";
+import Profile, { OrderHistory, UserDetails } from "./pages/Profile";
 import RequiredAuth from "./components/RequiredAuth";
 import Checkout from "./pages/Checkout";
 import OrderProvider from "./contexts/OrderProvider";
@@ -46,7 +46,10 @@ const AppRouter = () => {
           />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:productId" element={<ProductDetails />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile />}>
+            <Route index element={<UserDetails />} />
+            <Route path="/profile/order-history" element={<OrderHistory />} />
+          </Route>
           <Route
             path="/checkout"
             element={
