@@ -200,6 +200,7 @@ export default function FilterComp() {
             </div>
             <div className="flex items-center gap-2">
               <input
+                className="accent-pink-600"
                 type="radio"
                 name="sort"
                 value="LTH"
