@@ -11,7 +11,18 @@ export const users = [
     _id: uuid(),
     cart: [],
     wishlist: [],
-    addresses: [],
+    addresses: [
+      {
+        id: "9eca6b55-b87c-445d-b71e-1b26de3f6b36",
+        add: {
+          line1: "Test Apartment , Test Nagar , Test Village",
+          line2: "Test - East , Mumbai - 097",
+          city: "Mumbai",
+          zipcode: "400098",
+          country: "India",
+        },
+      },
+    ],
     firstName: "Adarsh",
     lastName: "Balika",
     email: "adarshbalika@gmail.com",
