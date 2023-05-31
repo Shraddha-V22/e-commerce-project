@@ -66,6 +66,7 @@ export default function Cart() {
 function CartItem({ item }) {
   const cartDispatch = useCartDispatch();
   const wishlistDispatch = useWishlistDispatch();
+  const navigate = useNavigate();
   const { id, product_name, brand, price, category, qty } = item;
   const { user, isLoggedIn } = useAuth();
 
@@ -133,7 +134,10 @@ function CartItem({ item }) {
   };
 
   return (
-    <section className="grid h-[200px] w-full grid-cols-[150px_1fr] overflow-hidden rounded-lg shadow-sm md:w-[auto]">
+    <section
+      onClick={() => navigate(`/products/${id}`)}
+      className="grid h-[200px] w-full grid-cols-[150px_1fr] overflow-hidden rounded-lg shadow-sm md:w-[auto]"
+    >
       <img
         src={getImgUrl(category.toLowerCase())}
         alt={`${product_name}`}
@@ -146,7 +150,10 @@ function CartItem({ item }) {
         <div className="flex gap-4">
           <button
             className="border-[1px] px-2 text-xs"
-            onClick={() => updateQty({ type: "increment" })}
+            onClick={(e) => {
+              e.stopPropagation();
+              updateQty({ type: "increment" });
+            }}
           >
             ▲
           </button>
@@ -154,7 +161,10 @@ function CartItem({ item }) {
           {item.qty > 1 ? (
             <button
               className="border-[1px] px-2 text-xs"
-              onClick={() => updateQty({ type: "decrement" })}
+              onClick={(e) => {
+                e.stopPropagation();
+                updateQty({ type: "decrement" });
+              }}
             >
               ▼
             </button>
@@ -166,13 +176,19 @@ function CartItem({ item }) {
         </div>
         <button
           className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize"
-          onClick={removeItemFromCart}
+          onClick={(e) => {
+            e.stopPropagation();
+            removeItemFromCart();
+          }}
         >
           Remove From cart
         </button>
         <button
           className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize"
-          onClick={moveToWishlist}
+          onClick={(e) => {
+            e.stopPropagation();
+            moveToWishlist();
+          }}
         >
           Move to wishlist
         </button>
