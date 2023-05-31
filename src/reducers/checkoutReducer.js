@@ -26,7 +26,6 @@ export const checkoutReducer = (state, { type, payload }) => {
       };
       break;
     case "SELECT_ADDRESS":
-      console.log(payload);
       tempState = {
         ...tempState,
         shippingAdd: payload.add,

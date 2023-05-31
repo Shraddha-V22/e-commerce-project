@@ -93,7 +93,12 @@ export default function Header() {
       <h1 className="font-cinzel font-bold text-pink-600">
         <Link to="/">charme</Link>
       </h1>
-      <button onClick={() => navigate("/products")}>
+      <button
+        onClick={() => {
+          navigate("/products");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }}
+      >
         <FontAwesomeIcon icon={faBagShopping} title="See all products" />
       </button>
       {windowWidth >= 600 && (

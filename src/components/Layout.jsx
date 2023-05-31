@@ -4,6 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ScrollToTop from "./ScrollToTop";
 
 export default function Layout() {
   return (
