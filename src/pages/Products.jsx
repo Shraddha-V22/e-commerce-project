@@ -11,7 +11,7 @@ export default function Products() {
   } = useProducts();
 
   return (
-    <section className="m-8 grid grid-rows-[auto_1fr] gap-8 md:m-4">
+    <section className="m-2 grid grid-rows-[auto_1fr] gap-8 md:m-8">
       <section className="fixed left-0 right-0 top-0 z-10 h-[150px] w-full bg-[#f9fcf3] p-4 pt-[80px]">
         <FilterComp />
       </section>
