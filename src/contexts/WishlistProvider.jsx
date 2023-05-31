@@ -31,7 +31,10 @@ export default function WishlistProvider({ children }) {
           },
         });
         const result = await res.json();
-        wishlistDispatch({ type: "INITIALISE_CART", payload: result.wishlist });
+        wishlistDispatch({
+          type: "INITIALISE_WISHLIST",
+          payload: result.wishlist,
+        });
       } catch (error) {
         console.error(error);
       }
@@ -40,7 +43,7 @@ export default function WishlistProvider({ children }) {
 
   useEffect(() => {
     getWishlistItems();
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <WishlistDispatchContext.Provider value={wishlistDispatch}>

@@ -37,7 +37,7 @@ export default function CartProvider({ children }) {
 
   useEffect(() => {
     getCartItems();
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <CartDispatchContext.Provider value={cartDispatch}>
