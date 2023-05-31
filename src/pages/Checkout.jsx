@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useAuth } from "../contexts/AuthProvider";
 import { toast } from "react-toastify";
 import { useOrders } from "../contexts/OrderProvider";
+import OrderedItem from "../components/OrderedItems";
 
 const initialCheckout = {
   addressInput: {
@@ -103,7 +104,7 @@ export default function Checkout() {
       handler: function (response) {
         const orderData = {
           orderedItems: [...cart],
-          amount: totalPrice(cart).toFixed(2) * 100,
+          amount: totalPrice(cart).toFixed(2),
           address: Object.values(checkoutInputs.addressInput).join(","),
           paymentId: response.razorpay_payment_id,
         };
@@ -267,25 +268,5 @@ export default function Checkout() {
         </section>
       )}
     </section>
-  );
-}
-
-function OrderedItem({ category, product_name, brand, price, qty }) {
-  return (
-    <tr className="">
-      <td className="flex gap-2 border-[1px] p-1 pl-2">
-        <img
-          src={getImgUrl(category.toLowerCase())}
-          alt=""
-          className="h-[50px] w-[40px] object-cover"
-        />
-        <div>
-          <h3 className="text-sm font-bold capitalize">{product_name}</h3>
-          <small className="text-xs text-gray-500">{brand}</small>
-        </div>
-      </td>
-      <td className="border-[1px] p-1 pl-2">{qty}</td>
-      <td className="border-[1px] p-1 pl-2">{price}</td>
-    </tr>
   );
 }
