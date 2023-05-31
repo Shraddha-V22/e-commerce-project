@@ -136,7 +136,7 @@ function CartItem({ item }) {
   return (
     <section
       onClick={() => navigate(`/products/${id}`)}
-      className="grid h-[200px] w-full grid-cols-[150px_1fr] overflow-hidden rounded-lg shadow-sm md:w-[auto]"
+      className="grid h-[200px] w-full cursor-pointer grid-cols-[150px_1fr] overflow-hidden rounded-lg shadow-sm md:w-[auto]"
     >
       <img
         src={getImgUrl(category.toLowerCase())}
