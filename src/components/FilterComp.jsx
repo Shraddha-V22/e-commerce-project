@@ -87,11 +87,11 @@ export default function FilterComp() {
             ))}
           </FilterType>
 
-          <FilterType heading={`Price - (max) $${products.price}`}>
+          <FilterType heading={`Price - (max) ₹${products.price}`}>
             <div className="flex flex-col gap-1">
               <label className="flex justify-between" htmlFor="price-range">
-                <span>$10</span>
-                <span>$1000</span>
+                <span>₹10</span>
+                <span>₹1000</span>
               </label>
               <input
                 id="price-range"
