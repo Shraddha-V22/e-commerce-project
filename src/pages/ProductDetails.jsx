@@ -70,6 +70,8 @@ export default function ProductDetails() {
       } catch (error) {
         console.error(error);
       }
+    } else {
+      navigate("/login");
     }
   };
 
@@ -93,6 +95,8 @@ export default function ProductDetails() {
       } catch (error) {
         console.error(error);
       }
+    } else {
+      navigate("/login");
     }
   };
 
