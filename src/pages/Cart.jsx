@@ -2,7 +2,7 @@ import React from "react";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
 import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
 import { useNavigate } from "react-router-dom";
-import { useWishlistDispatch } from "../contexts/WishlistProvider";
+import { useWishlist, useWishlistDispatch } from "../contexts/WishlistProvider";
 import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthProvider";
 
@@ -67,8 +67,12 @@ function CartItem({ item }) {
   const cartDispatch = useCartDispatch();
   const wishlistDispatch = useWishlistDispatch();
   const navigate = useNavigate();
-  const { id, product_name, brand, price, category, qty } = item;
+  const { wishlist } = useWishlist();
   const { user, isLoggedIn } = useAuth();
+
+  const { id, product_name, brand, price, category, qty } = item;
+
+  const inWishlist = wishlist.find((item) => item.id === id);
 
   const removeItemFromCart = async () => {
     if (isLoggedIn) {
@@ -183,15 +187,21 @@ function CartItem({ item }) {
         >
           Remove From cart
         </button>
-        <button
-          className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize"
-          onClick={(e) => {
-            e.stopPropagation();
-            moveToWishlist();
-          }}
-        >
-          Move to wishlist
-        </button>
+        {!inWishlist ? (
+          <button
+            className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize"
+            onClick={(e) => {
+              e.stopPropagation();
+              moveToWishlist();
+            }}
+          >
+            Move to wishlist
+          </button>
+        ) : (
+          <button className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize">
+            Already in wishlist
+          </button>
+        )}
       </div>
     </section>
   );
