@@ -170,38 +170,43 @@ export function OrderHistory() {
       </button>
       <section>
         <h1 className="m-2 mb-4 text-lg uppercase">Order history</h1>
-        {orders?.map((order) => {
-          const { orderedItems, amount, address, paymentId } = order;
-          return (
-            <section className="flex w-full flex-wrap items-center gap-4 rounded-md border-[1px] p-2">
-              <table className="w-full table-auto">
-                <thead>
-                  <tr className="text-left capitalize">
-                    <th className="border-[1px] p-1 pl-2">product details</th>
-                    <th className="border-[1px] p-1 pl-2">qty</th>
-                    <th className="border-[1px] p-1 pl-2">price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orderedItems?.map((item) => (
-                    <OrderedItem key={item.id} {...item} />
-                  ))}
-                </tbody>
-              </table>
-              <section className="text-sm">
-                <p>
-                  <span className="font-bold">Payment ID:</span> {paymentId}
-                </p>
-                <p>
-                  <span className="font-bold">Amount:</span> ₹{amount}
-                </p>
-                <p>
-                  <span className="font-bold">Shipping Address:</span> {address}
-                </p>
+        {orders?.length > 0 ? (
+          orders?.map((order) => {
+            const { orderedItems, amount, address, paymentId } = order;
+            return (
+              <section className="flex w-full flex-wrap items-center gap-4 rounded-md border-[1px] p-2">
+                <table className="w-full table-auto">
+                  <thead>
+                    <tr className="text-left capitalize">
+                      <th className="border-[1px] p-1 pl-2">product details</th>
+                      <th className="border-[1px] p-1 pl-2">qty</th>
+                      <th className="border-[1px] p-1 pl-2">price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orderedItems?.map((item) => (
+                      <OrderedItem key={item.id} {...item} />
+                    ))}
+                  </tbody>
+                </table>
+                <section className="text-sm">
+                  <p>
+                    <span className="font-bold">Payment ID:</span> {paymentId}
+                  </p>
+                  <p>
+                    <span className="font-bold">Amount:</span> ₹{amount}
+                  </p>
+                  <p>
+                    <span className="font-bold">Shipping Address:</span>{" "}
+                    {address}
+                  </p>
+                </section>
               </section>
-            </section>
-          );
-        })}
+            );
+          })
+        ) : (
+          <p className="p-2 capitalize text-gray-500">no order history</p>
+        )}
       </section>
     </section>
   );
