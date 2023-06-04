@@ -46,7 +46,14 @@ const AppRouter = () => {
           />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:productId" element={<ProductDetails />} />
-          <Route path="/profile" element={<Profile />}>
+          <Route
+            path="/profile"
+            element={
+              <RequiredAuth>
+                <Profile />
+              </RequiredAuth>
+            }
+          >
             <Route index element={<UserDetails />} />
             <Route path="/profile/order-history" element={<OrderHistory />} />
           </Route>
@@ -58,10 +65,10 @@ const AppRouter = () => {
               </RequiredAuth>
             }
           />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registration" element={<Registration />} />
         </Route>
         <Route path="/mockman" element={<Mockman />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
       </>
     )
   );
