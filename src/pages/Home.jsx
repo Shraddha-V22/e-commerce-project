@@ -18,12 +18,12 @@ export default function Home() {
       </motion.div>
       <div className="flex flex-col items-center gap-4 border-b-[1px] border-[#CE7777]/20 pb-8">
         <p>
-          "Where fashion becomes an expression of your unique self. Get ready to
-          redefine your style."
+          Where fashion becomes an expression of your unique self. Get ready to
+          redefine your style.
         </p>
         <Link
           to="/products"
-          className="rounded-md bg-pink-600/80 px-4 py-2 uppercase text-white"
+          className="rounded-md bg-pink-600/90 px-4 py-2 uppercase text-white"
         >
           Shop now →
         </Link>

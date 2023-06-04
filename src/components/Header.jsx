@@ -156,8 +156,8 @@ export default function Header() {
           </Link>
 
           {cart?.length > 0 && (
-            <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
-              {cart.length}
+            <p className="absolute -right-3 -top-3 grid h-5 w-5 place-items-center rounded-full bg-[#E3F2C1] text-xs font-bold text-pink-700">
+              {cart.length > 9 ? `9+` : cart.length}
             </p>
           )}
         </li>
@@ -166,8 +166,8 @@ export default function Header() {
             <FontAwesomeIcon icon={faHeart} title="Wishlist" />
           </Link>
           {wishlist.length > 0 && (
-            <p className="absolute -right-3 -top-3 rounded-full p-1 pt-0.5 text-sm font-bold text-red-500">
-              {wishlist.length}
+            <p className="absolute -right-3 -top-3 grid h-5 w-5 place-items-center rounded-full bg-[#E3F2C1] text-xs font-bold text-pink-700">
+              {wishlist.length > 9 ? `9+` : wishlist.length}
             </p>
           )}
         </li>
