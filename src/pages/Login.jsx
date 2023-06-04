@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import PasswordInput from "../components/PasswordInput";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const { signIn } = useAuth();
@@ -16,13 +17,21 @@ export default function Login() {
   };
 
   const loginHandler = (creds) => {
+    if (creds.email.length === 0) {
+      toast.error("Please enter a valid email");
+      return;
+    }
+    if (creds.password.length === 0) {
+      toast.error("Please enter a valid password");
+      return;
+    }
     signIn(creds);
     navigate("/");
   };
 
   return (
-    <section className="grid h-[100vh] w-full place-items-center">
-      <article className="flex max-w-[350px] flex-col gap-8 rounded-md border-[1px] border-[#2C74B3]/20 p-8">
+    <section className="mb-8 grid w-full place-items-center">
+      <article className="flex max-w-[350px] flex-col gap-8 rounded-md bg-white p-8">
         <h1 className="text-center capitalize">Sign in</h1>
         <div className="flex flex-col gap-6">
           <input
