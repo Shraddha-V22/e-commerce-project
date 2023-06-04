@@ -16,7 +16,8 @@ export default function Login() {
     setLoginCreds((prev) => ({ ...prev, [name]: value }));
   };
 
-  const loginHandler = (creds) => {
+  const loginHandler = (e, creds) => {
+    e.preventDefault();
     if (creds.email.length === 0) {
       toast.error("Please enter a valid email");
       return;
@@ -33,7 +34,7 @@ export default function Login() {
     <section className="mb-8 grid w-full place-items-center">
       <article className="flex max-w-[350px] flex-col gap-8 rounded-md bg-white p-8">
         <h1 className="text-center capitalize">Sign in</h1>
-        <div className="flex flex-col gap-6">
+        <form className="flex flex-col gap-6">
           <input
             className="rounded-md border-[1px] border-[#2C74B3]/20 p-2 outline-none"
             type="email"
@@ -43,14 +44,14 @@ export default function Login() {
           />
           <PasswordInput onChangeHandler={handleLoginCreds} />
           <button
-            onClick={() => loginHandler(loginCreds)}
+            onClick={(e) => loginHandler(e, loginCreds)}
             className="rounded-md border-[1px] border-[#2C74B3]/20 p-2"
           >
             Sign in
           </button>
           <button
-            onClick={() =>
-              loginHandler({
+            onClick={(e) =>
+              loginHandler(e, {
                 email: "adarshbalika@gmail.com",
                 password: "adarshbalika",
               })
@@ -59,7 +60,7 @@ export default function Login() {
           >
             Sign in as Guest
           </button>
-        </div>
+        </form>
         <div className="flex gap-1">
           <p>Haven't registered yet?</p>
           <span className="capitalize text-blue-500 hover:underline">
