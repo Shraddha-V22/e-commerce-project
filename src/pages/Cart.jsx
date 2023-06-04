@@ -1,10 +1,11 @@
 import React from "react";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
-import { getImgUrl, getItemFromLocalStorage } from "../common/utils";
+import { getImgUrl } from "../common/utils";
 import { useNavigate } from "react-router-dom";
 import { useWishlist, useWishlistDispatch } from "../contexts/WishlistProvider";
 import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthProvider";
+import emptyCart from "../assets/empty-cart.webp";
 
 export default function Cart() {
   const { cart } = useCart();
@@ -54,7 +55,8 @@ export default function Cart() {
       </section>
     </section>
   ) : (
-    <section className="mx-auto grid h-[300px] w-[90%] place-items-center text-center text-sm md:h-full md:text-lg">
+    <section className="mx-auto mb-8 flex w-[90%] flex-col items-center text-center text-sm md:h-full md:text-lg">
+      <img src={emptyCart} alt="" className="w-[200px] md:w-[20vw]" />
       <p>
         Well, our cart seems to have taken a break. Time to fill it up with your
         amazing choices!
