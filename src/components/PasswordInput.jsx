@@ -33,14 +33,20 @@ export default function PasswordInput({
       {showPassword ? (
         <button
           className="absolute right-2 top-2"
-          onClick={() => setShowPassword((prev) => !prev)}
+          onClick={(e) => {
+            e.preventDefault();
+            setShowPassword((prev) => !prev);
+          }}
         >
           <FontAwesomeIcon icon={faEye} />
         </button>
       ) : (
         <button
           className="absolute right-2 top-2"
-          onClick={() => setShowPassword((prev) => !prev)}
+          onClick={(e) => {
+            e.preventDefault();
+            setShowPassword((prev) => !prev);
+          }}
         >
           <FontAwesomeIcon icon={faEyeSlash} />
         </button>
