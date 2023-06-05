@@ -2,6 +2,7 @@ import React from "react";
 import { useWishlist } from "../contexts/WishlistProvider";
 import Product from "../components/Product";
 import heartImg from "../assets/heart.webp";
+import { motion } from "framer-motion";
 
 export default function Wishlist() {
   const { wishlist } = useWishlist();
@@ -14,14 +15,18 @@ export default function Wishlist() {
           ))}
         </section>
       ) : (
-        <section className="mx-auto flex max-w-[500px] flex-col items-center text-center text-sm md:h-full md:text-lg">
+        <motion.section
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          className="mx-auto flex max-w-[500px] flex-col items-center text-center text-sm md:h-full md:text-lg"
+        >
           <img src={heartImg} alt="" className="w-[200px] md:w-[20vw]" />
           <p>
             Empty wishlist, full imagination! Let's sprinkle it with stardust
             and watch it blossom into a garden of desires. Start dreaming, and
             let's make it happen!
           </p>
-        </section>
+        </motion.section>
       )}
     </section>
   );
