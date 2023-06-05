@@ -6,8 +6,6 @@ import { useProducts, useProductsDispatch } from "../contexts/ProductProvider";
 import { getUniqueElementArray } from "../common/utils";
 import { useMemo } from "react";
 import FilterType from "./FilterType";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 
 export default function FilterComp({ onMobile }) {
   const [showFilters, setShowFilters] = useState(false);
@@ -98,10 +96,13 @@ function FiltersInputs({ classNames, setShowFilters }) {
         )}
         {classNames && (
           <button
-            className="h-6 w-6 rounded-sm border-[1px] border-black p-1 text-xs active:bg-[#bfce9a]"
-            onClick={() => setShowFilters((prev) => !prev)}
+            className="h-6 rounded-sm border-[1px] border-black p-1 text-xs uppercase active:bg-[#bfce9a]"
+            onClick={() => {
+              productDispatch({ type: "CLEAR_FILTERS" });
+              setShowFilters((prev) => !prev);
+            }}
           >
-            <FontAwesomeIcon icon={faX} />
+            cancel
           </button>
         )}
       </div>

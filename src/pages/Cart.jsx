@@ -22,8 +22,8 @@ export default function Cart() {
           <CartItem key={item.id} item={item} />
         ))}
       </section>
-      <section className="flex h-[fit-content] w-[300px] flex-col gap-4 rounded-lg bg-white p-4 shadow-sm max-[800px]:w-[90vw]">
-        <h1 className="text-lg uppercase">Price Details</h1>
+      <section className="flex h-[fit-content] w-[300px] flex-col gap-4 rounded-lg bg-white p-4 text-[14px] shadow-sm max-[800px]:w-[90vw] sm:text-sm">
+        <h1 className="text-sm uppercase sm:text-lg">Price Details</h1>
         <div className="flex justify-between">
           <p>Price</p>
           <p>₹{totalPrice(cart).toFixed(2)}</p>
@@ -147,7 +147,7 @@ function CartItem({ item }) {
   return (
     <section
       onClick={() => navigate(`/products/${id}`)}
-      className="grid h-[200px] w-full cursor-pointer grid-cols-[150px_1fr] overflow-hidden rounded-lg shadow-sm md:w-[auto]"
+      className="grid w-full cursor-pointer grid-cols-[150px_1fr] overflow-hidden rounded-lg shadow-sm md:w-[auto]"
     >
       <img
         src={getImgUrl(category.toLowerCase())}
@@ -192,7 +192,7 @@ function CartItem({ item }) {
         </div>
         <div className="flex flex-col items-start">
           <button
-            className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize active:bg-gray-100"
+            className="mt-2 rounded-md border-[1px] p-1 px-2 text-xs capitalize active:bg-gray-100 sm:text-sm"
             onClick={(e) => {
               e.stopPropagation();
               removeItemFromCart();
@@ -202,7 +202,7 @@ function CartItem({ item }) {
           </button>
           {!inWishlist ? (
             <button
-              className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize active:bg-gray-100"
+              className="mt-2 rounded-md border-[1px] p-1 px-2 text-xs capitalize active:bg-gray-100 sm:text-sm"
               onClick={(e) => {
                 e.stopPropagation();
                 moveToWishlist();
