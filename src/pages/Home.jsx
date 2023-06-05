@@ -16,7 +16,7 @@ export default function Home() {
       >
         <img src={heroImg} alt="" className="h-full w-full object-cover" />
       </motion.div>
-      <div className="flex flex-col items-center gap-4 border-b-[1px] border-[#CE7777]/20 pb-8">
+      <div className="mx-auto flex w-[95vw] flex-col items-center gap-4 border-b-[1px] border-[#CE7777]/20 pb-8 sm:w-[450px]">
         <p>
           Where fashion becomes an expression of your unique self. Get ready to
           redefine your style.
