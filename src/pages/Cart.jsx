@@ -6,6 +6,7 @@ import { useWishlist, useWishlistDispatch } from "../contexts/WishlistProvider";
 import { toast } from "react-toastify";
 import { useAuth } from "../contexts/AuthProvider";
 import emptyCart from "../assets/empty-cart.webp";
+import { motion } from "framer-motion";
 
 export default function Cart() {
   const { cart } = useCart();
@@ -55,13 +56,17 @@ export default function Cart() {
       </section>
     </section>
   ) : (
-    <section className="mx-auto mb-8 flex w-[90%] flex-col items-center text-center text-sm md:h-full md:text-lg">
+    <motion.section
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      className="mx-auto mb-8 flex w-[90%] flex-col items-center text-center text-sm md:h-full md:text-lg"
+    >
       <img src={emptyCart} alt="" className="w-[200px] md:w-[20vw]" />
       <p>
         Well, our cart seems to have taken a break. Time to fill it up with your
         amazing choices!
       </p>
-    </section>
+    </motion.section>
   );
 }
 
@@ -149,61 +154,71 @@ function CartItem({ item }) {
         alt={`${product_name}`}
         className="h-full w-[150px] object-cover"
       />
-      <div className="bottom-0 flex w-full flex-col items-start gap-0 bg-white px-4 py-2">
-        <h3 className="line-clamp-1 font-bold uppercase">{product_name}</h3>
-        <p className="text-xs uppercase">{brand}</p>
-        <p>₹{price}</p>
-        <div className="flex gap-4">
-          <button
-            className="border-[1px] px-2 text-xs"
-            onClick={(e) => {
-              e.stopPropagation();
-              updateQty({ type: "increment" });
-            }}
-          >
-            ▲
-          </button>
-          <p>{item.qty}</p>
-          {item.qty > 1 ? (
+      <div className="bottom-0 flex w-full flex-col items-start justify-between gap-0 bg-white px-4 py-2">
+        <div className="flex flex-col items-start">
+          <h3 className="line-clamp-1 font-bold uppercase">{product_name}</h3>
+          <p className="text-xs uppercase">{brand}</p>
+          <p className="py-1">₹{price}</p>
+          <div className="flex gap-4 rounded-sm border-[1px]">
+            {item.qty > 1 ? (
+              <button
+                className="h-6 w-6 border-r-[1px] bg-gray-100 text-xs active:bg-gray-200"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  updateQty({ type: "decrement" });
+                }}
+              >
+                ▼
+              </button>
+            ) : (
+              <button
+                onClick={(e) => e.stopPropagation()}
+                className="h-6 w-6 border-r-[1px] bg-gray-100 text-xs text-gray-500 active:bg-gray-200"
+              >
+                ▼
+              </button>
+            )}
+            <p>{item.qty}</p>
             <button
-              className="border-[1px] px-2 text-xs"
+              className="h-6 w-6 border-l-[1px] bg-gray-100 text-xs active:bg-gray-200"
               onClick={(e) => {
                 e.stopPropagation();
-                updateQty({ type: "decrement" });
+                updateQty({ type: "increment" });
               }}
             >
-              ▼
+              ▲
+            </button>
+          </div>
+        </div>
+        <div className="flex flex-col items-start">
+          <button
+            className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize active:bg-gray-100"
+            onClick={(e) => {
+              e.stopPropagation();
+              removeItemFromCart();
+            }}
+          >
+            Remove From cart
+          </button>
+          {!inWishlist ? (
+            <button
+              className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize active:bg-gray-100"
+              onClick={(e) => {
+                e.stopPropagation();
+                moveToWishlist();
+              }}
+            >
+              Move to wishlist
             </button>
           ) : (
-            <button className="border-[1px] px-2 text-xs text-gray-500">
-              ▼
+            <button
+              className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize opacity-75"
+              onClick={(e) => e.stopPropagation()}
+            >
+              Already in wishlist
             </button>
           )}
         </div>
-        <button
-          className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize"
-          onClick={(e) => {
-            e.stopPropagation();
-            removeItemFromCart();
-          }}
-        >
-          Remove From cart
-        </button>
-        {!inWishlist ? (
-          <button
-            className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize"
-            onClick={(e) => {
-              e.stopPropagation();
-              moveToWishlist();
-            }}
-          >
-            Move to wishlist
-          </button>
-        ) : (
-          <button className="mt-2 rounded-md border-[1px] p-1 px-2 text-sm capitalize">
-            Already in wishlist
-          </button>
-        )}
       </div>
     </section>
   );
