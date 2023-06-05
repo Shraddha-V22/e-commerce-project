@@ -18,6 +18,10 @@ import { Link } from "react-router-dom";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useOrders } from "../contexts/OrderProvider";
 import OrderedItem from "../components/OrderedItems";
+import { faEnvelope } from "@fortawesome/free-regular-svg-icons";
+import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { validateEmail } from "../common/validateFunctions";
 
 export default function Profile() {
   return (
@@ -37,6 +41,10 @@ export function UserDetails() {
     city: "",
     zipcode: "",
     country: "",
+  });
+  const [editAddress, setEditAddress] = useState({
+    edit: false,
+    editInput: user?.userDetails?.email,
   });
 
   const saveAddress = () => {
@@ -59,6 +67,8 @@ export function UserDetails() {
         zipcode: "",
         country: "",
       });
+    } else {
+      toast.warning("Please enter all the details!");
     }
   };
 
@@ -102,13 +112,64 @@ export function UserDetails() {
 
   return (
     <section className="m-2 mx-auto w-[90vw] bg-white p-4 sm:max-w-[500px]">
-      <div className="p- flex items-center gap-4 border-b-[1px] px-2 pb-4">
+      <div className="flex items-center gap-4 border-b-[1px] p-1 px-2 pb-4">
         <div className="rounded-full text-2xl uppercase text-black">
           <FontAwesomeIcon icon={faUserCircle} title="Login" />
         </div>
         <h1 className="text-lg uppercase">
           {user?.userDetails?.firstName} {user?.userDetails?.lastName}
         </h1>
+      </div>
+      <div className="flex flex-wrap items-center gap-4 border-b-[1px] p-2 px-2">
+        <div className="flex items-center gap-2">
+          <FontAwesomeIcon icon={faEnvelope} />
+          <h4>EMail Address: </h4>
+        </div>
+        {!editAddress.edit ? (
+          <div className="flex flex-grow items-center justify-between">
+            <p>{user?.userDetails?.email}</p>
+            <button
+              onClick={() =>
+                setEditAddress((prev) => ({ ...prev, edit: true }))
+              }
+            >
+              <FontAwesomeIcon icon={faPen} title="Edit email address" />
+            </button>
+          </div>
+        ) : (
+          <div className="flex flex-grow items-center gap-2">
+            <input
+              type="text"
+              className="flex-grow rounded-md border-[1px] p-1 indent-2 text-sm outline-none"
+              onChange={(e) =>
+                setEditAddress((prev) => ({
+                  ...prev,
+                  editInput: e.target.value,
+                }))
+              }
+              value={editAddress.editInput}
+            />
+            <button
+              className=""
+              onClick={() => {
+                if (validateEmail(editAddress.editInput)) {
+                  setUser((prev) => ({
+                    ...prev,
+                    userDetails: {
+                      ...prev.userDetails,
+                      email: editAddress.editInput,
+                    },
+                  }));
+                  setEditAddress((prev) => ({ ...prev, edit: false }));
+                } else {
+                  toast.warning("Please enter a valid email");
+                }
+              }}
+            >
+              <FontAwesomeIcon icon={faCheck} />
+            </button>
+          </div>
+        )}
       </div>
       <section className="mb-4 flex flex-col items-start gap-4 p-2">
         <h2>Saved Addresses</h2>
@@ -246,6 +307,8 @@ function AddressComp({
         zipcode: "",
         country: "",
       });
+    } else {
+      toast.warning("Please enter all the details!");
     }
   };
 
@@ -315,6 +378,7 @@ function AddressInputsComp({
         <DetailsInput
           placeholder="Zip Code/Postal Code*"
           name="zipcode"
+          type="number"
           value={addressInput.zipcode}
           onChange={changeHandler}
         />
