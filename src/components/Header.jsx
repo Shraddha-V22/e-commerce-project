@@ -90,17 +90,19 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 z-20 flex w-full items-center justify-between gap-4 bg-white p-4 pt-2 shadow-sm">
-      <h1 className="font-cinzel font-bold text-pink-600">
-        <Link to="/">charme</Link>
-      </h1>
-      <button
-        onClick={() => {
-          navigate("/products");
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }}
-      >
-        <FontAwesomeIcon icon={faBagShopping} title="See all products" />
-      </button>
+      <div className="flex gap-4">
+        <h1 className="font-cinzel font-bold text-pink-600">
+          <Link to="/">charme</Link>
+        </h1>
+        <button
+          onClick={() => {
+            navigate("/products");
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
+          <FontAwesomeIcon icon={faBagShopping} title="See all products" />
+        </button>
+      </div>
       {windowWidth >= 600 && (
         <section className="mr-auto" ref={categoryRef}>
           <p className="cursor-pointer">Categories</p>
