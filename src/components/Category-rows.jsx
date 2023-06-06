@@ -8,7 +8,7 @@ export default function CategoryRows({ categoryIndex }) {
   const navigate = useNavigate();
   const productDispatch = useProductsDispatch();
   const {
-    products: { categories, productsData },
+    products: { categories, productDefault },
     isLoading,
   } = useProducts();
 
@@ -41,7 +41,7 @@ export default function CategoryRows({ categoryIndex }) {
       </div>
       {!isLoading ? (
         <article className="flex flex-wrap justify-center gap-8 max-[500px]:gap-[5px]">
-          {productsData
+          {productDefault
             .filter(
               ({ category }) =>
                 category.toLowerCase() ===
