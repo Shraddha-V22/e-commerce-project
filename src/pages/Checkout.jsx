@@ -3,12 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { useCart, useCartDispatch } from "../contexts/CartProvider";
-import {
-  clearItemsFromCart,
-  getImgUrl,
-  getItemFromLocalStorage,
-  isEmptyObject,
-} from "../common/utils";
+import { clearItemsFromCart, isEmptyObject } from "../common/utils";
 import { DetailsInput } from "../components/DetailsInput";
 import { useReducer } from "react";
 import { checkoutReducer } from "../reducers/checkoutReducer";
@@ -17,6 +12,7 @@ import { useAuth } from "../contexts/AuthProvider";
 import { toast } from "react-toastify";
 import { useOrders } from "../contexts/OrderProvider";
 import OrderedItem from "../components/OrderedItems";
+import charme from "../assets/charme.webp";
 
 const initialCheckout = {
   addressInput: {
@@ -100,7 +96,7 @@ export default function Checkout() {
       currency: "INR",
       name: "CHARME",
       description: "Thank you for shopping with us",
-      // image: "",
+      image: `${charme}`,
       handler: function (response) {
         const orderData = {
           orderedItems: [...cart],
