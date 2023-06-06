@@ -88,6 +88,16 @@ export default function Header() {
     navigate("/");
   };
 
+  useEffect(() => {
+    window.addEventListener("click", () =>
+      setShow((prev) => ({ ...prev, profileMenu: prev.profileMenu && false }))
+    );
+
+    window.removeEventListener("click", () =>
+      setShow((prev) => ({ ...prev, profileMenu: prev.profileMenu && false }))
+    );
+  }, []);
+
   return (
     <header className="fixed top-0 z-10 flex w-full items-center justify-between gap-4 bg-white p-4 pt-2 shadow-sm">
       <div className="flex gap-4">
@@ -182,9 +192,13 @@ export default function Header() {
         ) : (
           <div>
             <button
-              onClick={() =>
-                setShow((prev) => ({ ...prev, profileMenu: !prev.profileMenu }))
-              }
+              onClick={(e) => {
+                e.stopPropagation();
+                setShow((prev) => ({
+                  ...prev,
+                  profileMenu: !prev.profileMenu,
+                }));
+              }}
               className="relative rounded-full bg-pink-600/90 p-1 px-2 uppercase text-white"
             >
               {user?.userDetails?.firstName.substr(0, 1)}
