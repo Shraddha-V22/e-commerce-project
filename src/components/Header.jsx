@@ -93,9 +93,10 @@ export default function Header() {
       setShow((prev) => ({ ...prev, profileMenu: prev.profileMenu && false }))
     );
 
-    window.removeEventListener("click", () =>
-      setShow((prev) => ({ ...prev, profileMenu: prev.profileMenu && false }))
-    );
+    return () =>
+      window.removeEventListener("click", () =>
+        setShow((prev) => ({ ...prev, profileMenu: prev.profileMenu && false }))
+      );
   }, []);
 
   return (
