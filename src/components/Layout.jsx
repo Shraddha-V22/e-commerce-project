@@ -13,7 +13,7 @@ export default function Layout() {
   const gridRef = useRef(null);
 
   useEffect(() => {
-    gridRef.current.scroll({
+    window.scroll({
       top: 0,
       left: 0,
       behavior: "smooth",
@@ -22,11 +22,11 @@ export default function Layout() {
 
   return (
     <section
-      className="relative grid h-[100vh] grid-rows-[1fr_auto] overflow-x-hidden font-nanumGothic"
+      className="relative flex flex-col overflow-x-hidden font-nanumGothic"
       ref={gridRef}
     >
       <Header />
-      <main className="bg-[#E3F2C1]/20 pt-[100px]">
+      <main className="flex-grow bg-[#E3F2C1]/20 pt-[100px]">
         <Outlet />
         <ToastContainer
           autoClose={2000}

@@ -38,10 +38,18 @@ export default function Products() {
         <FilterComp onMobile={windowWidth <= 750} />
       </section>
       {!isLoading ? (
-        <section className="mx-4 mb-8 grid w-auto grid-cols-auto justify-items-center gap-[5px] max-[500px]:mx-2 max-[500px]:grid-cols-autoSmall md:gap-2">
-          {productsData.map((item) => (
-            <Product key={item.id} item={item} />
-          ))}
+        <section
+          className={`${
+            productsData.length > 0
+              ? "mx-4 mb-8 grid w-auto grid-cols-auto justify-items-center gap-[5px] max-[500px]:mx-2 max-[500px]:grid-cols-autoSmall md:gap-2"
+              : "grid place-items-center"
+          }`}
+        >
+          {productsData?.length > 0 ? (
+            productsData.map((item) => <Product key={item.id} item={item} />)
+          ) : (
+            <p className="text-2xl font-semibold">No Product Found</p>
+          )}
         </section>
       ) : (
         <section className="mt-8 grid grid-cols-auto justify-items-center gap-4 max-[500px]:grid-cols-autoSmall">
