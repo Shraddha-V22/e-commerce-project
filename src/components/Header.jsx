@@ -89,7 +89,7 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 z-20 flex w-full items-center justify-between gap-4 bg-white p-4 pt-2 shadow-sm">
+    <header className="fixed top-0 z-10 flex w-full items-center justify-between gap-4 bg-white p-4 pt-2 shadow-sm">
       <div className="flex gap-4">
         <h1 className="font-cinzel font-bold text-pink-600">
           <Link to="/">charme</Link>

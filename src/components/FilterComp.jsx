@@ -38,7 +38,7 @@ export default function FilterComp({ onMobile }) {
         <FiltersInputs
           setShowFilters={setShowFilters}
           classNames={
-            "fixed w-full h-[100vh] overflow-y-auto z-30 top-0 pb-8 p-4 bg-[#E3F2C1] pt-20"
+            "fixed w-full h-[100vh] overflow-y-auto z-30 top-0 py-8 p-4 bg-[#E3F2C1]"
           }
         />
       )}
