@@ -53,10 +53,12 @@ export function UserDetails() {
         ...prev,
         userDetails: {
           ...prev.userDetails,
-          addresses: [
-            ...prev.userDetails.addresses,
-            { id: uuid(), add: { ...addressInput } },
-          ],
+          addresses: prev?.userDetails?.addresses
+            ? [
+                ...prev?.userDetails?.addresses,
+                { id: uuid(), add: { ...addressInput } },
+              ]
+            : [{ id: uuid(), add: { ...addressInput } }],
         },
       }));
       setShowAddressInput(false);
@@ -71,6 +73,8 @@ export function UserDetails() {
       toast.warning("Please enter all the details!");
     }
   };
+
+  // console.log(user?.userDetails?.addresses);
 
   const cancelAction = () => {
     setAddressInput({
